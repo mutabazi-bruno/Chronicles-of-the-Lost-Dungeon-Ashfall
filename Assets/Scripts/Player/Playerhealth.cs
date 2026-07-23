@@ -26,8 +26,13 @@ namespace Ashfall.Player
             if (Input.GetKeyDown(KeyCode.K))
             {
                 TakeDamage(10);
-                Debug.Log($"took damage, hp now {stats.currentHealth}/{stats.maxHealth}");
             }
+        }
+
+        // temp, just so we can see hp live while testing, real hud comes later
+        void OnGUI()
+        {
+            GUI.Label(new Rect(10, 10, 200, 30), $"HP: {stats.currentHealth}/{stats.maxHealth}");
         }
 
         public bool IsDead => stats.IsDead;
