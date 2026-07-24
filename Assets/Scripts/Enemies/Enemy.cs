@@ -4,6 +4,13 @@ using Ashfall.Interfaces;
 
 namespace Ashfall.Enemies
 {
+    public enum EnemyTestType
+    {
+        Warrior,
+        Archer,
+        Guardian
+    }
+
     [RequireComponent(typeof(Rigidbody2D))]
     public class Enemy : MonoBehaviour, IDamageable
     {
@@ -18,6 +25,13 @@ namespace Ashfall.Enemies
         [Header("Behaviour")]
         public Transform player; // just drag the player in for now, we'll auto find it later
 
+        [Header("Ranged (only used by ranged enemies)")]
+        public Transform firePoint;
+        public GameObject projectilePrefab;
+
+        [Header("Temp Testing (spawner will replace this later)")]
+        public EnemyTestType testType = EnemyTestType.Warrior;
+
         Rigidbody2D rb;
         IEnemyBehaviour behaviour;
 
@@ -29,8 +43,19 @@ namespace Ashfall.Enemies
             rb = GetComponent<Rigidbody2D>();
             currentHealth = maxHealth;
 
-            // temp default so we can test warrior alone, spawner will set this properly later
-            SetBehaviour(new Ashfall.Enemies.Behaviours.WarriorBehaviour());
+            // temp default so we can test behaviours before spawner exists
+            switch (testType)
+            {
+                case EnemyTestType.Warrior:
+                    SetBehaviour(new Ashfall.Enemies.Behaviours.WarriorBehaviour());
+                    break;
+                case EnemyTestType.Archer:
+                    SetBehaviour(new Ashfall.Enemies.Behaviours.ArcherBehaviour());
+                    break;
+                case EnemyTestType.Guardian:
+                    SetBehaviour(new Ashfall.Enemies.Behaviours.GuardianBehaviour());
+                    break;
+            }
         }
 
         void Update()
