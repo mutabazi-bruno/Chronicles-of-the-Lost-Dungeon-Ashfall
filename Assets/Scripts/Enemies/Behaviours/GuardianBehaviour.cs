@@ -16,12 +16,21 @@ namespace Ashfall.Enemies.Behaviours
         const float windupDuration = 0.8f;
         const float cooldownDuration = 1.5f;
 
+        Animator animator; // cached each tick so ChangeState can use it too
+
         public void Tick(GameObject enemyObj, Transform player)
         {
             if (player == null) return;
 
             var enemy = enemyObj.GetComponent<Enemy>();
+            animator = enemy.Animator;
+
             float distance = Vector2.Distance(enemyObj.transform.position, player.position);
+
+            // always face the player, guardian doesnt move but should still look at you
+            var spriteRenderer = enemyObj.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+                spriteRenderer.flipX = player.position.x > enemyObj.transform.position.x;
 
             stateTimer -= Time.deltaTime;
 
@@ -33,7 +42,7 @@ namespace Ashfall.Enemies.Behaviours
                     break;
 
                 case State.Windup:
-                    // telegraphing here, could flash a sprite or play an anim later
+                    // anim already triggered on state change, just waiting it out
                     if (stateTimer <= 0f)
                         ChangeState(State.Attack);
                     break;
@@ -63,6 +72,10 @@ namespace Ashfall.Enemies.Behaviours
             {
                 case State.Windup:
                     stateTimer = windupDuration;
+                    animator?.SetTrigger("Windup");
+                    break;
+                case State.Attack:
+                    animator?.SetTrigger("Attack");
                     break;
                 case State.Cooldown:
                     stateTimer = cooldownDuration;

@@ -13,9 +13,16 @@ namespace Ashfall.Player
         public float attackCooldown = 0.4f;
         public LayerMask enemyLayer;
 
-        public event Action OnAttack; // for animation/audio hooks later
+        public event Action OnAttack; // for audio hooks later
 
+        Animator animator;
         float lastAttackTime = -999f;
+        int currentAttack = 0;
+
+        void Awake()
+        {
+            animator = GetComponent<Animator>();
+        }
 
         void Update()
         {
@@ -29,6 +36,12 @@ namespace Ashfall.Player
         {
             lastAttackTime = Time.time;
             OnAttack?.Invoke();
+
+            // cycle 1 -> 2 -> 3 -> back to 1, matches the combo animations
+            currentAttack++;
+            if (currentAttack > 3) currentAttack = 1;
+
+            animator?.SetTrigger("Attack" + currentAttack);
 
             // find anything hittable in range and hit it
             Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);

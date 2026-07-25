@@ -1,4 +1,4 @@
-    using UnityEngine;
+using UnityEngine;
 using Ashfall.Interfaces;
 using Ashfall.Enemies;
 using Ashfall.Systems;
@@ -19,27 +19,49 @@ namespace Ashfall.Enemies.Behaviours
 
             var enemy = enemyObj.GetComponent<Enemy>();
             var rb = enemy.Rigidbody;
+            var animator = enemy.Animator;
+            var spriteRenderer = enemyObj.GetComponent<SpriteRenderer>();
 
             float distance = Vector2.Distance(enemyObj.transform.position, player.position);
+            bool isMoving = false;
 
             if (distance > enemy.detectionRange)
             {
                 rb.linearVelocity = Vector2.zero;
-                return;
             }
-
-            // back away if player gets too close, otherwise just hold position
-            Vector2 toPlayer = (player.position - enemyObj.transform.position);
-            if (distance < preferredDistance - 0.5f)
-                rb.linearVelocity = -toPlayer.normalized * enemy.moveSpeed;
             else
-                rb.linearVelocity = Vector2.zero;
-
-            if (Time.time >= lastShotTime + shootCooldown)
             {
-                lastShotTime = Time.time;
-                Shoot(enemy, enemyObj.transform, player);
+                // back away if player gets too close, otherwise just hold position
+                Vector2 toPlayer = (player.position - enemyObj.transform.position);
+
+                if (distance < preferredDistance - 0.5f)
+                {
+                    Vector2 awayDirection = -toPlayer.normalized;
+                    rb.linearVelocity = awayDirection * enemy.moveSpeed;
+                    isMoving = true;
+
+                    if (spriteRenderer != null)
+                        spriteRenderer.flipX = awayDirection.x > 0;
+                }
+                else
+                {
+                    rb.linearVelocity = Vector2.zero;
+
+                    // face the player while standing still and shooting
+                    if (spriteRenderer != null)
+                        spriteRenderer.flipX = toPlayer.x > 0;
+                }
+
+                if (Time.time >= lastShotTime + shootCooldown)
+                {
+                    lastShotTime = Time.time;
+                    animator?.SetTrigger("Attack");
+                    Shoot(enemy, enemyObj.transform, player);
+                }
             }
+
+            if (animator != null)
+                animator.SetInteger("AnimState", isMoving ? 1 : 0);
         }
 
         void Shoot(Enemy enemy, Transform enemyTransform, Transform player)
@@ -54,7 +76,7 @@ namespace Ashfall.Enemies.Behaviours
                 Quaternion.identity);
 
             var projectile = proj.GetComponent<Projectile>();
-            projectile.Fire(enemy.projectilePrefab, direction, enemy.attackDamage);
+            projectile.Fire(enemy.projectilePrefab, direction, enemy.attackDamage, "Player");
         }
     }
 }

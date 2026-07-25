@@ -29,11 +29,17 @@ namespace Ashfall.Enemies
         public Transform firePoint;
         public GameObject projectilePrefab;
 
+        [Header("Death")]
+        public float destroyDelayAfterDeath = 1.5f; // gives death anim time to play
+
         [Header("Temp Testing (spawner will replace this later)")]
         public EnemyTestType testType = EnemyTestType.Warrior;
 
         Rigidbody2D rb;
+        Animator animator;
+        Collider2D col;
         IEnemyBehaviour behaviour;
+        bool isDead;
 
         // observer pattern - GameManager/audio/loot can all listen without a direct reference
         public event Action<Enemy> OnEnemyDefeated;
@@ -41,6 +47,8 @@ namespace Ashfall.Enemies
         void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            animator = GetComponent<Animator>();
+            col = GetComponent<Collider2D>();
             currentHealth = maxHealth;
 
             // temp default so we can test behaviours before spawner exists
@@ -60,6 +68,7 @@ namespace Ashfall.Enemies
 
         void Update()
         {
+            if (isDead) return;
             behaviour?.Tick(gameObject, player);
         }
 
@@ -70,26 +79,35 @@ namespace Ashfall.Enemies
         }
 
         public Rigidbody2D Rigidbody => rb;
+        public Animator Animator => animator; // behaviours can grab this to trigger anims
 
-        public bool IsDead => currentHealth <= 0;
+        public bool IsDead => isDead;
 
         public void TakeDamage(int amount)
         {
-            if (IsDead) return;
+            if (isDead) return;
 
             currentHealth -= amount;
             if (currentHealth < 0) currentHealth = 0;
 
             Debug.Log($"{name} took {amount} dmg, hp now {currentHealth}/{maxHealth}");
 
-            if (IsDead)
+            if (currentHealth <= 0)
                 Die();
+            else
+                animator?.SetTrigger("Hurt");
         }
 
         void Die()
         {
+            isDead = true;
+            rb.linearVelocity = Vector2.zero;
+            if (col != null) col.enabled = false; // cant be hit or block player anymore
+
+            animator?.SetTrigger("Death");
+
             OnEnemyDefeated?.Invoke(this);
-            Destroy(gameObject);
+            Destroy(gameObject, destroyDelayAfterDeath);
         }
     }
 }

@@ -13,13 +13,15 @@ namespace Ashfall.Combat
         GameObject sourcePrefab; // which prefab to return to when done
         Vector2 direction;
         float spawnTime;
+        string targetTag; // only this tag takes damage, stops enemies hitting each other
 
-        public void Fire(GameObject prefabRef, Vector2 dir, int dmg)
+        public void Fire(GameObject prefabRef, Vector2 dir, int dmg, string targetTag = "Player")
         {
             sourcePrefab = prefabRef;
             direction = dir.normalized;
             damage = dmg;
             spawnTime = Time.time;
+            this.targetTag = targetTag;
         }
 
         void Update()
@@ -32,6 +34,8 @@ namespace Ashfall.Combat
 
         void OnTriggerEnter2D(Collider2D other)
         {
+            if (!other.CompareTag(targetTag)) return;
+
             var damageable = other.GetComponent<IDamageable>();
             if (damageable != null)
             {
