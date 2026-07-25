@@ -25,7 +25,7 @@ namespace Ashfall.Enemies.Behaviours
             if (distance <= enemy.attackRange)
             {
                 // close enough, stop and attack
-                rb.linearVelocity = Vector2.zero;
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
 
                 if (Time.time >= lastAttackTime + attackCooldown)
                 {
@@ -38,19 +38,19 @@ namespace Ashfall.Enemies.Behaviours
             }
             else if (distance <= enemy.detectionRange)
             {
-                // chase, direction vector math right here
-                Vector2 direction = (player.position - enemyObj.transform.position).normalized;
-                rb.linearVelocity = direction * enemy.moveSpeed;
+                // chase, direction vector math right here, horizontal only
+                float xDir = player.position.x > enemyObj.transform.position.x ? 1f : -1f;
+                rb.linearVelocity = new Vector2(xDir * enemy.moveSpeed, rb.linearVelocity.y);
                 isMoving = true;
 
                 // face the direction we're moving
                 if (spriteRenderer != null)
-                    spriteRenderer.flipX = direction.x > 0;
+                    spriteRenderer.flipX = xDir > 0;
             }
             else
             {
                 // player too far, just stand still
-                rb.linearVelocity = Vector2.zero;
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             }
 
             if (animator != null)

@@ -12,6 +12,9 @@ namespace Ashfall.Enemies.Behaviours
         float lastShotTime = -999f;
         const float shootCooldown = 1.5f;
         const float preferredDistance = 4f; // tries to stay around this far away
+        const float facingDeadzone = 0.3f; // ignore tiny x differences so it doesnt flicker
+
+        bool facingRight = true;
 
         public void Tick(GameObject enemyObj, Transform player)
         {
@@ -27,29 +30,30 @@ namespace Ashfall.Enemies.Behaviours
 
             if (distance > enemy.detectionRange)
             {
-                rb.linearVelocity = Vector2.zero;
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             }
             else
             {
                 // back away if player gets too close, otherwise just hold position
                 Vector2 toPlayer = (player.position - enemyObj.transform.position);
 
+                // only flip if the player is clearly on one side, stops flicker when directly overlapping
+                if (toPlayer.x > facingDeadzone) facingRight = false;
+                else if (toPlayer.x < -facingDeadzone) facingRight = true;
+
+                if (spriteRenderer != null)
+                    spriteRenderer.flipX = facingRight;
+
                 if (distance < preferredDistance - 0.5f)
                 {
-                    Vector2 awayDirection = -toPlayer.normalized;
-                    rb.linearVelocity = awayDirection * enemy.moveSpeed;
+                    // horizontal only, gravity/ground collision handles vertical
+                    float xDir = toPlayer.x > 0 ? -1f : 1f;
+                    rb.linearVelocity = new Vector2(xDir * enemy.moveSpeed, rb.linearVelocity.y);
                     isMoving = true;
-
-                    if (spriteRenderer != null)
-                        spriteRenderer.flipX = awayDirection.x > 0;
                 }
                 else
                 {
-                    rb.linearVelocity = Vector2.zero;
-
-                    // face the player while standing still and shooting
-                    if (spriteRenderer != null)
-                        spriteRenderer.flipX = toPlayer.x > 0;
+                    rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
                 }
 
                 if (Time.time >= lastShotTime + shootCooldown)
