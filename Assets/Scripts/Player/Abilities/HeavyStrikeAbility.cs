@@ -14,8 +14,8 @@ namespace Ashfall.Player.Abilities
         {
             var attack = user.GetComponent<PlayerAttack>();
             if (attack == null || attack.attackPoint == null) return;
+            
 
-            // reuse attack3 as the "heavy" swing, pack doesnt have a dedicated heavy anim
             var animator = user.GetComponent<Animator>();
             animator?.SetTrigger("Attack3");
 

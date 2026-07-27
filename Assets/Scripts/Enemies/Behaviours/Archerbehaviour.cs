@@ -28,6 +28,10 @@ namespace Ashfall.Enemies.Behaviours
             float distance = Vector2.Distance(enemyObj.transform.position, player.position);
             bool isMoving = false;
 
+            // always apply facing, even when idle/not detecting, so it never sits backwards
+            if (spriteRenderer != null)
+                spriteRenderer.flipX = facingRight;
+
             if (distance > enemy.detectionRange)
             {
                 rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
