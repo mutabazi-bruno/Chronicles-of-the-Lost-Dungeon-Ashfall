@@ -74,6 +74,8 @@ namespace Ashfall.Player
             controller?.SetDead();
 
             OnPlayerDied?.Invoke();
+
+            Ashfall.Systems.GameManager.Instance?.ChangeState(Ashfall.Systems.GameState.GameOver);
         }
     }
 }
