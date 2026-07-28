@@ -297,8 +297,8 @@ MonoBehaviour:
   maxHealth: 50
   currentHealth: 0
   moveSpeed: 2
-  detectionRange: 5
-  attackRange: 1
+  detectionRange: 3
+  attackRange: 0.8
   attackDamage: 10
   player: {fileID: 0}
   firePoint: {fileID: 0}
