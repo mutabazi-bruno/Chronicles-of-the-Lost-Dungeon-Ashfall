@@ -44,9 +44,20 @@ namespace Ashfall.Interactables
 
             if (isLocked)
             {
-                // for now just checking a bool, real key check happens once inventory hooks in
-                Debug.Log("door is locked, need a key");
-                return;
+                if (!requiresKey)
+                {
+                    Debug.Log("door is locked");
+                    return;
+                }
+
+                var inventory = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Ashfall.Player.PlayerInventory>();
+                if (inventory == null || !inventory.HasKey(requiredKeyName))
+                {
+                    Debug.Log("need a key to open this door");
+                    return;
+                }
+
+                inventory.RemoveKey(requiredKeyName); // key gets used up
             }
 
             Open();

@@ -31,6 +31,7 @@ namespace Ashfall.Enemies
 
         [Header("Death")]
         public float destroyDelayAfterDeath = 1.5f; // gives death anim time to play
+        public GameObject dropOnDeath; // optional, e.g. a key pickup prefab
 
         [Header("Temp Testing (spawner will replace this later)")]
         public EnemyTestType testType = EnemyTestType.Warrior;
@@ -105,6 +106,9 @@ namespace Ashfall.Enemies
             if (col != null) col.enabled = false; // cant be hit or block player anymore
 
             animator?.SetTrigger("Death");
+
+            if (dropOnDeath != null)
+                Instantiate(dropOnDeath, transform.position, Quaternion.identity);
 
             OnEnemyDefeated?.Invoke(this);
             Destroy(gameObject, destroyDelayAfterDeath);
