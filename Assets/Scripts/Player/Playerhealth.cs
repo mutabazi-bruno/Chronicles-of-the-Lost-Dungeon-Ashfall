@@ -7,7 +7,7 @@ namespace Ashfall.Player
 {
     // handles player health, wraps PlayerStats and implements IDamageable
     // other systems (ui, audio, save) listen to the events instead of calling this directly
-    public class PlayerHealth : MonoBehaviour, IDamageable
+    public class PlayerHealth : MonoBehaviour, IDamageable, ISaveable
     {
         public PlayerStats stats;
         public float staminaRegenPerSecond = 15f;
@@ -32,6 +32,18 @@ namespace Ashfall.Player
             if (Input.GetKeyDown(KeyCode.K))
             {
                 TakeDamage(10);
+            }
+
+            // temp test keys, real save triggers (level complete etc) come later
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                Save(Ashfall.Systems.SaveManager.Instance.CurrentSave);
+                Ashfall.Systems.SaveManager.Instance.Save();
+            }
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                Ashfall.Systems.SaveManager.Instance.Load();
+                Load(Ashfall.Systems.SaveManager.Instance.CurrentSave);
             }
 
             stats.RegenStamina(staminaRegenPerSecond * Time.deltaTime);
@@ -76,6 +88,27 @@ namespace Ashfall.Player
             OnPlayerDied?.Invoke();
 
             Ashfall.Systems.GameManager.Instance?.ChangeState(Ashfall.Systems.GameState.GameOver);
+        }
+
+        // ISaveable implementation - copies our stats into/out of the save file
+        public void Save(SaveData data)
+        {
+            data.health = stats.currentHealth;
+            data.maxHealth = stats.maxHealth;
+            data.stamina = stats.currentStamina;
+            data.maxStamina = stats.maxStamina;
+            data.coins = stats.coins;
+        }
+
+        public void Load(SaveData data)
+        {
+            stats.maxHealth = data.maxHealth;
+            stats.currentHealth = data.health;
+            stats.maxStamina = (int)data.maxStamina;
+            stats.currentStamina = data.stamina;
+            stats.coins = data.coins;
+
+            OnHealthChanged?.Invoke(stats.currentHealth, stats.maxHealth);
         }
     }
 }
