@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Player.PlayerAttack
   attackPoint: {fileID: 5273645968078055132}
-  attackRange: 0.6
+  attackRange: 0.9
   attackDamage: 15
   attackCooldown: 0.4
   enemyLayer:

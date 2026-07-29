@@ -107,8 +107,13 @@ namespace Ashfall.Enemies
 
             animator?.SetTrigger("Death");
 
+            Debug.Log($"{name} died, dropOnDeath is: {(dropOnDeath != null ? dropOnDeath.name : "NULL")}");
+
             if (dropOnDeath != null)
-                Instantiate(dropOnDeath, transform.position, Quaternion.identity);
+            {
+                GameObject key = Instantiate(dropOnDeath, transform.position, Quaternion.identity);
+                Debug.Log($"key spawned at {key.transform.position}, scale {key.transform.localScale}, active: {key.activeSelf}");
+            }
 
             OnEnemyDefeated?.Invoke(this);
             Destroy(gameObject, destroyDelayAfterDeath);
