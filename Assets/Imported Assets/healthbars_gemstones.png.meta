@@ -1,0 +1,2639 @@
+fileFormatVersion: 2
+guid: be518f8ba25cb0f4486708b178493bab
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2742518799594109690
+    second: healthbars_gemstones_0
+  - first:
+      213: -1781779289081553650
+    second: healthbars_gemstones_1
+  - first:
+      213: 4797637779673566180
+    second: healthbars_gemstones_2
+  - first:
+      213: -8737837570420056861
+    second: healthbars_gemstones_3
+  - first:
+      213: 6094268393070905981
+    second: healthbars_gemstones_4
+  - first:
+      213: 8114230638756690293
+    second: healthbars_gemstones_5
+  - first:
+      213: -1003539480712886892
+    second: healthbars_gemstones_6
+  - first:
+      213: -1016769678179435361
+    second: healthbars_gemstones_7
+  - first:
+      213: -1410924450516833073
+    second: healthbars_gemstones_8
+  - first:
+      213: 6089091331126878865
+    second: healthbars_gemstones_9
+  - first:
+      213: 3545735193709664438
+    second: healthbars_gemstones_10
+  - first:
+      213: 7639615791098562038
+    second: healthbars_gemstones_11
+  - first:
+      213: -3958845353125474989
+    second: healthbars_gemstones_12
+  - first:
+      213: 4612172890951284740
+    second: healthbars_gemstones_13
+  - first:
+      213: 4515812634859972629
+    second: healthbars_gemstones_14
+  - first:
+      213: -3413768361719827858
+    second: healthbars_gemstones_15
+  - first:
+      213: -372753295952309710
+    second: healthbars_gemstones_16
+  - first:
+      213: -2316749584132069722
+    second: healthbars_gemstones_17
+  - first:
+      213: 7205878282962291710
+    second: healthbars_gemstones_18
+  - first:
+      213: -8840893216185320271
+    second: healthbars_gemstones_19
+  - first:
+      213: -1431713149728082600
+    second: healthbars_gemstones_20
+  - first:
+      213: 5628541259272213088
+    second: healthbars_gemstones_21
+  - first:
+      213: -7067621309005804644
+    second: healthbars_gemstones_22
+  - first:
+      213: 4595515898557292457
+    second: healthbars_gemstones_23
+  - first:
+      213: -5259796543832003611
+    second: healthbars_gemstones_24
+  - first:
+      213: -1990495861429600013
+    second: healthbars_gemstones_25
+  - first:
+      213: -6228365126719572800
+    second: healthbars_gemstones_26
+  - first:
+      213: 8014221730034703648
+    second: healthbars_gemstones_27
+  - first:
+      213: 488579381240019148
+    second: healthbars_gemstones_28
+  - first:
+      213: 4299681762416416503
+    second: healthbars_gemstones_29
+  - first:
+      213: -2344983097353651147
+    second: healthbars_gemstones_30
+  - first:
+      213: -4262301844612133890
+    second: healthbars_gemstones_31
+  - first:
+      213: 1912908289061598132
+    second: healthbars_gemstones_32
+  - first:
+      213: -8144001424613044705
+    second: healthbars_gemstones_33
+  - first:
+      213: 3027309322856046742
+    second: healthbars_gemstones_34
+  - first:
+      213: 4833729383104274503
+    second: healthbars_gemstones_35
+  - first:
+      213: -3858836745751996381
+    second: healthbars_gemstones_36
+  - first:
+      213: -7276824517385540027
+    second: healthbars_gemstones_37
+  - first:
+      213: 444868056890953652
+    second: healthbars_gemstones_38
+  - first:
+      213: -2365868330303766942
+    second: healthbars_gemstones_39
+  - first:
+      213: -1875643928176542270
+    second: healthbars_gemstones_40
+  - first:
+      213: -7122984371401931269
+    second: healthbars_gemstones_41
+  - first:
+      213: 2922620959615913723
+    second: healthbars_gemstones_42
+  - first:
+      213: -241364747924700998
+    second: healthbars_gemstones_43
+  - first:
+      213: 7933060928356138939
+    second: healthbars_gemstones_44
+  - first:
+      213: -5657270070132568991
+    second: healthbars_gemstones_45
+  - first:
+      213: -5895887851386682494
+    second: healthbars_gemstones_46
+  - first:
+      213: -2561717480716166321
+    second: healthbars_gemstones_47
+  - first:
+      213: -8373314802127464226
+    second: healthbars_gemstones_48
+  - first:
+      213: 114239525575251800
+    second: healthbars_gemstones_49
+  - first:
+      213: 3267641534294333605
+    second: healthbars_gemstones_50
+  - first:
+      213: 3764003060392699863
+    second: healthbars_gemstones_51
+  - first:
+      213: -4904460486706465803
+    second: healthbars_gemstones_52
+  - first:
+      213: -6187156697260091779
+    second: healthbars_gemstones_53
+  - first:
+      213: 1690809340328894791
+    second: healthbars_gemstones_54
+  - first:
+      213: 2298127594713314450
+    second: healthbars_gemstones_55
+  - first:
+      213: -2048547380506658005
+    second: healthbars_gemstones_56
+  - first:
+      213: 7201101156596980947
+    second: healthbars_gemstones_57
+  - first:
+      213: -5440133085871948608
+    second: healthbars_gemstones_58
+  - first:
+      213: 6696355441961364015
+    second: healthbars_gemstones_59
+  - first:
+      213: 8002813006963263216
+    second: healthbars_gemstones_60
+  - first:
+      213: -8575349267716021856
+    second: healthbars_gemstones_61
+  - first:
+      213: 3356760362904642984
+    second: healthbars_gemstones_62
+  - first:
+      213: 4516787370911387972
+    second: healthbars_gemstones_63
+  - first:
+      213: 8860682618112150923
+    second: healthbars_gemstones_64
+  - first:
+      213: -2801891716625771251
+    second: healthbars_gemstones_65
+  - first:
+      213: 82626918564586901
+    second: healthbars_gemstones_66
+  - first:
+      213: 362225516518087856
+    second: healthbars_gemstones_67
+  - first:
+      213: -8629945135422359717
+    second: healthbars_gemstones_68
+  - first:
+      213: 4537123870742887751
+    second: healthbars_gemstones_69
+  - first:
+      213: -1471346494889336932
+    second: healthbars_gemstones_70
+  - first:
+      213: -3404987632310089549
+    second: healthbars_gemstones_71
+  - first:
+      213: -7824391129291236571
+    second: healthbars_gemstones_72
+  - first:
+      213: 7040969903626688479
+    second: healthbars_gemstones_73
+  - first:
+      213: 5991735588231407591
+    second: healthbars_gemstones_74
+  - first:
+      213: -1651000006379884479
+    second: healthbars_gemstones_75
+  - first:
+      213: -7158938598527514475
+    second: healthbars_gemstones_76
+  - first:
+      213: 2459968897890791544
+    second: healthbars_gemstones_77
+  - first:
+      213: -6388455676762646027
+    second: healthbars_gemstones_78
+  - first:
+      213: 7906399231430087082
+    second: healthbars_gemstones_79
+  - first:
+      213: 4657026485019571565
+    second: healthbars_gemstones_80
+  - first:
+      213: 6843475180444617839
+    second: healthbars_gemstones_81
+  - first:
+      213: 5101054087551591294
+    second: healthbars_gemstones_82
+  - first:
+      213: -4868181107180599481
+    second: healthbars_gemstones_83
+  - first:
+      213: 5455033440779418855
+    second: healthbars_gemstones_84
+  - first:
+      213: -7305133905635398611
+    second: healthbars_gemstones_85
+  - first:
+      213: 875568706910342561
+    second: healthbars_gemstones_86
+  - first:
+      213: 1591932511621068472
+    second: healthbars_gemstones_87
+  - first:
+      213: -987509286814005176
+    second: healthbars_gemstones_88
+  - first:
+      213: 3610712270269167238
+    second: healthbars_gemstones_89
+  - first:
+      213: 7689204089037292949
+    second: healthbars_gemstones_90
+  - first:
+      213: -7778984172253932676
+    second: healthbars_gemstones_91
+  - first:
+      213: 6391301040807093224
+    second: healthbars_gemstones_92
+  - first:
+      213: -8042479332778068252
+    second: healthbars_gemstones_93
+  - first:
+      213: 8863609317223405368
+    second: healthbars_gemstones_94
+  - first:
+      213: -493872863761657943
+    second: healthbars_gemstones_95
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: healthbars_gemstones_0
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 266
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afa33a751526f0620800000000000000
+      internalID: 2742518799594109690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_1
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 255
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0d55264d29d547e0800000000000000
+      internalID: -1781779289081553650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_2
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 266
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ebcf624422a49240800000000000000
+      internalID: 4797637779673566180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_3
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 255
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ecdc065607fcb680800000000000000
+      internalID: -8737837570420056861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_4
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 259
+        width: 19
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7ac1ee80d0339450800000000000000
+      internalID: 6094268393070905981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_5
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 259
+        width: 19
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 579fea066c98b9070800000000000000
+      internalID: 8114230638756690293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_6
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 259
+        width: 19
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4954706c826b212f0800000000000000
+      internalID: -1003539480712886892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_7
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 259
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9cf9b16d55b3e1f0800000000000000
+      internalID: -1016769678179435361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_8
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 259
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcce70a00b36b6ce0800000000000000
+      internalID: -1410924450516833073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_9
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 259
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1926ab4ed4cc08450800000000000000
+      internalID: 6089091331126878865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_10
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 244
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b85aa06f5bf43130800000000000000
+      internalID: 3545735193709664438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_11
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 233
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f505e8e51e550a60800000000000000
+      internalID: 7639615791098562038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_12
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 244
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35d004e402b5f09c0800000000000000
+      internalID: -3958845353125474989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_13
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 233
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40876d7decab10040800000000000000
+      internalID: 4612172890951284740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_14
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 240
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 518ac056aa36bae30800000000000000
+      internalID: 4515812634859972629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_15
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 240
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e62f83e03cbdf90d0800000000000000
+      internalID: -3413768361719827858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_16
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 240
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23218ed2ad6b3daf0800000000000000
+      internalID: -372753295952309710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_17
+      rect:
+        serializedVersion: 2
+        x: 190
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a62644278049dfd0800000000000000
+      internalID: -2316749584132069722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_18
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efb4ba6be1c600460800000000000000
+      internalID: 7205878282962291710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_19
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bcfc100676de4580800000000000000
+      internalID: -8840893216185320271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_20
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 222
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 855b332d978812ce0800000000000000
+      internalID: -1431713149728082600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_21
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 222
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 062dc8a34789c1e40800000000000000
+      internalID: 5628541259272213088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_22
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 225
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9b4ab58dd3caed90800000000000000
+      internalID: -7067621309005804644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_23
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 225
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9afda259c5d86cf30800000000000000
+      internalID: 4595515898557292457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_24
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 225
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ebe01639e27107b0800000000000000
+      internalID: -5259796543832003611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_25
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 225
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f08a946f865064e0800000000000000
+      internalID: -1990495861429600013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_26
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 225
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c4f272aae66099a0800000000000000
+      internalID: -6228365126719572800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_27
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 225
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02d5fe9c33c383f60800000000000000
+      internalID: 8014221730034703648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_28
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 211
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc8346fcb58c7c600800000000000000
+      internalID: 488579381240019148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_29
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 200
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f65e0048c98bab30800000000000000
+      internalID: 4299681762416416503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_30
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 211
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53cb0f51c42f47fd0800000000000000
+      internalID: -2344983097353651147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_31
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 200
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efbc6621e0349d4c0800000000000000
+      internalID: -4262301844612133890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_32
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 210
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b3ba6134f30c8a10800000000000000
+      internalID: 1912908289061598132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_33
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 210
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1e0aa36ad1bafe80800000000000000
+      internalID: -8144001424613044705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_34
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 210
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 690201e2ac9230a20800000000000000
+      internalID: 3027309322856046742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_35
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 210
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7406c44834bd41340800000000000000
+      internalID: 4833729383104274503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_36
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 210
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3285a3bbc68a27ac0800000000000000
+      internalID: -3858836745751996381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_37
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 210
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54ea16cd7a6830b90800000000000000
+      internalID: -7276824517385540027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_38
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 189
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bf47e6042d7c2600800000000000000
+      internalID: 444868056890953652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_39
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 178
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26eb5ead94fba2fd0800000000000000
+      internalID: -2365868330303766942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_40
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 189
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cd3befe8cf58f5e0800000000000000
+      internalID: -1875643928176542270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_41
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 178
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf5cde11473162d90800000000000000
+      internalID: -7122984371401931269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_42
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 189
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfe840f274c3f8820800000000000000
+      internalID: 2922620959615913723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_43
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 189
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab085a26a0086acf0800000000000000
+      internalID: -241364747924700998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_44
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 189
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbfb23812e4e71e60800000000000000
+      internalID: 7933060928356138939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_45
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 189
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16c8c4f38d65d71b0800000000000000
+      internalID: -5657270070132568991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_46
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 189
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2834e86ac399d2ea0800000000000000
+      internalID: -5895887851386682494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_47
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 189
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4b110b1683f27cd0800000000000000
+      internalID: -2561717480716166321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_48
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 167
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed81caa1d820ccb80800000000000000
+      internalID: -8373314802127464226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_49
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 167
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 857d8354e3cd59100800000000000000
+      internalID: 114239525575251800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_50
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 168
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a81de8a9aef85d20800000000000000
+      internalID: 3267641534294333605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_51
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 168
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d7a03447dc6c3430800000000000000
+      internalID: 3764003060392699863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_52
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 168
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f3fbea1c2bdfebb0800000000000000
+      internalID: -4904460486706465803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_53
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 168
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d76122ac3cdc22aa0800000000000000
+      internalID: -6187156697260091779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_54
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 168
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74167310326f67710800000000000000
+      internalID: 1690809340328894791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_55
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 168
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 294f8631fd694ef10800000000000000
+      internalID: 2298127594713314450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_56
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 156
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2bf757d2091293e0800000000000000
+      internalID: -2048547380506658005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_57
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 145
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dc1e9e49537fe360800000000000000
+      internalID: 7201101156596980947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_58
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 156
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ccb0cd08c3c084b0800000000000000
+      internalID: -5440133085871948608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_59
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 145
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2a6cdfabcb3eec50800000000000000
+      internalID: 6696355441961364015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_60
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 146
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f6cbe37704bf0f60800000000000000
+      internalID: 8002813006963263216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_61
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 146
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a161e0764d3ef880800000000000000
+      internalID: -8575349267716021856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_62
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 146
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a5ea03e3cb959e20800000000000000
+      internalID: 3356760362904642984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_63
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 146
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 441d421de2adeae30800000000000000
+      internalID: 4516787370911387972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_64
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 146
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8d8d0035e777fa70800000000000000
+      internalID: 8860682618112150923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_65
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 146
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d05596b245ead19d0800000000000000
+      internalID: -2801891716625771251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_66
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 134
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5956de1aebc852100800000000000000
+      internalID: 82626918564586901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_67
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 123
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bc94a82032e60500800000000000000
+      internalID: 362225516518087856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_68
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 134
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b573a0c6f964c3880800000000000000
+      internalID: -8629945135422359717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_69
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 123
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74d33992f1a17fe30800000000000000
+      internalID: 4537123870742887751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_70
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 123
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9fda9e882ab49be0800000000000000
+      internalID: -1471346494889336932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_71
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 123
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b80f8fe9cd0fb0d0800000000000000
+      internalID: -3404987632310089549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_72
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 123
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52bd0ea29bd2a6390800000000000000
+      internalID: -7824391129291236571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_73
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 123
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd792eb92dc86b160800000000000000
+      internalID: 7040969903626688479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_74
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 123
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e7699c95cbe62350800000000000000
+      internalID: 5991735588231407591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_75
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 123
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1403f87dd387619e0800000000000000
+      internalID: -1651000006379884479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_76
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 112
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5984fe9364756ac90800000000000000
+      internalID: -7158938598527514475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_77
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 101
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8703a4ddda0932220800000000000000
+      internalID: 2459968897890791544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_78
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 112
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f91c33d865a757a0800000000000000
+      internalID: -6388455676762646027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_79
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 101
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa1dfc9063c29bd60800000000000000
+      internalID: 7906399231430087082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_80
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 90
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d657d250ae411a040800000000000000
+      internalID: 4657026485019571565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_81
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 79
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6c8a971b68e8fe50800000000000000
+      internalID: 6843475180444617839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_82
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 90
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7321948aa59ac640800000000000000
+      internalID: 5101054087551591294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_83
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 79
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7478b34631fb07cb0800000000000000
+      internalID: -4868181107180599481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_84
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 68
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ecb88b230c24bb40800000000000000
+      internalID: 5455033440779418855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_85
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 57
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2ca0f5ca63fe9a90800000000000000
+      internalID: -7305133905635398611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_86
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 68
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1adc6d79915a62c00800000000000000
+      internalID: 875568706910342561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_87
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 57
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b6b1955f2ea71610800000000000000
+      internalID: 1591932511621068472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_88
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 46
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8484d032989ab42f0800000000000000
+      internalID: -987509286814005176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_89
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 35
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 686b98feda3db1230800000000000000
+      internalID: 3610712270269167238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_90
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 46
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5958c8c316a85ba60800000000000000
+      internalID: 7689204089037292949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_91
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 35
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c731b633c1f7b0490800000000000000
+      internalID: -7778984172253932676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_92
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 24
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e324ed1f6672b850800000000000000
+      internalID: 6391301040807093224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_93
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 13
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e6b75068af536090800000000000000
+      internalID: -8042479332778068252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_94
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 24
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83791fc66bdd10b70800000000000000
+      internalID: 8863609317223405368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbars_gemstones_95
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 13
+        width: 55
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9af084f3f396529f0800000000000000
+      internalID: -493872863761657943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      healthbars_gemstones_0: 2742518799594109690
+      healthbars_gemstones_1: -1781779289081553650
+      healthbars_gemstones_10: 3545735193709664438
+      healthbars_gemstones_11: 7639615791098562038
+      healthbars_gemstones_12: -3958845353125474989
+      healthbars_gemstones_13: 4612172890951284740
+      healthbars_gemstones_14: 4515812634859972629
+      healthbars_gemstones_15: -3413768361719827858
+      healthbars_gemstones_16: -372753295952309710
+      healthbars_gemstones_17: -2316749584132069722
+      healthbars_gemstones_18: 7205878282962291710
+      healthbars_gemstones_19: -8840893216185320271
+      healthbars_gemstones_2: 4797637779673566180
+      healthbars_gemstones_20: -1431713149728082600
+      healthbars_gemstones_21: 5628541259272213088
+      healthbars_gemstones_22: -7067621309005804644
+      healthbars_gemstones_23: 4595515898557292457
+      healthbars_gemstones_24: -5259796543832003611
+      healthbars_gemstones_25: -1990495861429600013
+      healthbars_gemstones_26: -6228365126719572800
+      healthbars_gemstones_27: 8014221730034703648
+      healthbars_gemstones_28: 488579381240019148
+      healthbars_gemstones_29: 4299681762416416503
+      healthbars_gemstones_3: -8737837570420056861
+      healthbars_gemstones_30: -2344983097353651147
+      healthbars_gemstones_31: -4262301844612133890
+      healthbars_gemstones_32: 1912908289061598132
+      healthbars_gemstones_33: -8144001424613044705
+      healthbars_gemstones_34: 3027309322856046742
+      healthbars_gemstones_35: 4833729383104274503
+      healthbars_gemstones_36: -3858836745751996381
+      healthbars_gemstones_37: -7276824517385540027
+      healthbars_gemstones_38: 444868056890953652
+      healthbars_gemstones_39: -2365868330303766942
+      healthbars_gemstones_4: 6094268393070905981
+      healthbars_gemstones_40: -1875643928176542270
+      healthbars_gemstones_41: -7122984371401931269
+      healthbars_gemstones_42: 2922620959615913723
+      healthbars_gemstones_43: -241364747924700998
+      healthbars_gemstones_44: 7933060928356138939
+      healthbars_gemstones_45: -5657270070132568991
+      healthbars_gemstones_46: -5895887851386682494
+      healthbars_gemstones_47: -2561717480716166321
+      healthbars_gemstones_48: -8373314802127464226
+      healthbars_gemstones_49: 114239525575251800
+      healthbars_gemstones_5: 8114230638756690293
+      healthbars_gemstones_50: 3267641534294333605
+      healthbars_gemstones_51: 3764003060392699863
+      healthbars_gemstones_52: -4904460486706465803
+      healthbars_gemstones_53: -6187156697260091779
+      healthbars_gemstones_54: 1690809340328894791
+      healthbars_gemstones_55: 2298127594713314450
+      healthbars_gemstones_56: -2048547380506658005
+      healthbars_gemstones_57: 7201101156596980947
+      healthbars_gemstones_58: -5440133085871948608
+      healthbars_gemstones_59: 6696355441961364015
+      healthbars_gemstones_6: -1003539480712886892
+      healthbars_gemstones_60: 8002813006963263216
+      healthbars_gemstones_61: -8575349267716021856
+      healthbars_gemstones_62: 3356760362904642984
+      healthbars_gemstones_63: 4516787370911387972
+      healthbars_gemstones_64: 8860682618112150923
+      healthbars_gemstones_65: -2801891716625771251
+      healthbars_gemstones_66: 82626918564586901
+      healthbars_gemstones_67: 362225516518087856
+      healthbars_gemstones_68: -8629945135422359717
+      healthbars_gemstones_69: 4537123870742887751
+      healthbars_gemstones_7: -1016769678179435361
+      healthbars_gemstones_70: -1471346494889336932
+      healthbars_gemstones_71: -3404987632310089549
+      healthbars_gemstones_72: -7824391129291236571
+      healthbars_gemstones_73: 7040969903626688479
+      healthbars_gemstones_74: 5991735588231407591
+      healthbars_gemstones_75: -1651000006379884479
+      healthbars_gemstones_76: -7158938598527514475
+      healthbars_gemstones_77: 2459968897890791544
+      healthbars_gemstones_78: -6388455676762646027
+      healthbars_gemstones_79: 7906399231430087082
+      healthbars_gemstones_8: -1410924450516833073
+      healthbars_gemstones_80: 4657026485019571565
+      healthbars_gemstones_81: 6843475180444617839
+      healthbars_gemstones_82: 5101054087551591294
+      healthbars_gemstones_83: -4868181107180599481
+      healthbars_gemstones_84: 5455033440779418855
+      healthbars_gemstones_85: -7305133905635398611
+      healthbars_gemstones_86: 875568706910342561
+      healthbars_gemstones_87: 1591932511621068472
+      healthbars_gemstones_88: -987509286814005176
+      healthbars_gemstones_89: 3610712270269167238
+      healthbars_gemstones_9: 6089091331126878865
+      healthbars_gemstones_90: 7689204089037292949
+      healthbars_gemstones_91: -7778984172253932676
+      healthbars_gemstones_92: 6391301040807093224
+      healthbars_gemstones_93: -8042479332778068252
+      healthbars_gemstones_94: 8863609317223405368
+      healthbars_gemstones_95: -493872863761657943
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -49,13 +49,6 @@ namespace Ashfall.Player
             stats.RegenStamina(staminaRegenPerSecond * Time.deltaTime);
         }
 
-        // temp, just so we can see hp live while testing, real hud comes later
-        void OnGUI()
-        {
-            GUI.Label(new Rect(10, 10, 200, 30), $"HP: {stats.currentHealth}/{stats.maxHealth}");
-            GUI.Label(new Rect(10, 30, 200, 30), $"Stamina: {stats.currentStamina:F0}/{stats.maxStamina}");
-        }
-
         public bool IsDead => stats.IsDead;
 
         public void TakeDamage(int amount)
