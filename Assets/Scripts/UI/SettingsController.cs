@@ -13,10 +13,13 @@ namespace Ashfall.UI
 
         void OnEnable()
         {
-            // load current saved values into the ui when this panel opens
             var save = SaveManager.Instance.CurrentSave;
-            volumeSlider.value = save.musicVolume;
-            muteToggle.isOn = save.musicVolume <= 0f;
+
+            volumeSlider.SetValueWithoutNotify(save.musicVolume);
+            muteToggle.SetIsOnWithoutNotify(save.musicVolume <= 0f);
+
+            if (save.musicVolume > 0f)
+                volumeBeforeMute = save.musicVolume;
 
             ApplyVolume(save.musicVolume);
         }
@@ -24,7 +27,7 @@ namespace Ashfall.UI
         public void OnVolumeChanged(float value)
         {
             if (muteToggle.isOn && value > 0f)
-                muteToggle.isOn = false; // moving the slider unmutes automatically
+                muteToggle.isOn = false;
 
             volumeBeforeMute = value > 0f ? value : volumeBeforeMute;
             ApplyVolume(value);
@@ -33,8 +36,9 @@ namespace Ashfall.UI
 
         public void OnMuteToggled(bool isMuted)
         {
+            Debug.Log("OnMuteToggled fired: " + isMuted);
             float value = isMuted ? 0f : volumeBeforeMute;
-            volumeSlider.value = value; // this also fires OnVolumeChanged, which applies + saves
+            volumeSlider.value = value;
         }
 
         void ApplyVolume(float value)

@@ -1,20 +1,29 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Ashfall.Player;
 using Ashfall.Enemies;
-using Ashfall.Systems;
 
 namespace Ashfall.Systems
 {
+    [Serializable]
+    public class SceneMusic
+    {
+        public string sceneName;
+        public AudioClip clip;
+    }
 
     public class AudioManager : MonoBehaviour
     {
         public static AudioManager Instance { get; private set; }
 
-        [Header("Music")]
-        public AudioClip backgroundMusic;
+        [Header("Music (one entry per scene, e.g. MainMenu, Level1, Level2...)")]
+        public List<SceneMusic> sceneMusic = new List<SceneMusic>();
 
         [Header("SFX")]
-        public AudioClip movementSound;   
+        public AudioClip movementSound;
+        public AudioClip footstepSound;
         public AudioClip attackSound;
         public AudioClip enemyDeathSound;
         public AudioClip gameOverSound;
@@ -41,36 +50,58 @@ namespace Ashfall.Systems
 
         void OnEnable()
         {
-           
             PlayerController.OnMovementSound += PlayMovementSound;
+            PlayerController.OnFootstepSound += PlayFootstepSound;
             PlayerAttack.OnAttackSound += PlayAttackSound;
             Enemy.OnAnyEnemyDeath += PlayEnemyDeathSound;
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         void OnDisable()
         {
             PlayerController.OnMovementSound -= PlayMovementSound;
+            PlayerController.OnFootstepSound -= PlayFootstepSound;
             PlayerAttack.OnAttackSound -= PlayAttackSound;
             Enemy.OnAnyEnemyDeath -= PlayEnemyDeathSound;
+
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
         void Start()
         {
-            
             GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
             LevelManager.Instance.OnLevelCompleted += HandleLevelCompleted;
 
-            PlayMusic();
+            PlayMusicForScene(SceneManager.GetActiveScene().name);
         }
 
-        public void PlayMusic()
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (backgroundMusic == null) return;
-            musicSource.clip = backgroundMusic;
+            PlayMusicForScene(scene.name);
+        }
+
+        void PlayMusicForScene(string sceneName)
+        {
+            AudioClip clip = null;
+            foreach (var entry in sceneMusic)
+            {
+                if (entry.sceneName == sceneName)
+                {
+                    clip = entry.clip;
+                    break;
+                }
+            }
+
+            if (clip == null) return;
+            if (musicSource.clip == clip && musicSource.isPlaying) return;
+
+            musicSource.clip = clip;
             musicSource.Play();
         }
 
         void PlayMovementSound() => PlaySFX(movementSound);
+        void PlayFootstepSound() => PlaySFX(footstepSound);
         void PlayAttackSound() => PlaySFX(attackSound);
         void PlayEnemyDeathSound() => PlaySFX(enemyDeathSound);
 

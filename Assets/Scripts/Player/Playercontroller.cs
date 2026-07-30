@@ -7,8 +7,9 @@ namespace Ashfall.Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour, IMovable
     {
-        // static so AudioManager can listen without needing a direct reference to the player
-        public static event Action OnMovementSound; // fires for both jump and dash, same sound
+        public static event Action OnMovementSound;
+        public static event Action OnFootstepSound;
+
         [Header("Movement")]
         public float moveSpeed = 6f;
         public float jumpForce = 12f;
@@ -18,6 +19,9 @@ namespace Ashfall.Player
         public float groundCheckRadius = 0.15f;
         public LayerMask groundLayer;
 
+        [Header("Footsteps")]
+        public float footstepInterval = 0.35f;
+
         Rigidbody2D rb;
         Animator animator;
         SpriteRenderer spriteRenderer;
@@ -26,6 +30,7 @@ namespace Ashfall.Player
         bool isDashing;
         bool isDead;
         float horizontalInput;
+        float footstepTimer;
         int facingDirection = 1;
 
         void Awake()
@@ -37,12 +42,12 @@ namespace Ashfall.Player
 
         void Update()
         {
-            if (isDead) return; // dont let input do anything once dead
+            if (isDead) return;
 
-            // just reading input here, actual movement happens in fixedupdate
             horizontalInput = Input.GetAxisRaw("Horizontal");
 
             CheckGrounded();
+            HandleFootsteps();
 
             if (Input.GetButtonDown("Jump") && isGrounded)
             {
@@ -55,7 +60,7 @@ namespace Ashfall.Player
 
         void FixedUpdate()
         {
-            if (isDashing || isDead) return; // dash coroutine or death controls stuff right now
+            if (isDashing || isDead) return;
             Move(new Vector2(horizontalInput, 0));
         }
 
@@ -79,7 +84,6 @@ namespace Ashfall.Player
             isDashing = false;
         }
 
-        // IMovable implementation
         public void Move(Vector2 direction)
         {
             rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
@@ -90,6 +94,25 @@ namespace Ashfall.Player
             animator?.SetTrigger("Jump");
             OnMovementSound?.Invoke();
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        }
+
+        void HandleFootsteps()
+        {
+            bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
+
+            if (isGrounded && isMoving && !isDashing)
+            {
+                footstepTimer -= Time.deltaTime;
+                if (footstepTimer <= 0f)
+                {
+                    OnFootstepSound?.Invoke();
+                    footstepTimer = footstepInterval;
+                }
+            }
+            else
+            {
+                footstepTimer = 0f;
+            }
         }
 
         void CheckGrounded()
@@ -118,12 +141,9 @@ namespace Ashfall.Player
 
             animator.SetBool("Grounded", isGrounded);
             animator.SetFloat("AirSpeedY", rb.linearVelocity.y);
-
-            // 1 = running, 0 = idle, matches the animator's AnimState int
             animator.SetInteger("AnimState", Mathf.Abs(horizontalInput) > 0.01f ? 1 : 0);
         }
 
-        // called by PlayerHealth when hp hits 0
         public void SetDead()
         {
             isDead = true;

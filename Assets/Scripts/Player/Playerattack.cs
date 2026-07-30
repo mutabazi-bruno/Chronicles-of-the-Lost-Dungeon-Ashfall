@@ -13,8 +13,8 @@ namespace Ashfall.Player
         public float attackCooldown = 0.4f;
         public LayerMask enemyLayer;
 
-        public event Action OnAttack; // for animation/ui hooks on this specific instance
-        public static event Action OnAttackSound; // static so AudioManager can listen without a direct reference
+        public event Action OnAttack;
+        public static event Action OnAttackSound;
 
         Animator animator;
         float lastAttackTime = -999f;
@@ -39,13 +39,11 @@ namespace Ashfall.Player
             OnAttack?.Invoke();
             OnAttackSound?.Invoke();
 
-            // cycle 1 -> 2 -> 3 -> back to 1, matches the combo animations
             currentAttack++;
             if (currentAttack > 3) currentAttack = 1;
 
             animator?.SetTrigger("Attack" + currentAttack);
 
-            // find anything hittable in range and hit it
             Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
             foreach (var hit in hits)
             {
@@ -55,7 +53,8 @@ namespace Ashfall.Player
             }
         }
 
-        // draw the attack range in the editor so its easy to see/tune
+        public static void RaiseAttackSound() => OnAttackSound?.Invoke();
+
         void OnDrawGizmosSelected()
         {
             if (attackPoint == null) return;

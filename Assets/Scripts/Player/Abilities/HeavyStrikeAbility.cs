@@ -14,10 +14,10 @@ namespace Ashfall.Player.Abilities
         {
             var attack = user.GetComponent<PlayerAttack>();
             if (attack == null || attack.attackPoint == null) return;
-            
 
             var animator = user.GetComponent<Animator>();
             animator?.SetTrigger("Attack3");
+            PlayerAttack.RaiseAttackSound();
 
             float range = attack.attackRange * rangeMultiplier;
             int damage = attack.attackDamage + bonusDamage;
