@@ -16,6 +16,7 @@ namespace Ashfall.Systems
         };
 
         public event Action<string> OnLevelUnlocked; // observer, level select ui listens to this
+        public event Action<string> OnLevelCompleted; // observer, audio/ui can listen for the win moment
 
         void Awake()
         {
@@ -43,6 +44,7 @@ namespace Ashfall.Systems
         {
             var save = SaveManager.Instance.CurrentSave;
             save.CompleteLevel(levelId);
+            OnLevelCompleted?.Invoke(levelId);
 
             string next = GetNextLevel(levelId);
             if (next != null && !save.IsLevelUnlocked(next))

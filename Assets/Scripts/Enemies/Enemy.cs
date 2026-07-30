@@ -42,8 +42,10 @@ namespace Ashfall.Enemies
         IEnemyBehaviour behaviour;
         bool isDead;
 
-        // observer pattern - GameManager/audio/loot can all listen without a direct reference
+        // observer pattern - GameManager/loot can listen via this instance event
         public event Action<Enemy> OnEnemyDefeated;
+        // static so AudioManager can listen for any enemy dying without a direct reference
+        public static event Action OnAnyEnemyDeath;
 
         void Awake()
         {
@@ -106,14 +108,10 @@ namespace Ashfall.Enemies
             if (col != null) col.enabled = false; // cant be hit or block player anymore
 
             animator?.SetTrigger("Death");
-
-            Debug.Log($"{name} died, dropOnDeath is: {(dropOnDeath != null ? dropOnDeath.name : "NULL")}");
+            OnAnyEnemyDeath?.Invoke();
 
             if (dropOnDeath != null)
-            {
-                GameObject key = Instantiate(dropOnDeath, transform.position, Quaternion.identity);
-                Debug.Log($"key spawned at {key.transform.position}, scale {key.transform.localScale}, active: {key.activeSelf}");
-            }
+                Instantiate(dropOnDeath, transform.position, Quaternion.identity);
 
             OnEnemyDefeated?.Invoke(this);
             Destroy(gameObject, destroyDelayAfterDeath);

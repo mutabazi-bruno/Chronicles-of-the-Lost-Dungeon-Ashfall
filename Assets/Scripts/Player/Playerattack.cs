@@ -13,7 +13,8 @@ namespace Ashfall.Player
         public float attackCooldown = 0.4f;
         public LayerMask enemyLayer;
 
-        public event Action OnAttack; // for audio hooks later
+        public event Action OnAttack; // for animation/ui hooks on this specific instance
+        public static event Action OnAttackSound; // static so AudioManager can listen without a direct reference
 
         Animator animator;
         float lastAttackTime = -999f;
@@ -36,6 +37,7 @@ namespace Ashfall.Player
         {
             lastAttackTime = Time.time;
             OnAttack?.Invoke();
+            OnAttackSound?.Invoke();
 
             // cycle 1 -> 2 -> 3 -> back to 1, matches the combo animations
             currentAttack++;

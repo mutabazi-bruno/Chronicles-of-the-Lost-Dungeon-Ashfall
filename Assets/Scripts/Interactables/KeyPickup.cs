@@ -19,18 +19,11 @@ namespace Ashfall.Interactables
             col.enabled = false; // briefly off so it doesnt instantly get grabbed if it spawns on top of the player
 
             Invoke(nameof(EnableCollision), 0.3f);
-
-            Debug.Log($"KeyPickup Awake at {transform.position}");
         }
 
         void EnableCollision()
         {
             col.enabled = true;
-        }
-
-        void OnDestroy()
-        {
-            Debug.Log("KeyPickup was destroyed");
         }
 
         void OnTriggerEnter2D(Collider2D other)
@@ -41,11 +34,7 @@ namespace Ashfall.Interactables
 
         public void Collect()
         {
-            var playerObj = GameObject.FindGameObjectWithTag("Player");
-            var inventory = playerObj?.GetComponent<PlayerInventory>();
-
-            Debug.Log($"Collect called, playerObj: {(playerObj != null ? playerObj.name : "NULL")}, inventory: {(inventory != null ? "found" : "NULL")}");
-
+            var inventory = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerInventory>();
             inventory?.AddItem(new Item(keyName, ItemType.Key, 0));
 
             Destroy(gameObject);

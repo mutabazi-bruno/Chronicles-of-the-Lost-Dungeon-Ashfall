@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Ashfall.Interfaces;
 
@@ -6,6 +7,8 @@ namespace Ashfall.Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour, IMovable
     {
+        // static so AudioManager can listen without needing a direct reference to the player
+        public static event Action OnMovementSound; // fires for both jump and dash, same sound
         [Header("Movement")]
         public float moveSpeed = 6f;
         public float jumpForce = 12f;
@@ -62,6 +65,7 @@ namespace Ashfall.Player
         {
             if (isDashing) return;
             animator?.SetTrigger("Roll");
+            OnMovementSound?.Invoke();
             StartCoroutine(DashRoutine(force, duration));
         }
 
@@ -84,6 +88,7 @@ namespace Ashfall.Player
         void Jump()
         {
             animator?.SetTrigger("Jump");
+            OnMovementSound?.Invoke();
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 

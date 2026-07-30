@@ -39,8 +39,7 @@ namespace Ashfall.UI
 
         void ApplyVolume(float value)
         {
-            // temp stand-in until we build a real AudioManager with separate music/sfx busses
-            AudioListener.volume = value;
+            AudioManager.Instance?.SetMusicVolume(value);
         }
 
         void SaveVolume(float value)
