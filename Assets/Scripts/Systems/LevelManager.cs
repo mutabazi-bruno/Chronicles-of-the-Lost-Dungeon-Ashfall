@@ -56,7 +56,7 @@ namespace Ashfall.Systems
             SaveManager.Instance.Save();
         }
 
-        string GetNextLevel(string currentLevelId)
+        public string GetNextLevel(string currentLevelId)
         {
             int index = levelOrder.IndexOf(currentLevelId);
             if (index < 0 || index + 1 >= levelOrder.Count) return null;

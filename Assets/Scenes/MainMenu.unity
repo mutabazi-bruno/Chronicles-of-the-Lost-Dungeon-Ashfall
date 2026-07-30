@@ -617,6 +617,7 @@ GameObject:
   - component: {fileID: 172503562}
   - component: {fileID: 172503561}
   - component: {fileID: 172503560}
+  - component: {fileID: 172503563}
   m_Layer: 5
   m_Name: Level5
   m_TagString: Untagged
@@ -726,6 +727,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 172503558}
   m_CullTransparentMesh: 1
+--- !u!114 &172503563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172503558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d9ce36bdc2dbe48a7405f28d1303fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.UI.LevelButton
+  levelId: Level5
+  background: {fileID: 0}
+  lockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  unlockedColor: {r: 1, g: 1, b: 1, a: 1}
+  completedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  lockIcon: {fileID: 0}
+  completedIcon: {fileID: 0}
 --- !u!1 &217188608
 GameObject:
   m_ObjectHideFlags: 0
@@ -1405,6 +1425,7 @@ GameObject:
   - component: {fileID: 387239284}
   - component: {fileID: 387239283}
   - component: {fileID: 387239282}
+  - component: {fileID: 387239285}
   m_Layer: 5
   m_Name: Level4
   m_TagString: Untagged
@@ -1514,6 +1535,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 387239280}
   m_CullTransparentMesh: 1
+--- !u!114 &387239285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387239280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d9ce36bdc2dbe48a7405f28d1303fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.UI.LevelButton
+  levelId: Level4
+  background: {fileID: 0}
+  lockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  unlockedColor: {r: 1, g: 1, b: 1, a: 1}
+  completedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  lockIcon: {fileID: 0}
+  completedIcon: {fileID: 0}
 --- !u!1 &578390329
 GameObject:
   m_ObjectHideFlags: 0
@@ -2362,6 +2402,7 @@ GameObject:
   - component: {fileID: 853113819}
   - component: {fileID: 853113818}
   - component: {fileID: 853113817}
+  - component: {fileID: 853113820}
   m_Layer: 5
   m_Name: Level3
   m_TagString: Untagged
@@ -2471,6 +2512,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853113815}
   m_CullTransparentMesh: 1
+--- !u!114 &853113820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853113815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d9ce36bdc2dbe48a7405f28d1303fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.UI.LevelButton
+  levelId: Level3
+  background: {fileID: 0}
+  lockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  unlockedColor: {r: 1, g: 1, b: 1, a: 1}
+  completedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  lockIcon: {fileID: 0}
+  completedIcon: {fileID: 0}
 --- !u!1 &857187502
 GameObject:
   m_ObjectHideFlags: 0
@@ -2581,6 +2641,7 @@ GameObject:
   - component: {fileID: 888576995}
   - component: {fileID: 888576994}
   - component: {fileID: 888576993}
+  - component: {fileID: 888576996}
   m_Layer: 5
   m_Name: Level1
   m_TagString: Untagged
@@ -2690,6 +2751,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 888576991}
   m_CullTransparentMesh: 1
+--- !u!114 &888576996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888576991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d9ce36bdc2dbe48a7405f28d1303fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.UI.LevelButton
+  levelId: Level1
+  background: {fileID: 0}
+  lockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  unlockedColor: {r: 1, g: 1, b: 1, a: 1}
+  completedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  lockIcon: {fileID: 0}
+  completedIcon: {fileID: 0}
 --- !u!1 &918982901
 GameObject:
   m_ObjectHideFlags: 0
@@ -4590,6 +4670,7 @@ GameObject:
   - component: {fileID: 1637456225}
   - component: {fileID: 1637456224}
   - component: {fileID: 1637456223}
+  - component: {fileID: 1637456226}
   m_Layer: 5
   m_Name: Level2
   m_TagString: Untagged
@@ -4699,6 +4780,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637456221}
   m_CullTransparentMesh: 1
+--- !u!114 &1637456226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637456221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d9ce36bdc2dbe48a7405f28d1303fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.UI.LevelButton
+  levelId: Level2
+  background: {fileID: 0}
+  lockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  unlockedColor: {r: 1, g: 1, b: 1, a: 1}
+  completedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  lockIcon: {fileID: 0}
+  completedIcon: {fileID: 0}
 --- !u!1 &1694723545
 GameObject:
   m_ObjectHideFlags: 0
