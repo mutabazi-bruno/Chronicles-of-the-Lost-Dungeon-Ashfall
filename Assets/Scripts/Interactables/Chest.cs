@@ -1,4 +1,5 @@
 using UnityEngine;
+using Ashfall.Core;
 using Ashfall.Interfaces;
 using Ashfall.Player;
 
@@ -6,7 +7,16 @@ namespace Ashfall.Interactables
 {
     public class Chest : MonoBehaviour, IInteractable
     {
-        public int healthReward = 20;
+        [Header("Loot")]
+        [Tooltip("Name shown in the inventory")]
+        public string potionName = "Health Potion";
+
+        [Tooltip("How much this potion heals when drunk")]
+        public int potionHealAmount = 25;
+
+        [Tooltip("How many potions this chest contains")]
+        public int potionCount = 1;
+
         public AudioClip openSound;
 
         bool isOpened;
@@ -15,7 +25,7 @@ namespace Ashfall.Interactables
 
         void Awake()
         {
-            animator = GetComponent<Animator>(); 
+            animator = GetComponent<Animator>();
             col = GetComponent<Collider2D>();
         }
 
@@ -23,7 +33,7 @@ namespace Ashfall.Interactables
         {
             if (isOpened) return;
             isOpened = true;
-            
+
             GiveReward();
 
             if (animator != null)
@@ -31,23 +41,31 @@ namespace Ashfall.Interactables
 
             Ashfall.Systems.AudioManager.Instance?.PlaySFX(openSound);
 
-            // stop it from being interactable again, but keep it visible (opened) instead of
-            // disappearing like before
+            // stop it being interactable again, but keep it visible in its opened state
             if (col != null)
                 col.enabled = false;
         }
 
+        // Chests used to heal instantly, which meant the inventory never held anything but
+        // keys. Handing over a potion instead gives the player a decision about *when* to
+        // heal, and gives the inventory something to actually manage.
         void GiveReward()
         {
-            // find the player thats interacting - simplest way for now is just grabbing by tag
             var playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj == null) return;
 
-            var health = playerObj.GetComponent<PlayerHealth>();
-            if (health == null) return;
+            var inventory = playerObj.GetComponent<PlayerInventory>();
+            if (inventory == null)
+            {
+                Debug.LogWarning("[Chest] player has no PlayerInventory component");
+                return;
+            }
 
-            health.Heal(healthReward);
-            Debug.Log($"chest gave {healthReward} health");
+            for (int i = 0; i < potionCount; i++)
+            {
+                // value doubles as the heal amount, which is what SortByValue orders on
+                inventory.AddItem(new Item(potionName, ItemType.Potion, potionHealAmount));
+            }
         }
     }
 }

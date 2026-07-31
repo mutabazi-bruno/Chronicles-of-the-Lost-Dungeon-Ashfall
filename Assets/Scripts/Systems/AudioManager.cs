@@ -66,14 +66,36 @@ namespace Ashfall.Systems
             Enemy.OnAnyEnemyDeath -= PlayEnemyDeathSound;
 
             SceneManager.sceneLoaded -= OnSceneLoaded;
+
+            if (GameManager.Instance != null)
+                GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+
+            if (LevelManager.Instance != null)
+                LevelManager.Instance.OnLevelCompleted -= HandleLevelCompleted;
         }
 
         void Start()
         {
-            GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
-            LevelManager.Instance.OnLevelCompleted += HandleLevelCompleted;
+            if (GameManager.Instance != null)
+                GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+
+            if (LevelManager.Instance != null)
+                LevelManager.Instance.OnLevelCompleted += HandleLevelCompleted;
+
+            // The saved volume used to be applied only when the settings panel opened, so the
+            // game always started at full volume and appeared to "mute itself" the moment the
+            // player entered Settings. Load it here instead, once, at startup.
+            ApplySavedVolume();
 
             PlayMusicForScene(SceneManager.GetActiveScene().name);
+        }
+
+        void ApplySavedVolume()
+        {
+            if (SaveManager.Instance == null || SaveManager.Instance.CurrentSave == null)
+                return;
+
+            SetMusicVolume(SaveManager.Instance.CurrentSave.musicVolume);
         }
 
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -116,8 +138,8 @@ namespace Ashfall.Systems
             PlaySFX(levelCompleteSound);
         }
 
-        // was private - made public so Chest/Switch/Door/Collectible can play their own
-        // one-off SFX through the same shared AudioSource instead of each needing their own
+        // public so Chest/Switch/Door/Collectible can play their own one-off SFX through the
+        // same shared AudioSource instead of each needing their own
         public void PlaySFX(AudioClip clip)
         {
             if (clip == null) return;
@@ -126,7 +148,9 @@ namespace Ashfall.Systems
 
         public void SetMusicVolume(float value)
         {
-            musicSource.volume = value;
+            musicSource.volume = Mathf.Clamp01(value);
         }
+
+        public float GetMusicVolume() => musicSource != null ? musicSource.volume : 1f;
     }
 }

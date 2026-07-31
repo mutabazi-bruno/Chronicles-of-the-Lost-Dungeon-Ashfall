@@ -1061,8 +1061,8 @@ Camera:
   m_GameObject: {fileID: 295106983}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.11764707, g: 0.11764707, b: 0.13333334, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -3257,12 +3257,12 @@ MonoBehaviour:
   detectionRange: 3
   attackRange: 0.8
   attackDamage: 10
+  enemyType: 0
   player: {fileID: 1822467930}
   firePoint: {fileID: 0}
   projectilePrefab: {fileID: 0}
   destroyDelayAfterDeath: 1.5
   dropOnDeath: {fileID: 0}
-  testType: 0
 --- !u!4 &838432438 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8087843581061058078, guid: 09c5356b31b9b3e4a99cc4ef8a9afebb, type: 3}
@@ -4950,12 +4950,12 @@ MonoBehaviour:
   detectionRange: 3
   attackRange: 0.8
   attackDamage: 10
+  enemyType: 0
   player: {fileID: 1822467930}
   firePoint: {fileID: 0}
   projectilePrefab: {fileID: 0}
   destroyDelayAfterDeath: 1.5
   dropOnDeath: {fileID: 8842975629632224186, guid: 3fac1dd2a747aa84fb630cb7fa94eb21, type: 3}
-  testType: 0
 --- !u!1 &1615385680
 GameObject:
   m_ObjectHideFlags: 0
@@ -5857,8 +5857,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761fc3a84c918064992a9a36c114edc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Levels.LevelExit
-  levelId: Level1
+  useSceneNameAsLevelId: 1
+  levelIdOverride: 
   sceneToLoadAfter: 
+  lockedVisual: {fileID: 0}
+  unlockedVisual: {fileID: 0}
 --- !u!61 &1764731362
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6033,12 +6036,12 @@ MonoBehaviour:
   detectionRange: 3
   attackRange: 0.8
   attackDamage: 10
+  enemyType: 0
   player: {fileID: 1822467930}
   firePoint: {fileID: 0}
   projectilePrefab: {fileID: 0}
   destroyDelayAfterDeath: 1.5
   dropOnDeath: {fileID: 0}
-  testType: 0
 --- !u!1001 &1795774622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6152,12 +6155,12 @@ MonoBehaviour:
   detectionRange: 3
   attackRange: 0.8
   attackDamage: 10
+  enemyType: 0
   player: {fileID: 1822467930}
   firePoint: {fileID: 0}
   projectilePrefab: {fileID: 0}
   destroyDelayAfterDeath: 1.5
   dropOnDeath: {fileID: 0}
-  testType: 0
 --- !u!1 &1808998391
 GameObject:
   m_ObjectHideFlags: 0
@@ -6320,6 +6323,7 @@ MonoBehaviour:
     currentStamina: 0
     coins: 0
   staminaRegenPerSecond: 15
+  restoreHealthFromSave: 0
 --- !u!114 &1822467925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6422,6 +6426,54 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09c5356b31b9b3e4a99cc4ef8a9afebb, type: 3}
+--- !u!1 &1848860093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1848860095}
+  - component: {fileID: 1848860094}
+  m_Layer: 0
+  m_Name: Objectives
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1848860094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848860093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8cd9078e7ecf51469f5c1c10a504b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Systems.ObjectiveManager
+  requireEnemiesDefeated: 1
+  enemiesRequired: 1
+  requireCoins: 1
+  coinsRequired: 10
+--- !u!4 &1848860095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848860093}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.20649, y: -0.1787, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1850680900 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8087843581061058078, guid: 09c5356b31b9b3e4a99cc4ef8a9afebb, type: 3}
@@ -7664,3 +7716,4 @@ SceneRoots:
   - {fileID: 3508980881067067389}
   - {fileID: 4950583459315674749}
   - {fileID: 1408546248}
+  - {fileID: 1848860095}

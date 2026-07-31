@@ -12,7 +12,8 @@ namespace Ashfall.UI
         Attack,
         Dash,
         HeavyStrike,
-        Interact
+        Interact,
+        UsePotion
     }
 
     // Drop this on any UI Image/Button in the mobile control panel and pick an action.
@@ -35,6 +36,7 @@ namespace Ashfall.UI
                 case TouchAction.Dash: GameInput.QueueDash(); break;
                 case TouchAction.HeavyStrike: GameInput.QueueHeavyStrike(); break;
                 case TouchAction.Interact: GameInput.QueueInteract(); break;
+                case TouchAction.UsePotion: GameInput.QueuePotion(); break;
             }
         }
 

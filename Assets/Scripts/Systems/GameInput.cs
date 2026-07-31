@@ -17,6 +17,7 @@ namespace Ashfall.Systems
         static bool touchDashQueued;
         static bool touchHeavyQueued;
         static bool touchInteractQueued;
+        static bool touchPotionQueued;
 
         // -1, 0 or 1. Keyboard and touch are merged so the editor stays playable with a
         // keyboard even while the on-screen controls are visible.
@@ -40,6 +41,7 @@ namespace Ashfall.Systems
         public static bool DashPressed => touchDashQueued || KeyboardDash();
         public static bool HeavyStrikePressed => touchHeavyQueued || KeyboardHeavy();
         public static bool InteractPressed => touchInteractQueued || KeyboardInteract();
+        public static bool UsePotionPressed => touchPotionQueued || KeyboardPotion();
 
         static bool KeyboardJump()
         {
@@ -86,6 +88,15 @@ namespace Ashfall.Systems
 #endif
         }
 
+        static bool KeyboardPotion()
+        {
+#if !UNITY_ANDROID && !UNITY_IOS || UNITY_EDITOR
+            return Input.GetKeyDown(KeyCode.Q);
+#else
+            return false;
+#endif
+        }
+
         // --- called by the on-screen TouchButton components ---
 
         public static void SetHorizontal(float value) => touchHorizontal = value;
@@ -95,6 +106,7 @@ namespace Ashfall.Systems
         public static void QueueDash() => touchDashQueued = true;
         public static void QueueHeavyStrike() => touchHeavyQueued = true;
         public static void QueueInteract() => touchInteractQueued = true;
+        public static void QueuePotion() => touchPotionQueued = true;
 
         // One-shot actions must survive exactly one frame so every Update() that checks them
         // sees the same value. InputRouter clears them in LateUpdate, after all Updates ran.
@@ -105,6 +117,7 @@ namespace Ashfall.Systems
             touchDashQueued = false;
             touchHeavyQueued = false;
             touchInteractQueued = false;
+            touchPotionQueued = false;
         }
 
         // scene changes shouldn't leave the player walking into a wall forever because a

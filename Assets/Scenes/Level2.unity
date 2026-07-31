@@ -1068,8 +1068,8 @@ Camera:
   m_GameObject: {fileID: 295106983}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.12941177, g: 0.24705884, b: 0.26666668, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -6144,6 +6144,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1563917207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1563917209}
+  - component: {fileID: 1563917208}
+  m_Layer: 0
+  m_Name: Objectives
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1563917208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563917207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8cd9078e7ecf51469f5c1c10a504b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Systems.ObjectiveManager
+  requireEnemiesDefeated: 1
+  enemiesRequired: 2
+  requireCoins: 1
+  coinsRequired: 20
+--- !u!4 &1563917209
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563917207}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.20649, y: -0.1787, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1578104775
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7015,8 +7063,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761fc3a84c918064992a9a36c114edc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Levels.LevelExit
-  levelId: Level2
+  useSceneNameAsLevelId: 1
+  levelIdOverride: 
   sceneToLoadAfter: 
+  lockedVisual: {fileID: 0}
+  unlockedVisual: {fileID: 0}
 --- !u!61 &1764731362
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7226,6 +7277,7 @@ MonoBehaviour:
     currentStamina: 0
     coins: 0
   staminaRegenPerSecond: 15
+  restoreHealthFromSave: 0
 --- !u!114 &1822467925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8263,3 +8315,4 @@ SceneRoots:
   - {fileID: 1973128750}
   - {fileID: 73243696}
   - {fileID: 712511419}
+  - {fileID: 1563917209}

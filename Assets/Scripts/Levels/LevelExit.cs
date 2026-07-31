@@ -19,7 +19,13 @@ namespace Ashfall.Levels
                  "where to go next, so loading a scene here would skip straight past it.")]
         public string sceneToLoadAfter;
 
+        [Header("Locked appearance")]
+        [Tooltip("Optional visual shown while objectives are still outstanding")]
+        public GameObject lockedVisual;
+        public GameObject unlockedVisual;
+
         bool triggered;
+        bool playerInside;
 
         public string LevelId => useSceneNameAsLevelId
             ? SceneManager.GetActiveScene().name
@@ -30,10 +36,66 @@ namespace Ashfall.Levels
             GetComponent<Collider2D>().isTrigger = true;
         }
 
+        void Start()
+        {
+            if (ObjectiveManager.Instance != null)
+                ObjectiveManager.Instance.OnObjectivesChanged += HandleObjectivesChanged;
+
+            RefreshVisuals();
+        }
+
+        void OnDestroy()
+        {
+            if (ObjectiveManager.Instance != null)
+                ObjectiveManager.Instance.OnObjectivesChanged -= HandleObjectivesChanged;
+        }
+
+        void HandleObjectivesChanged()
+        {
+            RefreshVisuals();
+
+            // finishing the last objective while already standing in the doorway should
+            // complete the level, not require stepping out and back in
+            if (playerInside) TryComplete();
+        }
+
+        void RefreshVisuals()
+        {
+            bool open = ObjectivesSatisfied();
+
+            if (lockedVisual != null) lockedVisual.SetActive(!open);
+            if (unlockedVisual != null) unlockedVisual.SetActive(open);
+        }
+
+        bool ObjectivesSatisfied()
+        {
+            // no manager in the scene means the level has no objectives - stay permissive
+            return ObjectiveManager.Instance == null || ObjectiveManager.Instance.AllComplete;
+        }
+
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (triggered) return;
             if (!other.CompareTag("Player")) return;
+
+            playerInside = true;
+            TryComplete();
+        }
+
+        void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.CompareTag("Player"))
+                playerInside = false;
+        }
+
+        void TryComplete()
+        {
+            if (triggered) return;
+
+            if (!ObjectivesSatisfied())
+            {
+                Debug.Log("[LevelExit] objectives not finished yet");
+                return;
+            }
 
             string levelId = LevelId;
 

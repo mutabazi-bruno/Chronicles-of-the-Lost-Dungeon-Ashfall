@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ashfall.Core;
 using Ashfall.Interfaces;
+using Ashfall.Systems;
 
 namespace Ashfall.Player
 {
@@ -12,6 +13,20 @@ namespace Ashfall.Player
 
         public event Action<Item> OnItemAdded;   // observer, ui can react
         public event Action<Item> OnItemRemoved;
+        public event Action<Item> OnItemUsed;
+
+        PlayerHealth health;
+
+        void Awake()
+        {
+            health = GetComponent<PlayerHealth>();
+        }
+
+        void Update()
+        {
+            if (GameInput.UsePotionPressed)
+                ConsumeBestPotion();
+        }
 
         public void AddItem(Item item)
         {
@@ -30,6 +45,39 @@ namespace Ashfall.Player
                     return item;
             }
             return null;
+        }
+
+        // Greedy selection: sort by value descending, then take the first potion. Drinking
+        // the strongest potion first is the choice that wastes the least healing when the
+        // player is badly hurt, which is when they actually reach for one.
+        public bool ConsumeBestPotion()
+        {
+            if (health == null || health.IsDead) return false;
+
+            inventory.SortByValue();
+
+            Item potion = null;
+            foreach (var item in inventory.items)
+            {
+                if (item.type == ItemType.Potion)
+                {
+                    potion = item;
+                    break;
+                }
+            }
+
+            if (potion == null) return false;
+
+            // don't burn a potion at full health
+            if (health.stats.currentHealth >= health.stats.maxHealth) return false;
+
+            health.Heal(potion.value);
+
+            inventory.RemoveItem(potion);
+            OnItemUsed?.Invoke(potion);
+            OnItemRemoved?.Invoke(potion);
+
+            return true;
         }
 
         public bool HasKey(string keyName = "Key")
