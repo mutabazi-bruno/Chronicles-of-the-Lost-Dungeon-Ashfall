@@ -300,9 +300,9 @@ MonoBehaviour:
   detectionRange: 3
   attackRange: 0.8
   attackDamage: 10
-  player: {fileID: 0}
+  enemyType: 0
+  player: {fileID: 1431329999536445387, guid: 9d751029d32d30e439c9f77afe88dc16, type: 3}
   firePoint: {fileID: 0}
   projectilePrefab: {fileID: 0}
   destroyDelayAfterDeath: 1.5
   dropOnDeath: {fileID: 0}
-  testType: 0

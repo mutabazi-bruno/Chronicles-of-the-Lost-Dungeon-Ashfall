@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1177064927002505843}
   - component: {fileID: 2326124574517246470}
   - component: {fileID: 2456992597915956842}
+  - component: {fileID: 6502356698401984298}
+  - component: {fileID: 4963353859042560076}
   m_Layer: 0
   m_Name: Systems
   m_TagString: Untagged
@@ -60,6 +62,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907dad20b5222ef498e5f1937d5b8293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Systems.GameManager
+  gameplayScenes:
+  - Level1
+  - Level2
+  - Level3
+  - Level4
+  - Level5
 --- !u!114 &1177064927002505843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,3 +129,32 @@ MonoBehaviour:
   enemyDeathSound: {fileID: 8300000, guid: cfd773c4b741d3c4199750ee339ce9fa, type: 3}
   gameOverSound: {fileID: 8300000, guid: e2d66dc4330451d47aa27c2f8c6064c4, type: 3}
   levelCompleteSound: {fileID: 8300000, guid: a9a1aa71fb2afda4ab1108b0bad2b9ad, type: 3}
+--- !u!114 &6502356698401984298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878022754474953975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b491f60b3fb43864182f4a02f24160f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Systems.LeaderboardService
+  databaseUrl: https://game-f139d-default-rtdb.firebaseio.com/
+  scoresNode: scores
+  playerName: Player
+  autoSubmitOnLevelComplete: 1
+  requestTimeout: 8
+--- !u!114 &4963353859042560076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878022754474953975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13cfac14e9bfc347a2762363ce4601a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Systems.InputRouter

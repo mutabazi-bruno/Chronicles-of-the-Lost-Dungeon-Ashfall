@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Ashfall.Interfaces;
 using Ashfall.Player.Abilities;
+using Ashfall.Systems;
 
 namespace Ashfall.Player
 {
@@ -9,10 +10,14 @@ namespace Ashfall.Player
     {
         PlayerHealth health;
 
+        // strategy pattern - both abilities are just IAbility, the player never knows
+        // which concrete class it is holding
         IAbility dash = new DashAbility();
         IAbility heavyStrike = new HeavyStrikeAbility();
 
-        public event Action<string> OnAbilityUsed; // observer, for ui/audio hooks later
+        // observer - HUD ability icons / audio listen to this
+        public event Action<string> OnAbilityUsed;
+        public event Action<string> OnAbilityFailed; // not enough stamina
 
         void Awake()
         {
@@ -21,23 +26,28 @@ namespace Ashfall.Player
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (GameInput.DashPressed)
                 TryUseAbility(dash, "Dash");
 
-            if (Input.GetButtonDown("Fire2"))
+            if (GameInput.HeavyStrikePressed)
                 TryUseAbility(heavyStrike, "Heavy Strike");
         }
 
-        void TryUseAbility(IAbility ability, string name)
+        void TryUseAbility(IAbility ability, string abilityName)
         {
             if (!health.stats.SpendStamina(ability.StaminaCost))
             {
-                Debug.Log($"not enough stamina for {name}");
+                OnAbilityFailed?.Invoke(abilityName);
                 return;
             }
 
             ability.Activate(gameObject);
-            OnAbilityUsed?.Invoke(name);
+            OnAbilityUsed?.Invoke(abilityName);
         }
+
+        // exposed so a HUD cooldown/stamina indicator can grey icons out without
+        // reaching into the ability classes themselves
+        public float DashCost => dash.StaminaCost;
+        public float HeavyStrikeCost => heavyStrike.StaminaCost;
     }
 }

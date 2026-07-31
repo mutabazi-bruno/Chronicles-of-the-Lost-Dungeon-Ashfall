@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,29 +14,29 @@ namespace Ashfall.Systems
         public int score;
     }
 
-    // dreamlo wraps everything in this shape:
-    // { "dreamlo": { "leaderboard": { "entry": [ {name, score, seconds, text, date} ] } } }
-    // when there's only one entry, dreamlo sometimes sends "entry" as a single object
-    // instead of an array - HandleRawJson below works around that.
-    [Serializable]
-    class DreamloRoot { public DreamloWrapper dreamlo; }
-    [Serializable]
-    class DreamloWrapper { public DreamloBoard leaderboard; }
-    [Serializable]
-    class DreamloBoard { public string entry; } // kept as raw text, re-parsed manually
-
     // REST API integration - online leaderboard.
-    // Uses dreamlo.com (free, no server of our own required, plain HTTP GET calls).
+    //
+    // Backed by Firebase Realtime Database's REST interface. Chosen over dreamlo because
+    // dreamlo's free tier is HTTP-only: Unity blocks insecure requests by default, and a
+    // browser will refuse them outright on an HTTPS-hosted WebGL build. Firebase serves
+    // plain JSON over HTTPS on the free tier, so the exact same code path works on
+    // Windows, Android and WebGL.
+    //
+    // Note that swapping the backend touched only this file - LeaderboardUI listens to the
+    // events below and never knew which service was on the other end.
+    //
     // singleton, same shape as our other managers (GameManager/SaveManager/AudioManager).
     public class LeaderboardService : MonoBehaviour
     {
         public static LeaderboardService Instance { get; private set; }
 
-        [Header("Dreamlo codes - get these free at dreamlo.com")]
-        [Tooltip("Private code - keep secret, only used to submit scores")]
-        public string privateCode = "YOUR_PRIVATE_CODE";
-        [Tooltip("Public code - safe to share, used to read scores")]
-        public string publicCode = "YOUR_PUBLIC_CODE";
+        [Header("Firebase Realtime Database")]
+        [Tooltip("Your database URL, e.g. https://yourproject-default-rtdb.firebaseio.com/ " +
+                 "(keep the trailing slash)")]
+        public string databaseUrl = "https://YOUR-PROJECT-default-rtdb.firebaseio.com/";
+
+        [Tooltip("Node the scores live under")]
+        public string scoresNode = "scores";
 
         [Header("Player identity")]
         public string playerName = "Player";
@@ -43,16 +44,37 @@ namespace Ashfall.Systems
         [Tooltip("Automatically submit coin total to the leaderboard whenever a level is completed")]
         public bool autoSubmitOnLevelComplete = true;
 
+        [Tooltip("Seconds before a request is considered dead")]
+        public int requestTimeout = 8;
+
         // observer pattern - UI (a leaderboard screen) reacts to these instead of polling
         public event Action<List<LeaderboardEntry>> OnLeaderboardLoaded;
         public event Action<bool> OnScoreSubmitted; // true = success, false = failed/offline
 
-        // NOTE: dreamlo's free tier is HTTP only (HTTPS needs a small paid upgrade on their
-        // end). That's fine for PC/Editor/Android, but a WebGL build hosted on an HTTPS page
-        // (e.g. Unity Play) may block the request as mixed content. If that happens for your
-        // WebGL build, either upgrade the dreamlo board or swap baseUrl below for any other
-        // HTTPS JSON host - nothing else in this file needs to change.
-        const string baseUrl = "http://dreamlo.com/lb/";
+       
+[ContextMenu("Submit Test Score")]
+void SubmitTestScoreFromInspector()
+{
+    if (!Application.isPlaying)
+    {
+        Debug.LogWarning("[LeaderboardService] enter Play Mode first");
+        return;
+    }
+
+    SubmitScore("TestPlayer", 100);
+}
+
+[ContextMenu("Fetch Leaderboard")]
+void FetchFromInspector()
+{
+    if (!Application.isPlaying)
+    {
+        Debug.LogWarning("[LeaderboardService] enter Play Mode first");
+        return;
+    }
+
+    FetchLeaderboard();
+}
 
         void Awake()
         {
@@ -100,23 +122,83 @@ namespace Ashfall.Systems
             StartCoroutine(FetchLeaderboardRoutine());
         }
 
+        // Firebase keys can't contain . $ # [ ] / so the player name is sanitised before
+        // being used as one. Writing under the player's name (rather than pushing a new
+        // node each time) keeps one row per player instead of a wall of duplicates.
+        string SanitiseKey(string raw)
+        {
+            if (string.IsNullOrWhiteSpace(raw)) return "Player";
+
+            var sb = new StringBuilder();
+            foreach (char c in raw)
+            {
+                if (char.IsLetterOrDigit(c) || c == '_' || c == '-')
+                    sb.Append(c);
+            }
+
+            string result = sb.ToString();
+            return string.IsNullOrEmpty(result) ? "Player" : result;
+        }
+
+        string BuildUrl(string suffix)
+        {
+            string root = databaseUrl.EndsWith("/") ? databaseUrl : databaseUrl + "/";
+            return $"{root}{scoresNode}{suffix}";
+        }
+
+        // SendWebRequest() can throw before it ever yields - a blocked insecure connection,
+        // a malformed URL, no network stack at all. You can't wrap a yield in try/catch, so
+        // the dispatch is isolated here and the failure is reported as a normal failed
+        // request instead of an unhandled exception that kills the coroutine.
+        bool TrySend(UnityWebRequest request, out UnityWebRequestAsyncOperation operation)
+        {
+            operation = null;
+            try
+            {
+                operation = request.SendWebRequest();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"[LeaderboardService] request could not be sent: {e.Message}");
+                return false;
+            }
+        }
+
         IEnumerator SubmitScoreRoutine(string name, int score)
         {
-            string safeName = UnityWebRequest.EscapeURL(name);
-            string url = $"{baseUrl}{privateCode}/add/{safeName}/{score}";
+            string key = SanitiseKey(name);
+            string url = BuildUrl($"/{key}.json");
 
-            using (UnityWebRequest request = UnityWebRequest.Get(url))
+            var entry = new LeaderboardEntry { name = name, score = score };
+            string body = JsonUtility.ToJson(entry);
+
+            using (UnityWebRequest request = new UnityWebRequest(url, "PUT"))
             {
-                request.timeout = 8; // don't let a dead connection hang the game
-                yield return request.SendWebRequest();
+                request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+                request.timeout = requestTimeout;
+
+                if (!TrySend(request, out var operation))
+                {
+                    OnScoreSubmitted?.Invoke(false);
+                    yield break;
+                }
+
+                yield return operation;
 
                 bool success = request.result == UnityWebRequest.Result.Success;
 
                 if (!success)
                 {
-                    // graceful failure - API being down should never crash or block gameplay,
-                    // the level completion / save flow already happened locally either way.
+                    // graceful failure - the API being down should never crash or block
+                    // gameplay; level completion and the local save already happened.
                     Debug.LogWarning($"[LeaderboardService] score submit failed: {request.error}");
+                }
+                else
+                {
+                    Debug.Log($"[LeaderboardService] submitted {name} = {score}");
                 }
 
                 OnScoreSubmitted?.Invoke(success);
@@ -125,61 +207,73 @@ namespace Ashfall.Systems
 
         IEnumerator FetchLeaderboardRoutine()
         {
-            string url = $"{baseUrl}{publicCode}/json";
+            string url = BuildUrl(".json");
 
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
-                request.timeout = 8;
-                yield return request.SendWebRequest();
+                request.timeout = requestTimeout;
 
-                if (request.result != UnityWebRequest.Result.Success)
+                if (!TrySend(request, out var operation))
                 {
-                    Debug.LogWarning($"[LeaderboardService] fetch failed: {request.error}");
                     // fire with an empty list rather than not firing at all, so the UI
                     // can show "leaderboard unavailable" instead of hanging forever
                     OnLeaderboardLoaded?.Invoke(new List<LeaderboardEntry>());
                     yield break;
                 }
 
-                List<LeaderboardEntry> entries = ParseDreamloJson(request.downloadHandler.text);
+                yield return operation;
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogWarning($"[LeaderboardService] fetch failed: {request.error}");
+                    OnLeaderboardLoaded?.Invoke(new List<LeaderboardEntry>());
+                    yield break;
+                }
+
+                List<LeaderboardEntry> entries = ParseFirebaseJson(request.downloadHandler.text);
                 OnLeaderboardLoaded?.Invoke(entries);
             }
         }
 
-        // small hand-rolled parse: dreamlo's json isn't a clean fit for JsonUtility because
-        // "entry" is an array when there are 2+ scores but a single object when there's 1,
-        // and an empty string when there are none.
-        List<LeaderboardEntry> ParseDreamloJson(string json)
+        // Firebase returns an object keyed by player name:
+        //   {"Ada":{"name":"Ada","score":90},"Bob":{"name":"Bob","score":40}}
+        // JsonUtility can't deserialise a dictionary with arbitrary keys, so we walk the
+        // string and pull out each balanced {...} block, then let JsonUtility handle the
+        // flat objects it IS good at. Empty node returns the literal "null".
+        List<LeaderboardEntry> ParseFirebaseJson(string json)
         {
             var results = new List<LeaderboardEntry>();
 
+            if (string.IsNullOrWhiteSpace(json) || json.Trim() == "null")
+                return results;
+
             try
             {
-                int entryIndex = json.IndexOf("\"entry\"");
-                if (entryIndex < 0) return results; // no scores yet, empty board
+                int depth = 0;
+                int start = -1;
 
-                bool isArray = json.IndexOf('[', entryIndex) is int bracketPos
-                    && bracketPos >= 0
-                    && bracketPos < json.IndexOf('{', entryIndex);
-
-                string wrapped = isArray
-                    ? "{\"list\":" + json.Substring(json.IndexOf('[', entryIndex)) : null;
-
-                if (isArray)
+                for (int i = 0; i < json.Length; i++)
                 {
-                    // trim to just the array + close it off cleanly
-                    int end = wrapped.LastIndexOf(']');
-                    wrapped = wrapped.Substring(0, end + 1) + "}";
-                    var listWrapper = JsonUtility.FromJson<EntryListWrapper>(wrapped);
-                    if (listWrapper?.list != null) results.AddRange(listWrapper.list);
-                }
-                else
-                {
-                    int start = json.IndexOf('{', entryIndex);
-                    int end = json.IndexOf('}', start);
-                    string single = json.Substring(start, end - start + 1);
-                    var entry = JsonUtility.FromJson<LeaderboardEntry>(single);
-                    if (entry != null) results.Add(entry);
+                    char c = json[i];
+
+                    if (c == '{')
+                    {
+                        depth++;
+                        // depth 1 is the outer wrapper, depth 2 is an actual entry
+                        if (depth == 2) start = i;
+                    }
+                    else if (c == '}')
+                    {
+                        if (depth == 2 && start >= 0)
+                        {
+                            string block = json.Substring(start, i - start + 1);
+                            var entry = JsonUtility.FromJson<LeaderboardEntry>(block);
+                            if (entry != null && !string.IsNullOrEmpty(entry.name))
+                                results.Add(entry);
+                            start = -1;
+                        }
+                        depth--;
+                    }
                 }
             }
             catch (Exception e)
@@ -187,11 +281,10 @@ namespace Ashfall.Systems
                 Debug.LogWarning($"[LeaderboardService] couldn't parse leaderboard response: {e.Message}");
             }
 
+            // sorting algorithm - highest score first, same comparison-delegate approach
+            // used by InventoryLogic.SortByValue
             results.Sort((a, b) => b.score.CompareTo(a.score));
             return results;
         }
-
-        [Serializable]
-        class EntryListWrapper { public List<LeaderboardEntry> list; }
     }
 }

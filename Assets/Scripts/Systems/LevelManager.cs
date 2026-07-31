@@ -43,17 +43,27 @@ namespace Ashfall.Systems
         public void CompleteLevel(string levelId)
         {
             var save = SaveManager.Instance.CurrentSave;
+
             save.CompleteLevel(levelId);
-            OnLevelCompleted?.Invoke(levelId);
 
             string next = GetNextLevel(levelId);
+            bool unlockedSomething = false;
+
             if (next != null && !save.IsLevelUnlocked(next))
             {
                 save.UnlockLevel(next);
-                OnLevelUnlocked?.Invoke(next);
+                unlockedSomething = true;
             }
 
-            SaveManager.Instance.Save();
+            // Commit everything BEFORE announcing completion. Subscribers react to this event
+            // by reading the save (the leaderboard posts the coin total, for one), so writing
+            // afterwards meant they all saw the previous level's numbers.
+            SaveManager.Instance.SaveAll();
+
+            if (unlockedSomething)
+                OnLevelUnlocked?.Invoke(next);
+
+            OnLevelCompleted?.Invoke(levelId);
         }
 
         public string GetNextLevel(string currentLevelId)

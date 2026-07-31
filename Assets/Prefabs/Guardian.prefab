@@ -186,12 +186,12 @@ MonoBehaviour:
   detectionRange: 5
   attackRange: 1
   attackDamage: 25
+  enemyType: 2
   player: {fileID: 1431329999536445387, guid: 9d751029d32d30e439c9f77afe88dc16, type: 3}
   firePoint: {fileID: 0}
   projectilePrefab: {fileID: 0}
   destroyDelayAfterDeath: 1.5
   dropOnDeath: {fileID: 0}
-  testType: 2
 --- !u!95 &6158092908250187433
 Animator:
   serializedVersion: 7

@@ -5728,7 +5728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761fc3a84c918064992a9a36c114edc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Levels.LevelExit
-  levelId: Level1
+  levelId: Level5
   sceneToLoadAfter: 
 --- !u!61 &1764731362
 BoxCollider2D:

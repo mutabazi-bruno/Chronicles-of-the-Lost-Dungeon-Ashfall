@@ -10,14 +10,14 @@ namespace Ashfall.UI
 
         void Start()
         {
-           
             if (GameManager.Instance != null)
                 GameManager.Instance.OnGameStateChanged += HandleStateChanged;
 
             panel.SetActive(false);
         }
 
-        void OnDisable()
+        // OnDisable -> OnDestroy, same reason as PauseController
+        void OnDestroy()
         {
             if (GameManager.Instance != null)
                 GameManager.Instance.OnGameStateChanged -= HandleStateChanged;

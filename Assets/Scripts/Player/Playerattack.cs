@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Ashfall.Interfaces;
+using Ashfall.Systems;
 
 namespace Ashfall.Player
 {
@@ -27,7 +28,8 @@ namespace Ashfall.Player
 
         void Update()
         {
-            if (Input.GetButtonDown("Fire1") && Time.time >= lastAttackTime + attackCooldown)
+            // was Input.GetButtonDown("Fire1") - GameInput covers the on-screen button too
+            if (GameInput.AttackPressed && Time.time >= lastAttackTime + attackCooldown)
             {
                 Attack();
             }

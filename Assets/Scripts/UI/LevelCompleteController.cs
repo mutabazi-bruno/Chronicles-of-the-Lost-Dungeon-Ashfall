@@ -6,23 +6,30 @@ namespace Ashfall.UI
 {
     public class LevelCompleteController : MonoBehaviour
     {
-        [Tooltip("must match this scene's level id, e.g. Level1")]
-        public string levelId;
+        [Tooltip("When on, the level id is taken from the scene name at runtime. Keeps the " +
+                 "shared HUD prefab correct in every scene without a per-scene override.")]
+        public bool useSceneNameAsLevelId = true;
+
+        [Tooltip("Only used when useSceneNameAsLevelId is off")]
+        public string levelIdOverride;
 
         public GameObject panel;
 
         string nextLevel;
 
+        public string LevelId => useSceneNameAsLevelId
+            ? SceneManager.GetActiveScene().name
+            : levelIdOverride;
+
         void Start()
         {
-        
             if (LevelManager.Instance != null)
                 LevelManager.Instance.OnLevelCompleted += HandleLevelCompleted;
 
             panel.SetActive(false);
         }
 
-        void OnDisable()
+        void OnDestroy()
         {
             if (LevelManager.Instance != null)
                 LevelManager.Instance.OnLevelCompleted -= HandleLevelCompleted;
@@ -30,16 +37,20 @@ namespace Ashfall.UI
 
         void HandleLevelCompleted(string completedLevelId)
         {
-            if (completedLevelId != levelId) return; // not this level, ignore
+            if (completedLevelId != LevelId) return; // not this level, ignore
 
-            nextLevel = LevelManager.Instance.GetNextLevel(levelId);
-            Time.timeScale = 0f; // pause on the win screen too
+            nextLevel = LevelManager.Instance.GetNextLevel(completedLevelId);
             panel.SetActive(true);
+
+            // let GameManager own the timescale instead of poking Time.timeScale here.
+            // side benefit: pause is automatically blocked while this screen is up.
+            GameManager.Instance?.ChangeState(GameState.LevelComplete);
         }
 
         public void OnNextLevelClicked()
         {
-            Time.timeScale = 1f;
+            GameManager.Instance?.ChangeState(GameState.Playing);
+
             if (!string.IsNullOrEmpty(nextLevel))
                 SceneManager.LoadScene(nextLevel);
             else
@@ -48,7 +59,7 @@ namespace Ashfall.UI
 
         public void OnMainMenuClicked()
         {
-            Time.timeScale = 1f;
+            GameManager.Instance?.ChangeState(GameState.MainMenu);
             SceneManager.LoadScene("MainMenu");
         }
     }

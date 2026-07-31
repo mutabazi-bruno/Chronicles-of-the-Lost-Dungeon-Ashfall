@@ -1,5 +1,6 @@
 using UnityEngine;
 using Ashfall.Interfaces;
+using Ashfall.Systems;
 
 namespace Ashfall.Player
 {
@@ -10,15 +11,18 @@ namespace Ashfall.Player
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (GameInput.InteractPressed)
             {
                 TryInteract();
             }
         }
 
+        // Nearest-neighbour search: gather everything in range, then linear scan for the
+        // smallest distance. O(n) over a handful of colliders, and it guarantees the player
+        // activates the thing they are standing closest to rather than whichever collider
+        // the physics query happened to return first.
         void TryInteract()
         {
-            // find the closest interactable in range and use it
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactRange, interactableLayer);
 
             if (hits.Length == 0) return;
@@ -38,6 +42,12 @@ namespace Ashfall.Player
 
             var interactable = closest.GetComponent<IInteractable>();
             interactable?.Interact();
+        }
+
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, interactRange);
         }
     }
 }

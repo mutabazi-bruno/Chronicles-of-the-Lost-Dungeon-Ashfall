@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Ashfall.Core;
 using Ashfall.Interfaces;
+using Ashfall.Systems;
 
 namespace Ashfall.Player
 {
@@ -11,6 +12,10 @@ namespace Ashfall.Player
     {
         public PlayerStats stats;
         public float staminaRegenPerSecond = 15f;
+
+        [Tooltip("Off means every level starts at full health and only coins carry over. " +
+                 "On means a level can be entered on low health, which can soft-lock a run.")]
+        public bool restoreHealthFromSave = false;
 
         // observer pattern - anyone can subscribe, no direct references needed
         public event Action<int, int> OnHealthChanged; // current, max
@@ -27,26 +32,15 @@ namespace Ashfall.Player
             controller = GetComponent<PlayerController>();
         }
 
+        void Start()
+        {
+            // pull persisted values (coins especially) into this level's player
+            if (SaveManager.Instance != null && SaveManager.Instance.CurrentSave != null)
+                Load(SaveManager.Instance.CurrentSave);
+        }
+
         void Update()
         {
-            // temp test key, remove once we have real combat/enemies dealing damage
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                TakeDamage(10);
-            }
-
-            // temp test keys, real save triggers (level complete etc) come later
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                Save(Ashfall.Systems.SaveManager.Instance.CurrentSave);
-                Ashfall.Systems.SaveManager.Instance.Save();
-            }
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                Ashfall.Systems.SaveManager.Instance.Load();
-                Load(Ashfall.Systems.SaveManager.Instance.CurrentSave);
-            }
-
             stats.RegenStamina(staminaRegenPerSecond * Time.deltaTime);
         }
 
@@ -89,7 +83,7 @@ namespace Ashfall.Player
 
             OnPlayerDied?.Invoke();
 
-            Ashfall.Systems.GameManager.Instance?.ChangeState(Ashfall.Systems.GameState.GameOver);
+            GameManager.Instance?.ChangeState(GameState.GameOver);
         }
 
         // ISaveable implementation - copies our stats into/out of the save file
@@ -104,10 +98,15 @@ namespace Ashfall.Player
 
         public void Load(SaveData data)
         {
-            stats.maxHealth = data.maxHealth;
-            stats.currentHealth = data.health;
-            stats.maxStamina = (int)data.maxStamina;
-            stats.currentStamina = data.stamina;
+            // guard against a save written before these fields existed
+            stats.maxHealth = data.maxHealth > 0 ? data.maxHealth : 100;
+            stats.maxStamina = data.maxStamina > 0 ? (int)data.maxStamina : 100;
+
+            stats.currentHealth = restoreHealthFromSave && data.health > 0
+                ? data.health
+                : stats.maxHealth;
+
+            stats.currentStamina = stats.maxStamina;
             stats.coins = data.coins;
 
             OnHealthChanged?.Invoke(stats.currentHealth, stats.maxHealth);

@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Ashfall.Systems
 {
@@ -8,6 +10,7 @@ namespace Ashfall.Systems
         MainMenu,
         Playing,
         Paused,
+        LevelComplete,
         GameOver
     }
 
@@ -21,6 +24,12 @@ namespace Ashfall.Systems
         // observer pattern - ui/audio/anything reacts to this instead of polling
         public event Action<GameState> OnGameStateChanged;
 
+        [Tooltip("scenes that count as gameplay - entering any of these puts us in Playing")]
+        public List<string> gameplayScenes = new List<string>
+        {
+            "Level1", "Level2", "Level3", "Level4", "Level5"
+        };
+
         void Awake()
         {
             if (Instance != null && Instance != this)
@@ -30,11 +39,49 @@ namespace Ashfall.Systems
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        void OnDestroy()
+        {
+            if (Instance == this)
+                SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        void Start()
+        {
+            // the very first scene doesn't fire sceneLoaded for us, so set state manually
+            ApplyStateForScene(SceneManager.GetActiveScene().name);
+        }
+
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            ApplyStateForScene(scene.name);
+        }
+
+        // THIS is what was missing before: nothing ever moved us out of MainMenu,
+        // so TogglePause() always saw CurrentState == MainMenu and did nothing.
+        void ApplyStateForScene(string sceneName)
+        {
+            if (gameplayScenes.Contains(sceneName))
+                ForceState(GameState.Playing);
+            else
+                ForceState(GameState.MainMenu);
+        }
+
+        // like ChangeState but always re-applies timescale, used on scene loads where
+        // the state name might be unchanged but timescale could be stuck at 0
+        void ForceState(GameState newState)
+        {
+            CurrentState = newState;
+            ApplyTimeScale(newState);
+            OnGameStateChanged?.Invoke(newState);
         }
 
         void Update()
         {
-            // temp test key, real pause button comes with the UI later
+            // works on PC/WebGL keyboard; mobile uses the on-screen pause button
             if (Input.GetKeyDown(KeyCode.Escape))
                 TogglePause();
         }
@@ -44,32 +91,36 @@ namespace Ashfall.Systems
             if (CurrentState == newState) return;
 
             CurrentState = newState;
+            ApplyTimeScale(newState);
+            OnGameStateChanged?.Invoke(newState);
+        }
 
-            switch (newState)
+        void ApplyTimeScale(GameState state)
+        {
+            switch (state)
             {
                 case GameState.Paused:
-                    Time.timeScale = 0f;
-                    break;
-                case GameState.Playing:
-                    Time.timeScale = 1f;
-                    break;
                 case GameState.GameOver:
+                case GameState.LevelComplete:
                     Time.timeScale = 0f;
                     break;
-                case GameState.MainMenu:
+                default:
                     Time.timeScale = 1f;
                     break;
             }
-
-            OnGameStateChanged?.Invoke(newState);
         }
 
         public void TogglePause()
         {
+            // deliberately does nothing during GameOver / LevelComplete -
+            // you shouldn't be able to un-pause your way out of a death screen
             if (CurrentState == GameState.Playing)
                 ChangeState(GameState.Paused);
             else if (CurrentState == GameState.Paused)
                 ChangeState(GameState.Playing);
         }
+
+        // kept for backwards compatibility if anything still points here
+        public void OnPauseButtonClicked() => TogglePause();
     }
 }

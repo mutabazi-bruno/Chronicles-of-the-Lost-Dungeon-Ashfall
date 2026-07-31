@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Ashfall.Interfaces;
+using Ashfall.Systems;
 
 namespace Ashfall.Player
 {
@@ -44,12 +45,14 @@ namespace Ashfall.Player
         {
             if (isDead) return;
 
-            horizontalInput = Input.GetAxisRaw("Horizontal");
+            // was Input.GetAxisRaw - now goes through GameInput so touch and keyboard
+            // both feed the same path
+            horizontalInput = GameInput.Horizontal;
 
             CheckGrounded();
             HandleFootsteps();
 
-            if (Input.GetButtonDown("Jump") && isGrounded)
+            if (GameInput.JumpPressed && isGrounded)
             {
                 Jump();
             }
