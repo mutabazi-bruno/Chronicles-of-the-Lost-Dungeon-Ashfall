@@ -113,6 +113,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 3a1bbfc3537298b41a13d2f9fc054097, type: 3}
   - sceneName: Level4
     clip: {fileID: 8300000, guid: 966292b9ec792834f934861e9c1ebb71, type: 3}
+  - sceneName: Level5
+    clip: {fileID: 8300000, guid: 9365b8c23cb6dec439c4a67bd62db86a, type: 3}
   movementSound: {fileID: 8300000, guid: 68953e380acc0cb44b2966b4158c1885, type: 3}
   footstepSound: {fileID: 8300000, guid: ea4015bd1844eb64eafceff3120b6a92, type: 3}
   attackSound: {fileID: 8300000, guid: f91f136cd6914ab49a164f3a4bd326d7, type: 3}
