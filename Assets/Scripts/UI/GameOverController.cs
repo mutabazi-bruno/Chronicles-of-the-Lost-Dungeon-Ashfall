@@ -8,8 +8,9 @@ namespace Ashfall.UI
     {
         public GameObject panel;
 
-        void OnEnable()
+        void Start()
         {
+           
             if (GameManager.Instance != null)
                 GameManager.Instance.OnGameStateChanged += HandleStateChanged;
 

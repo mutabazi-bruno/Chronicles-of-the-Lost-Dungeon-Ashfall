@@ -15,6 +15,7 @@ namespace Ashfall.Player
         // observer pattern - anyone can subscribe, no direct references needed
         public event Action<int, int> OnHealthChanged; // current, max
         public event Action OnPlayerDied;
+        public event Action<int> OnCoinsChanged; // new total coin count
 
         Animator animator;
         PlayerController controller;
@@ -72,6 +73,14 @@ namespace Ashfall.Player
             OnHealthChanged?.Invoke(stats.currentHealth, stats.maxHealth);
         }
 
+        // route coin pickups through here (instead of touching stats.AddCoins directly)
+        // so anything listening (like the HUD) actually finds out it happened
+        public void AddCoins(int amount)
+        {
+            stats.AddCoins(amount);
+            OnCoinsChanged?.Invoke(stats.coins);
+        }
+
         void Die()
         {
             animator?.SetBool("noBlood", false); // we want blood on death
@@ -102,6 +111,7 @@ namespace Ashfall.Player
             stats.coins = data.coins;
 
             OnHealthChanged?.Invoke(stats.currentHealth, stats.maxHealth);
+            OnCoinsChanged?.Invoke(stats.coins);
         }
     }
 }

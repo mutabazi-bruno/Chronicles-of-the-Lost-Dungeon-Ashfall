@@ -13,8 +13,9 @@ namespace Ashfall.UI
 
         string nextLevel;
 
-        void OnEnable()
+        void Start()
         {
+        
             if (LevelManager.Instance != null)
                 LevelManager.Instance.OnLevelCompleted += HandleLevelCompleted;
 

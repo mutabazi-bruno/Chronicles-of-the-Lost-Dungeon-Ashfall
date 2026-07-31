@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using Ashfall.Player;
 
 namespace Ashfall.UI
@@ -8,6 +9,7 @@ namespace Ashfall.UI
     {
         public Slider healthBar;
         public Slider staminaBar;
+        public TMP_Text coinText; // drag a TextMeshPro - Text (UI) object in here
 
         PlayerHealth playerHealth;
 
@@ -24,18 +26,24 @@ namespace Ashfall.UI
             if (playerHealth == null) return;
 
             playerHealth.OnHealthChanged += HandleHealthChanged;
+            playerHealth.OnCoinsChanged += HandleCoinsChanged;
 
             healthBar.maxValue = playerHealth.stats.maxHealth;
             healthBar.value = playerHealth.stats.currentHealth;
 
             staminaBar.maxValue = playerHealth.stats.maxStamina;
             staminaBar.value = playerHealth.stats.currentStamina;
+
+            HandleCoinsChanged(playerHealth.stats.coins);
         }
 
         void OnDestroy()
         {
             if (playerHealth != null)
+            {
                 playerHealth.OnHealthChanged -= HandleHealthChanged;
+                playerHealth.OnCoinsChanged -= HandleCoinsChanged;
+            }
         }
 
         void Update()
@@ -49,6 +57,12 @@ namespace Ashfall.UI
         {
             healthBar.maxValue = max;
             healthBar.value = current;
+        }
+
+        void HandleCoinsChanged(int coins)
+        {
+            if (coinText != null)
+                coinText.text = coins.ToString();
         }
     }
 }

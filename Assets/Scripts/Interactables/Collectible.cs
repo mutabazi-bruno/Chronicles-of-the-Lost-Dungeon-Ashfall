@@ -8,6 +8,7 @@ namespace Ashfall.Interactables
     public class Collectible : MonoBehaviour, ICollectable
     {
         public int coinValue = 5;
+        public AudioClip collectSound;
 
         void Awake()
         {
@@ -24,7 +25,9 @@ namespace Ashfall.Interactables
         public void Collect()
         {
             var health = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerHealth>();
-            health?.stats.AddCoins(coinValue);
+            health?.AddCoins(coinValue); // goes through PlayerHealth now so the HUD hears about it
+
+            Ashfall.Systems.AudioManager.Instance?.PlaySFX(collectSound);
 
             Debug.Log($"picked up {coinValue} coins");
             Destroy(gameObject);

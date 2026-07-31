@@ -9,8 +9,10 @@ namespace Ashfall.Interactables
         public bool isLocked;
         public bool requiresKey;
         public string requiredKeyName = "Key";
+        public AudioClip openSound;
 
-        [Tooltip("leave empty if this door isn't opened by a switch")]
+        [Tooltip("leave empty if this door isn't gated by a switch. If set, the switch must be " +
+                 "activated AND (if requiresKey is on) the player must have the key, before Interact() will open it.")]
         public Switch linkedSwitch;
 
         bool isOpen;
@@ -33,9 +35,14 @@ namespace Ashfall.Interactables
 
         void HandleSwitchActivated(Switch triggeredSwitch)
         {
-            // only react if its the switch actually linked to this door
-            if (triggeredSwitch == linkedSwitch)
-                Open();
+            // only care about the switch actually linked to this door
+            if (triggeredSwitch != linkedSwitch) return;
+
+            // no longer opens the door by itself - just clears one of the two requirements.
+            // the player still needs to walk up and Interact() (and have the key, if required)
+            Debug.Log(requiresKey
+                ? "switch activated - still need the key to open this door"
+                : "switch activated - door will open now");
         }
 
         public void Interact()
@@ -44,20 +51,23 @@ namespace Ashfall.Interactables
 
             if (isLocked)
             {
-                if (!requiresKey)
+                if (linkedSwitch != null && !linkedSwitch.isActivated)
                 {
-                    Debug.Log("door is locked");
+                    Debug.Log("flip the switch first");
                     return;
                 }
 
-                var inventory = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Ashfall.Player.PlayerInventory>();
-                if (inventory == null || !inventory.HasKey(requiredKeyName))
+                if (requiresKey)
                 {
-                    Debug.Log("need a key to open this door");
-                    return;
-                }
+                    var inventory = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Ashfall.Player.PlayerInventory>();
+                    if (inventory == null || !inventory.HasKey(requiredKeyName))
+                    {
+                        Debug.Log("need a key to open this door");
+                        return;
+                    }
 
-                inventory.RemoveKey(requiredKeyName); // key gets used up
+                    inventory.RemoveKey(requiredKeyName); // key gets used up
+                }
             }
 
             Open();
@@ -69,6 +79,9 @@ namespace Ashfall.Interactables
 
             isOpen = true;
             col.enabled = false; // just disabling collision, swap for an anim later
+
+            Ashfall.Systems.AudioManager.Instance?.PlaySFX(openSound);
+
             gameObject.SetActive(false); // simple for now, replace with open animation later
         }
     }

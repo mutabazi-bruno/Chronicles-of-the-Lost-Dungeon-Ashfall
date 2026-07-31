@@ -116,7 +116,9 @@ namespace Ashfall.Systems
             PlaySFX(levelCompleteSound);
         }
 
-        void PlaySFX(AudioClip clip)
+        // was private - made public so Chest/Switch/Door/Collectible can play their own
+        // one-off SFX through the same shared AudioSource instead of each needing their own
+        public void PlaySFX(AudioClip clip)
         {
             if (clip == null) return;
             sfxSource.PlayOneShot(clip);
