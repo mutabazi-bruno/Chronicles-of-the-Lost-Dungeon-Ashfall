@@ -245,4 +245,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Interactables.Chest
   healthReward: 20
-  openSound: {fileID: 0}
+  openSound: {fileID: 8300000, guid: b8dfe8f1a68ee2147b40f02162d3c867, type: 3}

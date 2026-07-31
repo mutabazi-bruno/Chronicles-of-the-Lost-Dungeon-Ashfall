@@ -187,10 +187,11 @@ MonoBehaviour:
   detectionRange: 5
   attackRange: 1
   attackDamage: 10
-  player: {fileID: 0}
+  player: {fileID: 1431329999536445387, guid: 9d751029d32d30e439c9f77afe88dc16, type: 3}
   firePoint: {fileID: 1492064103591559903}
   projectilePrefab: {fileID: 5264602143524956575, guid: 801e0715e1c04e84a9b3b114836bef1e, type: 3}
   destroyDelayAfterDeath: 1.5
+  dropOnDeath: {fileID: 0}
   testType: 1
 --- !u!95 &6986232348099173135
 Animator:
