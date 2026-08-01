@@ -6,8 +6,7 @@ using Ashfall.Systems;
 
 namespace Ashfall.Player
 {
-    // handles player health, wraps PlayerStats and implements IDamageable
-    // other systems (ui, audio, save) listen to the events instead of calling this directly
+    // Handles player health logic and events.
     public class PlayerHealth : MonoBehaviour, IDamageable, ISaveable
     {
         public PlayerStats stats;

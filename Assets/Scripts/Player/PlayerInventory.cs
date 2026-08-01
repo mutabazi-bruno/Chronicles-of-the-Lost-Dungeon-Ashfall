@@ -34,9 +34,7 @@ namespace Ashfall.Player
             OnItemAdded?.Invoke(item);
         }
 
-        // linear search by type + name. Inventories here are small (a handful of items), so
-        // a plain O(n) scan beats the overhead of maintaining a dictionary, and it keeps the
-        // ordering that the sort algorithms rely on.
+        // O(n) search by type and name.
         public Item FindItem(ItemType type, string itemName)
         {
             foreach (var item in inventory.items)
@@ -47,9 +45,7 @@ namespace Ashfall.Player
             return null;
         }
 
-        // Greedy selection: sort by value descending, then take the first potion. Drinking
-        // the strongest potion first is the choice that wastes the least healing when the
-        // player is badly hurt, which is when they actually reach for one.
+        // Select highest value potion to maximize healing.
         public bool ConsumeBestPotion()
         {
             if (health == null || health.IsDead) return false;

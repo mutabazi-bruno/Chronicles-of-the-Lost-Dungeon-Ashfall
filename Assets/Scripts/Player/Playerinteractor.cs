@@ -17,10 +17,7 @@ namespace Ashfall.Player
             }
         }
 
-        // Nearest-neighbour search: gather everything in range, then linear scan for the
-        // smallest distance. O(n) over a handful of colliders, and it guarantees the player
-        // activates the thing they are standing closest to rather than whichever collider
-        // the physics query happened to return first.
+        // Find the closest interactable object in range.
         void TryInteract()
         {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactRange, interactableLayer);

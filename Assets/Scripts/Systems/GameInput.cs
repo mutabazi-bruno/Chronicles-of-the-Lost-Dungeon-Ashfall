@@ -2,12 +2,7 @@ using UnityEngine;
 
 namespace Ashfall.Systems
 {
-    // Single point of truth for "what does the player want to do this frame".
-    //
-    // Gameplay scripts ask this instead of touching UnityEngine.Input directly, so the
-    // keyboard/touch difference lives in exactly one file rather than being duplicated as
-    // #if blocks inside PlayerController, PlayerAttack, PlayerAbilities and PlayerInteractor.
-    // Adding a gamepad later means editing this class only.
+    // Centralized input handling for all input methods.
     public static class GameInput
     {
         // --- values driven by on-screen buttons ---
@@ -108,8 +103,7 @@ namespace Ashfall.Systems
         public static void QueueInteract() => touchInteractQueued = true;
         public static void QueuePotion() => touchPotionQueued = true;
 
-        // One-shot actions must survive exactly one frame so every Update() that checks them
-        // sees the same value. InputRouter clears them in LateUpdate, after all Updates ran.
+        // Clear one-shot actions at the end of the frame.
         public static void ClearOneShots()
         {
             touchJumpQueued = false;
@@ -120,8 +114,7 @@ namespace Ashfall.Systems
             touchPotionQueued = false;
         }
 
-        // scene changes shouldn't leave the player walking into a wall forever because a
-        // button's OnPointerUp never fired
+        // Prevent input getting stuck during scene transitions.
         public static void ResetAll()
         {
             touchHorizontal = 0f;

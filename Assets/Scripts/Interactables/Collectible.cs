@@ -29,7 +29,6 @@ namespace Ashfall.Interactables
 
             Ashfall.Systems.AudioManager.Instance?.PlaySFX(collectSound);
 
-            Debug.Log($"picked up {coinValue} coins");
             Destroy(gameObject);
         }
     }

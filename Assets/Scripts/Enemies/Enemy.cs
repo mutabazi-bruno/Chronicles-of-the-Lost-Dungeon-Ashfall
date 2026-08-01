@@ -9,7 +9,8 @@ namespace Ashfall.Enemies
     {
         Warrior,
         Archer,
-        Guardian
+        Guardian,
+        Bomber
     }
 
     [RequireComponent(typeof(Rigidbody2D))]
@@ -63,9 +64,7 @@ namespace Ashfall.Enemies
 
         void Start()
         {
-            // A prefab can't hold a reference to a scene object, so dragging the player into
-            // every enemy by hand was never going to survive - and it didn't: none of the
-            // Level1 enemies had it set, so they all stood still. Resolve it at runtime.
+            // Resolve player reference at runtime to avoid prefab linking issues.
             if (player == null)
                 FindPlayer();
         }
@@ -80,14 +79,14 @@ namespace Ashfall.Enemies
                 Debug.LogWarning($"[Enemy] {name} couldn't find an object tagged 'Player'");
         }
 
-        // simple factory - keeps the type-to-strategy mapping in exactly one place instead
-        // of scattering conditionals through the behaviour code
+        // Factory pattern for assigning enemy behaviours.
         static IEnemyBehaviour CreateBehaviour(EnemyType type)
         {
             switch (type)
             {
                 case EnemyType.Archer: return new ArcherBehaviour();
                 case EnemyType.Guardian: return new GuardianBehaviour();
+                case EnemyType.Bomber: return new BomberBehaviour();
                 default: return new WarriorBehaviour();
             }
         }

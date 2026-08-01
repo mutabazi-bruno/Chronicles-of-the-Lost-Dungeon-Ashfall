@@ -16,11 +16,7 @@ namespace Ashfall.UI
         UsePotion
     }
 
-    // Drop this on any UI Image/Button in the mobile control panel and pick an action.
-    //
-    // Uses IPointerDown/IPointerUp rather than Button.onClick because movement has to be
-    // *held*, and onClick only fires on release - which would make the character twitch a
-    // single frame per tap instead of walking.
+    // Use pointer events for continuous input holding.
     public class TouchButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         public TouchAction action;
@@ -42,15 +38,14 @@ namespace Ashfall.UI
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            // only the movement buttons are held, the rest are one-shots that clear themselves
+            // Release movement holds.
             if (action == TouchAction.MoveLeft || action == TouchAction.MoveRight)
                 GameInput.SetHorizontal(0f);
         }
 
         void OnDisable()
         {
-            // dragging a finger off the button, or the panel hiding mid-press, would
-            // otherwise never release the movement
+            // Ensure movement clears when dragging off the button.
             if (action == TouchAction.MoveLeft || action == TouchAction.MoveRight)
                 GameInput.SetHorizontal(0f);
         }

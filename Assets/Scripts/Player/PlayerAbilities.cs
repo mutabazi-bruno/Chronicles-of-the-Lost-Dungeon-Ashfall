@@ -45,8 +45,7 @@ namespace Ashfall.Player
             OnAbilityUsed?.Invoke(abilityName);
         }
 
-        // exposed so a HUD cooldown/stamina indicator can grey icons out without
-        // reaching into the ability classes themselves
+        // Expose costs for UI indicators.
         public float DashCost => dash.StaminaCost;
         public float HeavyStrikeCost => heavyStrike.StaminaCost;
     }

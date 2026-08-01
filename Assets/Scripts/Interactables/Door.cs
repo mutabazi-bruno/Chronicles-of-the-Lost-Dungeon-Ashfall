@@ -38,11 +38,6 @@ namespace Ashfall.Interactables
             // only care about the switch actually linked to this door
             if (triggeredSwitch != linkedSwitch) return;
 
-            // no longer opens the door by itself - just clears one of the two requirements.
-            // the player still needs to walk up and Interact() (and have the key, if required)
-            Debug.Log(requiresKey
-                ? "switch activated - still need the key to open this door"
-                : "switch activated - door will open now");
         }
 
         public void Interact()
@@ -53,7 +48,6 @@ namespace Ashfall.Interactables
             {
                 if (linkedSwitch != null && !linkedSwitch.isActivated)
                 {
-                    Debug.Log("flip the switch first");
                     return;
                 }
 
@@ -62,7 +56,6 @@ namespace Ashfall.Interactables
                     var inventory = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Ashfall.Player.PlayerInventory>();
                     if (inventory == null || !inventory.HasKey(requiredKeyName))
                     {
-                        Debug.Log("need a key to open this door");
                         return;
                     }
 

@@ -16,8 +16,7 @@ namespace Ashfall.UI
             panel.SetActive(false);
         }
 
-        // was OnDisable - that unsubscribed the moment anything disabled this object
-        // and Start never runs again to re-subscribe. OnDestroy is the safe pair for Start.
+        // Unsubscribe on destroy to avoid missing events.
         void OnDestroy()
         {
             if (GameManager.Instance != null)
@@ -29,11 +28,7 @@ namespace Ashfall.UI
             panel.SetActive(state == GameState.Paused);
         }
 
-        // hook the HUD's Pause button to THIS method, not to GameManager directly.
-        // the button lives inside the HUD prefab, so it can only reference objects inside
-        // that same prefab - pointing it at GameManager made Unity save a link to the
-        // Systems *prefab asset* on disk instead of the live scene instance, so the click
-        // ran on a dead object and nothing happened.
+        // Pause toggle via HUD.
         public void OnPauseButtonClicked()
         {
             GameManager.Instance?.TogglePause();

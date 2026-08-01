@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace Ashfall.Core
 {
-    // everything in here gets written straight to the save file
-    // keep it plain, no unity refs, so json utility can serialize it easy
+    // Serializable save file data structure.
     [Serializable]
     public class SaveData
     {

@@ -9,9 +9,7 @@ using Ashfall.Systems;
 
 namespace Ashfall.UI
 {
-    // Reads nothing directly from gameplay every frame - it subscribes to events and redraws
-    // only when something actually changed. That is what keeps the HUD swappable without
-    // touching a single gameplay script (presentation question 13).
+    // Event-driven HUD updates to stay decoupled from gameplay.
     public class HUDController : MonoBehaviour
     {
         [Header("Vitals")]

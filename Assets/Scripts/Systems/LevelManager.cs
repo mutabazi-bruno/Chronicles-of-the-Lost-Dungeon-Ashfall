@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace Ashfall.Systems
 {
-    // singleton - knows the level order and talks to SaveManager for unlock/complete state
+    // Owns level order and progression; writes through SaveManager rather than to disk.
+    
     public class LevelManager : MonoBehaviour
     {
         public static LevelManager Instance { get; private set; }
@@ -55,9 +56,7 @@ namespace Ashfall.Systems
                 unlockedSomething = true;
             }
 
-            // Commit everything BEFORE announcing completion. Subscribers react to this event
-            // by reading the save (the leaderboard posts the coin total, for one), so writing
-            // afterwards meant they all saw the previous level's numbers.
+            // Save state before announcing completion.
             SaveManager.Instance.SaveAll();
 
             if (unlockedSomething)

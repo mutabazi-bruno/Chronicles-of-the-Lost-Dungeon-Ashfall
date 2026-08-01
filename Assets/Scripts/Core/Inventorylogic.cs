@@ -41,13 +41,11 @@ namespace Ashfall.Core
             return items.Remove(item);
         }
 
-        // sort algorithm #1 - highest value first
         public void SortByValue()
         {
             items.Sort((a, b) => b.value.CompareTo(a.value));
         }
 
-        // sort algorithm #2 - group by item type (alphabetical by enum order)
         public void SortByType()
         {
             items.Sort((a, b) => a.type.CompareTo(b.type));

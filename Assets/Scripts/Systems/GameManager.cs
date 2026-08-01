@@ -21,7 +21,7 @@ namespace Ashfall.Systems
 
         public GameState CurrentState { get; private set; } = GameState.MainMenu;
 
-        // observer pattern - ui/audio/anything reacts to this instead of polling
+        // observer pattern - ui/audio/anything reacts to this instead of polling CurrentState every frame
         public event Action<GameState> OnGameStateChanged;
 
         [Tooltip("scenes that count as gameplay - entering any of these puts us in Playing")]
@@ -60,8 +60,7 @@ namespace Ashfall.Systems
             ApplyStateForScene(scene.name);
         }
 
-        // THIS is what was missing before: nothing ever moved us out of MainMenu,
-        // so TogglePause() always saw CurrentState == MainMenu and did nothing.
+        // Ensure we can leave the MainMenu state.
         void ApplyStateForScene(string sceneName)
         {
             if (gameplayScenes.Contains(sceneName))
@@ -70,8 +69,7 @@ namespace Ashfall.Systems
                 ForceState(GameState.MainMenu);
         }
 
-        // like ChangeState but always re-applies timescale, used on scene loads where
-        // the state name might be unchanged but timescale could be stuck at 0
+        // Force state and always re-apply timescale.
         void ForceState(GameState newState)
         {
             CurrentState = newState;
@@ -112,8 +110,7 @@ namespace Ashfall.Systems
 
         public void TogglePause()
         {
-            // deliberately does nothing during GameOver / LevelComplete -
-            // you shouldn't be able to un-pause your way out of a death screen
+            // Disable un-pausing during death or complete screens.
             if (CurrentState == GameState.Playing)
                 ChangeState(GameState.Paused);
             else if (CurrentState == GameState.Paused)

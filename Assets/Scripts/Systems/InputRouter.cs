@@ -3,11 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace Ashfall.Systems
 {
-    // Tiny lifecycle helper for GameInput. Put this on the Systems prefab.
-    //
-    // LateUpdate runs after every Update in the frame, so a button press queued during
-    // OnPointerDown is visible to PlayerController, PlayerAttack and PlayerAbilities alike,
-    // then cleared exactly once.
+    // Handle input routing.
     public class InputRouter : MonoBehaviour
     {
         void OnEnable()
@@ -22,8 +18,7 @@ namespace Ashfall.Systems
 
         void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            // a held movement button is destroyed on scene change without ever firing
-            // OnPointerUp, which would leave the player permanently walking
+            // Handle edge cases where input is interrupted by scene loads.
             GameInput.ResetAll();
         }
 

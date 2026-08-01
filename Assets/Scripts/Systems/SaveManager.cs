@@ -6,7 +6,8 @@ using Ashfall.Interfaces;
 
 namespace Ashfall.Systems
 {
-    // singleton - one place that knows how to read/write the save file
+    //The only class that touches the save file on disk
+    
     public class SaveManager : MonoBehaviour
     {
         public static SaveManager Instance { get; private set; }
@@ -33,10 +34,7 @@ namespace Ashfall.Systems
             return File.Exists(SavePath);
         }
 
-        // Walks every active ISaveable in the scene, lets each write its own slice of the
-        // save file, then commits once. SaveManager never needs to know what a player or an
-        // inventory *is* - it only knows the interface, so a new saveable system can be added
-        // without touching this class at all.
+        // Saves all active ISaveable objects in the scene.
         public void SaveAll()
         {
             if (CurrentSave == null) CurrentSave = SaveData.CreateNew();
@@ -82,8 +80,7 @@ namespace Ashfall.Systems
                 File.WriteAllText(SavePath, json);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-                // WebGL writes to an in-memory filesystem that only reaches IndexedDB when
-                // flushed, so without this the save is gone the moment the tab closes.
+                // Required to flush WebGL filesystem to IndexedDB.
                 SyncWebGLFiles();
 #endif
             }
@@ -114,8 +111,7 @@ namespace Ashfall.Systems
                 string json = File.ReadAllText(SavePath);
                 CurrentSave = JsonUtility.FromJson<SaveData>(json);
 
-                // a corrupt or truncated file deserialises to null - fall back rather than
-                // throwing null references all over the game later
+                // Handle corrupt save files.
                 if (CurrentSave == null)
                 {
                     Debug.LogWarning("[SaveManager] save file unreadable, starting fresh");

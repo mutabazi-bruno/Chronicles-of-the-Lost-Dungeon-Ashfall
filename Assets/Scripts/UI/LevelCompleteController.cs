@@ -42,8 +42,7 @@ namespace Ashfall.UI
             nextLevel = LevelManager.Instance.GetNextLevel(completedLevelId);
             panel.SetActive(true);
 
-            // let GameManager own the timescale instead of poking Time.timeScale here.
-            // side benefit: pause is automatically blocked while this screen is up.
+            // GameManager manages timescale to prevent pause conflicts.
             GameManager.Instance?.ChangeState(GameState.LevelComplete);
         }
 

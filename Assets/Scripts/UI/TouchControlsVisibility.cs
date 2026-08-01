@@ -2,9 +2,7 @@ using UnityEngine;
 
 namespace Ashfall.UI
 {
-    // Put this on the parent object holding all the on-screen controls.
-    // Mobile gets them, desktop and WebGL don't - unless you tick the editor override so
-    // you can test the touch layout without making an Android build every time.
+    // Show touch controls on mobile or when editor override is active.
     public class TouchControlsVisibility : MonoBehaviour
     {
         [Tooltip("Show the on-screen controls in the editor too, for testing")]
@@ -20,8 +18,7 @@ namespace Ashfall.UI
 #if UNITY_ANDROID || UNITY_IOS
             show = true;
 #elif UNITY_WEBGL
-            // Application.isMobilePlatform is false for a desktop browser, so this keeps a
-            // phone browser playable without cluttering the desktop web build
+            // Support mobile browsers in WebGL builds.
             show = showOnWebGL || Application.isMobilePlatform;
 #else
             show = false;

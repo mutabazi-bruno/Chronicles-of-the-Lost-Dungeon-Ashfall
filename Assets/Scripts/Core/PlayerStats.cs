@@ -2,8 +2,7 @@ using System;
 
 namespace Ashfall.Core
 {
-    // holds the raw numbers for the player, nothing unity related here
-    // keeping this plain so we can unit test it without needing a scene
+    // Player stats definition.
     [Serializable]
     public class PlayerStats
     {

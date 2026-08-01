@@ -46,9 +46,7 @@ namespace Ashfall.Interactables
                 col.enabled = false;
         }
 
-        // Chests used to heal instantly, which meant the inventory never held anything but
-        // keys. Handing over a potion instead gives the player a decision about *when* to
-        // heal, and gives the inventory something to actually manage.
+        // Hand over a potion to inventory.
         void GiveReward()
         {
             var playerObj = GameObject.FindGameObjectWithTag("Player");

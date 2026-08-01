@@ -50,7 +50,6 @@ namespace Ashfall.Enemies.Behaviours
 
                 if (distance < preferredDistance - 0.5f)
                 {
-                    // horizontal only, gravity/ground collision handles vertical
                     float xDir = toPlayer.x > 0 ? -1f : 1f;
                     rb.linearVelocity = new Vector2(xDir * enemy.moveSpeed, rb.linearVelocity.y);
                     isMoving = true;

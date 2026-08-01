@@ -93,7 +93,6 @@ namespace Ashfall.Levels
 
             if (!ObjectivesSatisfied())
             {
-                Debug.Log("[LevelExit] objectives not finished yet");
                 return;
             }
 
@@ -113,8 +112,6 @@ namespace Ashfall.Levels
 
             triggered = true;
             LevelManager.Instance.CompleteLevel(levelId);
-
-            Debug.Log($"[LevelExit] {levelId} complete");
 
             if (!string.IsNullOrEmpty(sceneToLoadAfter))
                 SceneManager.LoadScene(sceneToLoadAfter);

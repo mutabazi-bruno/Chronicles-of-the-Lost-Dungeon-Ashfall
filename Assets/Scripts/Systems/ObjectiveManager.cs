@@ -7,9 +7,7 @@ using Ashfall.Player;
 
 namespace Ashfall.Systems
 {
-    // One per level scene (NOT on the Systems prefab - objectives are per-level).
-    // Translates gameplay events into the pure objective objects in Ashfall.Core, then
-    // announces changes so the HUD and the level exit can react without knowing each other.
+    // Manages per-level objectives and broadcasts updates to UI.
     public class ObjectiveManager : MonoBehaviour
     {
         public static ObjectiveManager Instance { get; private set; }

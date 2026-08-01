@@ -11,14 +11,10 @@ namespace Ashfall.UI
 
         float volumeBeforeMute = 1f;
 
-        // Guards against reentrancy. Setting slider.value fires onValueChanged, and setting
-        // toggle.isOn fires onValueChanged too - so the two controls used to trigger each
-        // other mid-call, with the nested call applying a different volume than the one the
-        // player actually chose. Everything inside a refresh is ignored.
+        // Prevents reentrancy when updating UI elements.
         bool isRefreshing;
 
-        // volume changes are applied live but only committed to disk when the panel closes,
-        // instead of rewriting the whole save file on every frame of a slider drag
+        // Apply volume live but defer saving until panel close.
         bool needsSave;
 
         void OnEnable()
@@ -49,8 +45,7 @@ namespace Ashfall.UI
 
             isRefreshing = true;
 
-            // keep the toggle in step with the slider in BOTH directions - dragging to zero
-            // used to leave the toggle showing "unmuted" while the audio was silent
+            // Sync toggle and slider state.
             muteToggle.SetIsOnWithoutNotify(value <= 0f);
 
             isRefreshing = false;
@@ -66,7 +61,7 @@ namespace Ashfall.UI
         {
             if (isRefreshing) return;
 
-            // if the slider was already at zero there is nothing sensible to restore to
+            // Handle unmuting logic.
             float value = isMuted ? 0f : Mathf.Max(volumeBeforeMute, 0.1f);
 
             isRefreshing = true;

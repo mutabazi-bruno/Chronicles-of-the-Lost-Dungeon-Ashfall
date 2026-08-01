@@ -2,11 +2,7 @@ using UnityEngine;
 
 namespace Ashfall.Systems
 {
-    // Applies platform-specific setup on startup: framerate targets, cursor behaviour,
-    // WebGL-friendly quality settings and mobile touch-input flagging.
-    //
-    // Self-initialising via RuntimeInitializeOnLoadMethod, so it doesn't need a GameObject
-    // placed in any scene or prefab - nothing existing has to be touched to wire this in.
+    // Self-initializing platform-specific settings (WebGL, Mobile, Desktop).
     public static class PlatformManager
     {
         public static bool IsMobile { get; private set; }
@@ -35,9 +31,7 @@ namespace Ashfall.Systems
             IsWebGL = true;
             IsDesktop = false;
 
-            // WebGL: browser tab controls the actual cap, but set a sane target anyway.
-            // WebGL builds also can't multithread the way standalone can, so we bias
-            // toward a lighter quality level by default.
+            // WebGL specific settings.
             Application.targetFrameRate = 60;
             QualitySettings.vSyncCount = 0;
 
@@ -57,7 +51,6 @@ namespace Ashfall.Systems
             IsDesktop = true;
 #endif
 
-            Debug.Log($"[PlatformManager] platform init - mobile:{IsMobile} webgl:{IsWebGL} desktop:{IsDesktop}");
         }
     }
 }

@@ -6,10 +6,7 @@ using Ashfall.Systems;
 
 namespace Ashfall.UI
 {
-    // The screen half of the REST API feature. It never calls the network itself -
-    // it just subscribes to LeaderboardService's events, so the UI and the API layer
-    // stay completely decoupled (swap dreamlo for any other backend and this file
-    // doesn't change by a single line).
+    // UI for displaying the leaderboard, decoupled from backend logic.
     public class LeaderboardUI : MonoBehaviour
     {
         [Header("Panels")]
@@ -33,9 +30,7 @@ namespace Ashfall.UI
             Unsubscribe();
         }
 
-        // subscribing lazily instead of in OnEnable, because OnEnable can run before
-        // LeaderboardService.Awake() has set Instance - which silently skipped the
-        // subscription and left the UI listening to nothing forever.
+        // Subscribe lazily to avoid race conditions with manager initialization.
         void Subscribe()
         {
             if (subscribed || LeaderboardService.Instance == null) return;
@@ -57,7 +52,6 @@ namespace Ashfall.UI
         // hook this to a "Leaderboard" button in the main menu
         public void ShowLeaderboard()
         {
-            Debug.Log("[LeaderboardUI] ShowLeaderboard() called");
 
             if (panel != null) panel.SetActive(true);
             else Debug.LogWarning("[LeaderboardUI] no panel assigned in the inspector");
@@ -88,25 +82,11 @@ namespace Ashfall.UI
             if (panel != null) panel.SetActive(false);
         }
 
-        // TEMPORARY helper - hook to any button to push a known score onto the board so
-        // you can prove the round trip works. Remove before submitting the project.
-        public void SubmitTestScore()
-        {
-            if (LeaderboardService.Instance == null)
-            {
-                Debug.LogWarning("[LeaderboardUI] no LeaderboardService to submit through");
-                return;
-            }
-
-            Subscribe();
-            Debug.Log("[LeaderboardUI] submitting test score");
-            LeaderboardService.Instance.SubmitScore("TestPlayer", 100);
-        }
 
         void HandleLeaderboardLoaded(List<LeaderboardEntry> entries)
         {
             int count = entries == null ? 0 : entries.Count;
-            Debug.Log($"[LeaderboardUI] leaderboard loaded with {count} entries");
+           
 
             // an empty list is also what the service sends when the request failed,
             // so the player sees a message instead of a screen that hangs forever
@@ -133,7 +113,6 @@ namespace Ashfall.UI
 
         void HandleScoreSubmitted(bool success)
         {
-            Debug.Log($"[LeaderboardUI] score submitted, success = {success}");
             SetStatus(success ? "Score submitted." : "Couldn't reach the leaderboard - progress saved locally.");
         }
 

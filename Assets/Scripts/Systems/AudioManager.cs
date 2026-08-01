@@ -82,9 +82,7 @@ namespace Ashfall.Systems
             if (LevelManager.Instance != null)
                 LevelManager.Instance.OnLevelCompleted += HandleLevelCompleted;
 
-            // The saved volume used to be applied only when the settings panel opened, so the
-            // game always started at full volume and appeared to "mute itself" the moment the
-            // player entered Settings. Load it here instead, once, at startup.
+            // Load saved volume on startup.
             ApplySavedVolume();
 
             PlayMusicForScene(SceneManager.GetActiveScene().name);
@@ -138,8 +136,7 @@ namespace Ashfall.Systems
             PlaySFX(levelCompleteSound);
         }
 
-        // public so Chest/Switch/Door/Collectible can play their own one-off SFX through the
-        // same shared AudioSource instead of each needing their own
+        // Shared audio source for world objects.
         public void PlaySFX(AudioClip clip)
         {
             if (clip == null) return;

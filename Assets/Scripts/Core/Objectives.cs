@@ -2,8 +2,7 @@ using System;
 
 namespace Ashfall.Core
 {
-    // Deliberately free of UnityEngine types so objective rules can be unit tested without
-    // a scene. ObjectiveManager is the thin Unity layer that feeds these numbers.
+    // Objective rules logic.
     public interface IObjective
     {
         string Description { get; }

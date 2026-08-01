@@ -14,16 +14,7 @@ namespace Ashfall.Systems
         public int score;
     }
 
-    // REST API integration - online leaderboard.
-    //
-    // Backed by Firebase Realtime Database's REST interface. Chosen over dreamlo because
-    // dreamlo's free tier is HTTP-only: Unity blocks insecure requests by default, and a
-    // browser will refuse them outright on an HTTPS-hosted WebGL build. Firebase serves
-    // plain JSON over HTTPS on the free tier, so the exact same code path works on
-    // Windows, Android and WebGL.
-    //
-    // Note that swapping the backend touched only this file - LeaderboardUI listens to the
-    // events below and never knew which service was on the other end.
+    // Firebase REST API backend for cross-platform leaderboard support.
     //
     // singleton, same shape as our other managers (GameManager/SaveManager/AudioManager).
     public class LeaderboardService : MonoBehaviour
@@ -47,7 +38,7 @@ namespace Ashfall.Systems
         [Tooltip("Seconds before a request is considered dead")]
         public int requestTimeout = 8;
 
-        // observer pattern - UI (a leaderboard screen) reacts to these instead of polling
+        // The leaderboard screen listens to these; it never calls the network itself.
         public event Action<List<LeaderboardEntry>> OnLeaderboardLoaded;
         public event Action<bool> OnScoreSubmitted; // true = success, false = failed/offline
 
@@ -122,9 +113,7 @@ void FetchFromInspector()
             StartCoroutine(FetchLeaderboardRoutine());
         }
 
-        // Firebase keys can't contain . $ # [ ] / so the player name is sanitised before
-        // being used as one. Writing under the player's name (rather than pushing a new
-        // node each time) keeps one row per player instead of a wall of duplicates.
+        // Sanitize names for Firebase keys and store one entry per player.
         string SanitiseKey(string raw)
         {
             if (string.IsNullOrWhiteSpace(raw)) return "Player";
@@ -146,10 +135,7 @@ void FetchFromInspector()
             return $"{root}{scoresNode}{suffix}";
         }
 
-        // SendWebRequest() can throw before it ever yields - a blocked insecure connection,
-        // a malformed URL, no network stack at all. You can't wrap a yield in try/catch, so
-        // the dispatch is isolated here and the failure is reported as a normal failed
-        // request instead of an unhandled exception that kills the coroutine.
+        // Handle network errors gracefully.
         bool TrySend(UnityWebRequest request, out UnityWebRequestAsyncOperation operation)
         {
             operation = null;
@@ -192,8 +178,7 @@ void FetchFromInspector()
 
                 if (!success)
                 {
-                    // graceful failure - the API being down should never crash or block
-                    // gameplay; level completion and the local save already happened.
+                    // Ignore API errors to prevent gameplay interruption.
                     Debug.LogWarning($"[LeaderboardService] score submit failed: {request.error}");
                 }
                 else
@@ -235,11 +220,7 @@ void FetchFromInspector()
             }
         }
 
-        // Firebase returns an object keyed by player name:
-        //   {"Ada":{"name":"Ada","score":90},"Bob":{"name":"Bob","score":40}}
-        // JsonUtility can't deserialise a dictionary with arbitrary keys, so we walk the
-        // string and pull out each balanced {...} block, then let JsonUtility handle the
-        // flat objects it IS good at. Empty node returns the literal "null".
+        // Parse JSON dictionary by extracting individual object blocks.
         List<LeaderboardEntry> ParseFirebaseJson(string json)
         {
             var results = new List<LeaderboardEntry>();

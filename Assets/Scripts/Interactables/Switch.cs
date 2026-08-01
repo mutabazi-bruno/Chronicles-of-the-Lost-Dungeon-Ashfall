@@ -27,7 +27,6 @@ namespace Ashfall.Interactables
             isActivated = true;
 
             // fires the Red -> Red_To_Blue_0..3 sequence in the Animator Controller
-            // (see the note below the code for how to wire that up)
             if (animator != null)
                 animator.SetTrigger("Activate");
 
