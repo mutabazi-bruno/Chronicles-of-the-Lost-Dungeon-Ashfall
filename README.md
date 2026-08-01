@@ -264,17 +264,6 @@ These are all possible *because* the rules live in `Ashfall.Core` with no scene 
 
 ---
 
-## Known Limitations / Future Work
-
-- Leaderboard writes are unauthenticated (see above).
-- `MainMenuController.OnContinueClicked` resumes at the last entry in `unlockedLevels`,
-  which assumes the list stays ordered. Storing an explicit "furthest level" field would be
-  more robust.
-- Collectibles respawn on level replay — no per-level pickup state is persisted.
-- Object pooling covers projectiles only; enemies and effects still instantiate.
-- Enemy behaviours are stateless per instance except the Guardian; a shared behaviour
-  instance per type would reduce allocations.
-  Third-Party Assets & Credits
 
 All third-party assets used in this project are listed below. Everything else — all C# source code, system architecture, level layouts, UI construction and game logic — is my own work.
 
