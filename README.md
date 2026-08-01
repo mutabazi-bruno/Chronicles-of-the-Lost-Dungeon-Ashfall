@@ -8,8 +8,8 @@ progression, and an online leaderboard.
 | Build | Link |
 |---|---|
 | WebGL (Unity Play) | `<link>` |
-| Windows PC | `<link>` |
-| Android APK | `<link>` |
+| Windows PC | https://drive.google.com/drive/folders/1FMCvPuLeBUOyxKOiWQFg0fe6EXi5NqG9?usp=sharing |
+| Android APK | https://drive.google.com/drive/folders/1k6LZlMz0A4QBjoJBQLIcAZOAd0y0b6tq?usp=drive_link |
 | Video walkthrough | `<link>` |
 
 ---
