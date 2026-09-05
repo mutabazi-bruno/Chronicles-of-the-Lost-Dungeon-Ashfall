@@ -1,3 +1,4 @@
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,16 @@ namespace Ashfall.UI
 
         public GameObject lockIcon;      // shown only when locked
         public GameObject completedIcon; // shown only when completed
+
+        [Header("State chip (optional)")]
+        [Tooltip("One label that reads PLAY / LOCKED / CLEARED, so the row does not " +
+                 "need three overlapping objects to say one thing.")]
+        public TMP_Text stateLabel;
+        public string unlockedText = "PLAY";
+        public string lockedText = "LOCKED";
+        public string completedText = "CLEARED";
+        public Color lockedTextColor = new Color32(150, 132, 104, 255);
+        public Color unlockedTextColor = new Color32(240, 226, 196, 255);
 
         Button button;
 
@@ -40,6 +51,12 @@ namespace Ashfall.UI
 
             if (background != null)
                 background.color = completed ? completedColor : (unlocked ? unlockedColor : lockedColor);
+
+            if (stateLabel != null)
+            {
+                stateLabel.text = completed ? completedText : (unlocked ? unlockedText : lockedText);
+                stateLabel.color = unlocked ? unlockedTextColor : lockedTextColor;
+            }
         }
 
         void OnClicked()
