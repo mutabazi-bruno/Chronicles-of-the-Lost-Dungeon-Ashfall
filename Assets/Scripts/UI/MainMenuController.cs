@@ -22,25 +22,37 @@ namespace Ashfall.UI
             ShowMainPanel();
         }
 
+        // Panels are wired in the inspector and destroyed with the scene, so every
+        // toggle goes through here rather than calling SetActive on a field directly.
+        static void Show(GameObject panel, bool visible)
+        {
+            if (panel == null)
+            {
+                return;
+            }
+
+            panel.SetActive(visible);
+        }
+
         // -- panel switching --
         public void ShowMainPanel()
         {
-            mainPanel.SetActive(true);
-            settingsPanel.SetActive(false);
-            levelSelectPanel.SetActive(false);
-            confirmWipePanel.SetActive(false);
+            Show(mainPanel, true);
+            Show(settingsPanel, false);
+            Show(levelSelectPanel, false);
+            Show(confirmWipePanel, false);
         }
 
         public void ShowSettingsPanel()
         {
-            mainPanel.SetActive(false);
-            settingsPanel.SetActive(true);
+            Show(mainPanel, false);
+            Show(settingsPanel, true);
         }
 
         public void ShowLevelSelectPanel()
         {
-            mainPanel.SetActive(false);
-            levelSelectPanel.SetActive(true);
+            Show(mainPanel, false);
+            Show(levelSelectPanel, true);
         }
 
         // -- button actions --
@@ -49,8 +61,8 @@ namespace Ashfall.UI
             if (SaveManager.Instance.HasSaveFile())
             {
                 // has existing progress, confirm before wiping it
-                mainPanel.SetActive(false);
-                confirmWipePanel.SetActive(true);
+                Show(mainPanel, false);
+                Show(confirmWipePanel, true);
             }
             else
             {
@@ -65,8 +77,8 @@ namespace Ashfall.UI
 
         public void OnConfirmWipeNo()
         {
-            confirmWipePanel.SetActive(false);
-            mainPanel.SetActive(true);
+            Show(confirmWipePanel, false);
+            Show(mainPanel, true);
         }
 
         void BeginNewGame()
@@ -81,7 +93,7 @@ namespace Ashfall.UI
         {
             if (nameEntry != null)
             {
-                mainPanel.SetActive(false);
+                Show(mainPanel, false);
                 nameEntry.Show(() => SceneManager.LoadScene(sceneName));
             }
             else

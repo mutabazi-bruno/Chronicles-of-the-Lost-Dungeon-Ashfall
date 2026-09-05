@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using Ashfall.Systems;
 
@@ -21,18 +21,57 @@ namespace Ashfall.UI
             ? SceneManager.GetActiveScene().name
             : levelIdOverride;
 
+        LevelManager subscribedTo;
+
+        void OnEnable()
+        {
+            Subscribe();
+        }
+
         void Start()
         {
-            if (LevelManager.Instance != null)
-                LevelManager.Instance.OnLevelCompleted += HandleLevelCompleted;
+            Subscribe();
 
-            panel.SetActive(false);
+            if (panel != null)
+            {
+                panel.SetActive(false);
+            }
+        }
+
+        // Detach from the instance we actually attached to. Checking
+        // LevelManager.Instance here instead would skip the detach whenever the
+        // singleton is already gone or has been replaced, leaving a dead
+        // delegate that fires into this destroyed object later.
+        void Subscribe()
+        {
+            if (subscribedTo != null || LevelManager.Instance == null)
+            {
+                return;
+            }
+
+            subscribedTo = LevelManager.Instance;
+            subscribedTo.OnLevelCompleted += HandleLevelCompleted;
+        }
+
+        void Unsubscribe()
+        {
+            if (subscribedTo == null)
+            {
+                return;
+            }
+
+            subscribedTo.OnLevelCompleted -= HandleLevelCompleted;
+            subscribedTo = null;
+        }
+
+        void OnDisable()
+        {
+            Unsubscribe();
         }
 
         void OnDestroy()
         {
-            if (LevelManager.Instance != null)
-                LevelManager.Instance.OnLevelCompleted -= HandleLevelCompleted;
+            Unsubscribe();
         }
 
         void HandleLevelCompleted(string completedLevelId)
@@ -40,6 +79,12 @@ namespace Ashfall.UI
             if (completedLevelId != LevelId) return; // not this level, ignore
 
             nextLevel = LevelManager.Instance.GetNextLevel(completedLevelId);
+
+            if (panel == null)
+            {
+                return;
+            }
+
             panel.SetActive(true);
 
             // GameManager manages timescale to prevent pause conflicts.
