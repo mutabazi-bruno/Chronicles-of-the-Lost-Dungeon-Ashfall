@@ -31,6 +31,16 @@ namespace Ashfall.Player
             controller = GetComponent<PlayerController>();
         }
 
+        void OnEnable()
+        {
+            SaveManager.Instance?.Register(this);
+        }
+
+        void OnDisable()
+        {
+            SaveManager.Instance?.Unregister(this);
+        }
+
         void Start()
         {
             // pull persisted values (coins especially) into this level's player
