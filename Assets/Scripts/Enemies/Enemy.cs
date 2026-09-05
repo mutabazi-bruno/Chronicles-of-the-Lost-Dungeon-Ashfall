@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Ashfall.Interfaces;
 using Ashfall.Enemies.Behaviours;
+using Ashfall.Systems;
 
 namespace Ashfall.Enemies
 {
@@ -60,6 +61,16 @@ namespace Ashfall.Enemies
             currentHealth = maxHealth;
 
             SetBehaviour(CreateBehaviour(enemyType));
+        }
+
+        void OnEnable()
+        {
+            ObjectiveManager.Instance?.RegisterEnemy(this);
+        }
+
+        void OnDisable()
+        {
+            ObjectiveManager.Instance?.UnregisterEnemy(this);
         }
 
         void Start()
