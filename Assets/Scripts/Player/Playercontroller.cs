@@ -10,6 +10,7 @@ namespace Ashfall.Player
     {
         public static event Action OnMovementSound;
         public static event Action OnFootstepSound;
+        public static event Action OnWallSlideDust;
 
         [Header("Movement")]
         public float moveSpeed = 6f;
@@ -156,6 +157,12 @@ namespace Ashfall.Player
                 castDistance, groundLayer);
 
             isWallSliding = wallHit.collider != null;
+        }
+
+        // Called via Animation Event from HeroKnight_WallSlide.anim
+        void AE_SlideDust()
+        {
+            OnWallSlideDust?.Invoke();
         }
 
         void FlipSprite()
