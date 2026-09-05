@@ -101,6 +101,13 @@ namespace Ashfall.UI
                 SceneManager.LoadScene("MainMenu"); // last level done, nowhere else to go yet
         }
 
+        // hook this up to a "Replay" button on the level-complete panel
+        public void OnReplayClicked()
+        {
+            GameManager.Instance?.ChangeState(GameState.Playing);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
         public void OnMainMenuClicked()
         {
             GameManager.Instance?.ChangeState(GameState.MainMenu);

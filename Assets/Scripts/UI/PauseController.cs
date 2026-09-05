@@ -83,6 +83,15 @@ namespace Ashfall.UI
             GameManager.Instance?.TogglePause(); // Paused -> Playing, unpauses timescale too
         }
 
+        // hook this up to a "Restart" button on the pause panel
+        public void OnRestartClicked()
+        {
+            // ChangeState first so the timescale is back to 1 before the reload,
+            // otherwise the fresh scene starts frozen.
+            GameManager.Instance?.ChangeState(GameState.Playing);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
         // hook this up to a "Main Menu" button
         public void OnMainMenuClicked()
         {
