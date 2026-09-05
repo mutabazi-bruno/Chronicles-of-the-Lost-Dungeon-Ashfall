@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using Ashfall.Systems;
 
@@ -12,9 +12,6 @@ namespace Ashfall.UI
         public GameObject levelSelectPanel;
         public GameObject confirmWipePanel;
 
-        [Header("Buttons that depend on save state")]
-        public GameObject continueButton;
-
         [Header("Player identity")]
         [Tooltip("Optional - if assigned, players are asked for a name before a run starts " +
                  "so leaderboard submissions aren't all attributed to the same default name.")]
@@ -23,7 +20,6 @@ namespace Ashfall.UI
         void Start()
         {
             ShowMainPanel();
-            continueButton.SetActive(SaveManager.Instance.HasSaveFile());
         }
 
         // -- panel switching --
@@ -77,13 +73,6 @@ namespace Ashfall.UI
         {
             SaveManager.Instance.DeleteSave();
             RequestNameThenLoad("Level1");
-        }
-
-        public void OnContinueClicked()
-        {
-            var save = SaveManager.Instance.CurrentSave;
-            string furthest = save.unlockedLevels[save.unlockedLevels.Count - 1];
-            RequestNameThenLoad(furthest);
         }
 
         // Asks for a player name before the run actually starts, unless no name-entry
