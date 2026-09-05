@@ -169,6 +169,19 @@ namespace Ashfall.UI
 
         public void OnSaveAndCloseClicked()
         {
+            Close();
+        }
+
+        // The corner X. Volume changes are applied live and committed on the way
+        // out, so leaving this way keeps them - there is nothing to discard, and
+        // no reason to force a trip through Save just to back out of the screen.
+        public void OnCloseClicked()
+        {
+            Close();
+        }
+
+        void Close()
+        {
             CommitSave();
 
             if (settingsPanel != null)

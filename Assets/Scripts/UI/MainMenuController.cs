@@ -92,7 +92,13 @@ namespace Ashfall.UI
 
         public void OnExitClicked()
         {
+#if UNITY_EDITOR
+            // Application.Quit is a no-op in the editor, so stop play mode instead
+            // - otherwise the button looks broken every time you test it.
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
+#endif
         }
     }
 }
