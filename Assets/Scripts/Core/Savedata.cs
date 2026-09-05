@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Ashfall.Core
@@ -18,8 +18,10 @@ namespace Ashfall.Core
 
         public List<Item> inventory = new List<Item>();
 
+        public float masterVolume = 1f;
         public float musicVolume = 1f;
         public float sfxVolume = 1f;
+        public bool audioMuted = false;
 
         // fresh save, only level 1 unlocked
         public static SaveData CreateNew()

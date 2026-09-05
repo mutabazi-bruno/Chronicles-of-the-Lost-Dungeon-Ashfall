@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -93,7 +93,11 @@ namespace Ashfall.Systems
             if (SaveManager.Instance == null || SaveManager.Instance.CurrentSave == null)
                 return;
 
-            SetMusicVolume(SaveManager.Instance.CurrentSave.musicVolume);
+            var save = SaveManager.Instance.CurrentSave;
+            SetMusicVolume(save.musicVolume);
+            SetSfxVolume(save.sfxVolume);
+            SetMasterVolume(save.masterVolume);
+            SetMuted(save.audioMuted);
         }
 
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -143,11 +147,52 @@ namespace Ashfall.Systems
             sfxSource.PlayOneShot(clip);
         }
 
+        // Music and SFX are stored per-channel. Master scales both by driving the
+        // global AudioListener, and mute is layered on top of master so changing
+        // one does not silently cancel the other.
+        float masterVolume = 1f;
+        float musicVolume = 1f;
+        float sfxVolume = 1f;
+        bool muted;
+
         public void SetMusicVolume(float value)
         {
-            musicSource.volume = Mathf.Clamp01(value);
+            musicVolume = Mathf.Clamp01(value);
+            if (musicSource != null)
+            {
+                musicSource.volume = musicVolume;
+            }
         }
 
-        public float GetMusicVolume() => musicSource != null ? musicSource.volume : 1f;
+        public void SetSfxVolume(float value)
+        {
+            sfxVolume = Mathf.Clamp01(value);
+            if (sfxSource != null)
+            {
+                sfxSource.volume = sfxVolume;
+            }
+        }
+
+        public void SetMasterVolume(float value)
+        {
+            masterVolume = Mathf.Clamp01(value);
+            ApplyOutputLevel();
+        }
+
+        public void SetMuted(bool value)
+        {
+            muted = value;
+            ApplyOutputLevel();
+        }
+
+        void ApplyOutputLevel()
+        {
+            AudioListener.volume = muted ? 0f : masterVolume;
+        }
+
+        public float GetMusicVolume() => musicVolume;
+        public float GetSfxVolume() => sfxVolume;
+        public float GetMasterVolume() => masterVolume;
+        public bool IsMuted() => muted;
     }
 }
