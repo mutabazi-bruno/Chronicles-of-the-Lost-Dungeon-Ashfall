@@ -100,7 +100,14 @@ void FetchFromInspector()
                 ? SaveManager.Instance.CurrentSave.coins
                 : 0;
 
-            SubmitScore(playerName, score);
+            // prefer the name the player actually typed on the name-entry screen;
+            // fall back to the inspector default if they never got one (e.g. no
+            // name-entry screen wired up in this scene)
+            string name = PlayerProfile.Instance != null && PlayerProfile.Instance.HasPlayerName()
+                ? PlayerProfile.Instance.PlayerName
+                : playerName;
+
+            SubmitScore(name, score);
         }
 
         public void SubmitScore(string name, int score)

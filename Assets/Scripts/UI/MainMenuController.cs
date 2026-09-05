@@ -15,6 +15,11 @@ namespace Ashfall.UI
         [Header("Buttons that depend on save state")]
         public GameObject continueButton;
 
+        [Header("Player identity")]
+        [Tooltip("Optional - if assigned, players are asked for a name before a run starts " +
+                 "so leaderboard submissions aren't all attributed to the same default name.")]
+        public PlayerNameEntryController nameEntry;
+
         void Start()
         {
             ShowMainPanel();
@@ -71,14 +76,29 @@ namespace Ashfall.UI
         void BeginNewGame()
         {
             SaveManager.Instance.DeleteSave();
-            SceneManager.LoadScene("Level1");
+            RequestNameThenLoad("Level1");
         }
 
         public void OnContinueClicked()
         {
             var save = SaveManager.Instance.CurrentSave;
             string furthest = save.unlockedLevels[save.unlockedLevels.Count - 1];
-            SceneManager.LoadScene(furthest);
+            RequestNameThenLoad(furthest);
+        }
+
+        // Asks for a player name before the run actually starts, unless no name-entry
+        // screen was wired up (in which case behaviour falls back to the old direct load).
+        void RequestNameThenLoad(string sceneName)
+        {
+            if (nameEntry != null)
+            {
+                mainPanel.SetActive(false);
+                nameEntry.Show(() => SceneManager.LoadScene(sceneName));
+            }
+            else
+            {
+                SceneManager.LoadScene(sceneName);
+            }
         }
 
         public void OnExitClicked()
