@@ -16,6 +16,8 @@ namespace Ashfall.Systems
 
         string SavePath => Path.Combine(Application.persistentDataPath, "save.json");
 
+        readonly List<ISaveable> registeredSaveables = new List<ISaveable>();
+
         void Awake()
         {
             if (Instance != null && Instance != this)
@@ -29,17 +31,30 @@ namespace Ashfall.Systems
             LoadOrCreate();
         }
 
+        // Called by ISaveable objects in their OnEnable, so SaveManager
+        // never has to scan the whole scene to find them.
+        public void Register(ISaveable saveable)
+        {
+            if (!registeredSaveables.Contains(saveable))
+                registeredSaveables.Add(saveable);
+        }
+
+        public void Unregister(ISaveable saveable)
+        {
+            registeredSaveables.Remove(saveable);
+        }
+
         public bool HasSaveFile()
         {
             return File.Exists(SavePath);
         }
 
-        // Saves all active ISaveable objects in the scene.
+        // Saves all registered ISaveable objects.
         public void SaveAll()
         {
             if (CurrentSave == null) CurrentSave = SaveData.CreateNew();
 
-            foreach (var saveable in FindSaveables())
+            foreach (var saveable in registeredSaveables)
                 saveable.Save(CurrentSave);
 
             Save();
@@ -50,24 +65,8 @@ namespace Ashfall.Systems
         {
             if (CurrentSave == null) return;
 
-            foreach (var saveable in FindSaveables())
+            foreach (var saveable in registeredSaveables)
                 saveable.Load(CurrentSave);
-        }
-
-        List<ISaveable> FindSaveables()
-        {
-            var results = new List<ISaveable>();
-
-            // FindObjectsByType is the non-deprecated form in current Unity versions
-            var behaviours = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
-
-            foreach (var behaviour in behaviours)
-            {
-                if (behaviour is ISaveable saveable)
-                    results.Add(saveable);
-            }
-
-            return results;
         }
 
         public void Save()
