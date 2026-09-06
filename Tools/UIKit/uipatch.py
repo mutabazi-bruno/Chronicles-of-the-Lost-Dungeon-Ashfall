@@ -51,12 +51,26 @@ def hierarchy(obj):
 
 
 def find_transform(obj, path):
-    """Resolve a slash separated hierarchy path to its transform fileID."""
+    """Resolve a slash separated hierarchy path to its transform fileID.
+
+    A prefab has one root so the path can start at its children. A scene has many,
+    so start the path with the root object's own name, for example
+    "Canvas/SettingsPanel".
+    """
     name, comps, children, owner = hierarchy(obj)
-    root = next(f for f in owner if "m_Father: {fileID: 0}" in obj[f][1])
+    roots = [f for f in owner if "m_Father: {fileID: 0}" in obj[f][1]]
 
     parts = [p for p in path.split("/") if p]
-    current = root
+
+    if len(roots) == 1:
+        current = roots[0]
+    else:
+        first = parts.pop(0)
+        matches = [r for r in roots if name.get(owner[r]) == first]
+        if len(matches) != 1:
+            raise KeyError("expected exactly one root named %r, found %d"
+                           % (first, len(matches)))
+        current = matches[0]
     for part in parts:
         nxt = None
         for ch in children.get(current, []):
