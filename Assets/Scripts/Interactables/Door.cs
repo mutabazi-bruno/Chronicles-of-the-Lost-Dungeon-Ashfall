@@ -15,8 +15,19 @@ namespace Ashfall.Interactables
                  "activated AND (if requiresKey is on) the player must have the key, before Interact() will open it.")]
         public Switch linkedSwitch;
 
+        [Header("Prompt")]
+        [Tooltip("Shown when the door will actually open. The control name is added automatically.")]
+        public string promptAction = "open the door";
+
+        [Tooltip("Shown when the door is locked and the linked lever has not been pulled yet.")]
+        public string lockedBySwitchPrompt = "Locked. Find the lever that opens it";
+
         bool isOpen;
         Collider2D col;
+
+        // Looked up once and kept. The prompt is read every frame while the player stands
+        // here, and FindGameObjectWithTag on every one of those frames is wasteful.
+        Ashfall.Player.PlayerInventory cachedInventory;
 
         void Awake()
         {
@@ -40,6 +51,65 @@ namespace Ashfall.Interactables
 
         }
 
+        // Tells the player why the door will not budge instead of leaving them pressing E
+        // at a door that silently ignores them.
+        public string InteractionPrompt
+        {
+            get
+            {
+                if (isOpen) return string.Empty;
+
+                if (isLocked)
+                {
+                    if (linkedSwitch != null && !linkedSwitch.isActivated)
+                        return lockedBySwitchPrompt;
+
+                    if (requiresKey && !PlayerHasKey())
+                        return $"Locked. You need the {requiredKeyName}";
+
+                    if (requiresKey)
+                        return $"{Ashfall.Systems.GameInput.InteractActionLabel} to unlock the door";
+                }
+
+                return $"{Ashfall.Systems.GameInput.InteractActionLabel} to {promptAction}";
+            }
+        }
+
+        public bool CanInteract
+        {
+            get
+            {
+                if (isOpen) return false;
+                if (!isLocked) return true;
+
+                if (linkedSwitch != null && !linkedSwitch.isActivated) return false;
+                if (requiresKey && !PlayerHasKey()) return false;
+
+                return true;
+            }
+        }
+
+        Ashfall.Player.PlayerInventory Inventory
+        {
+            get
+            {
+                if (cachedInventory == null)
+                {
+                    var player = GameObject.FindGameObjectWithTag("Player");
+                    if (player != null)
+                        cachedInventory = player.GetComponent<Ashfall.Player.PlayerInventory>();
+                }
+
+                return cachedInventory;
+            }
+        }
+
+        bool PlayerHasKey()
+        {
+            var inventory = Inventory;
+            return inventory != null && inventory.HasKey(requiredKeyName);
+        }
+
         public void Interact()
         {
             if (isOpen) return;
@@ -53,13 +123,12 @@ namespace Ashfall.Interactables
 
                 if (requiresKey)
                 {
-                    var inventory = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Ashfall.Player.PlayerInventory>();
-                    if (inventory == null || !inventory.HasKey(requiredKeyName))
+                    if (!PlayerHasKey())
                     {
                         return;
                     }
 
-                    inventory.RemoveKey(requiredKeyName); // key gets used up
+                    Inventory.RemoveKey(requiredKeyName); // key gets used up
                 }
             }
 
