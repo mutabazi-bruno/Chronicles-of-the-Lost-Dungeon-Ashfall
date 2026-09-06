@@ -12,6 +12,12 @@ namespace Ashfall.UI
     // Event-driven HUD updates to stay decoupled from gameplay.
     public class HUDController : MonoBehaviour
     {
+        // U+2713 is not in the font atlas, so the tick rendered as nothing and the
+        // console filled up with "character was not found" warnings. These two are
+        // both in the default character set.
+        const string DoneMark = "[x]";
+        const string PendingMark = "[ ]";
+
         [Header("Vitals")]
         public Slider healthBar;
         public Slider staminaBar;
@@ -168,11 +174,11 @@ namespace Ashfall.UI
             foreach (var objective in ObjectiveManager.Instance.Objectives)
             {
                 // tick/cross instead of the word "complete", keeps it readable at a glance
-                sb.AppendLine($"{(objective.IsComplete ? "\u2713" : "\u2022")} {objective.Description}");
+                sb.AppendLine($"{(objective.IsComplete ? DoneMark : PendingMark)} {objective.Description}");
             }
 
             if (ObjectiveManager.Instance.AllComplete)
-                sb.AppendLine("\u2713 Exit is open");
+                sb.AppendLine($"{DoneMark} Exit is open");
 
             objectivesText.text = sb.ToString();
         }
