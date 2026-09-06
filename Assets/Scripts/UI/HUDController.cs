@@ -150,11 +150,12 @@ namespace Ashfall.UI
                 else if (item.type == ItemType.Potion) potionCount++;
             }
 
-            var sb = new StringBuilder();
-            if (keyCount > 0) sb.AppendLine($"<sprite name=\"key\"> x{keyCount}");
-            if (potionCount > 0) sb.AppendLine($"<sprite name=\"potion\"> x{potionCount}");
+            var parts = new System.Collections.Generic.List<string>();
+            if (keyCount > 0) parts.Add($"<sprite name=\"key\"> x{keyCount}");
+            if (potionCount > 0) parts.Add($"<sprite name=\"potion\"> x{potionCount}");
 
-            inventoryText.text = sb.ToString();
+            // side by side on one line, with some spacing between them, instead of stacked
+            inventoryText.text = string.Join("      ", parts);
         }
 
         void RefreshObjectives()
