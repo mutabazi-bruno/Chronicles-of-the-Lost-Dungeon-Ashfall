@@ -12,7 +12,9 @@ namespace Ashfall.Systems
     //
     // Runs late on purpose: CinemachineBrain moves the camera in LateUpdate, so this has
     // to happen afterwards or it gets overwritten in the same frame.
-    [DefaultExecutionOrder(1000)]
+    // As late as Unity allows. CinemachineBrain writes the camera transform in its own
+    // LateUpdate, so anything that clamps it has to run after the brain, not before.
+    [DefaultExecutionOrder(32000)]
     [RequireComponent(typeof(Camera))]
     public class CameraBoundsClamp : MonoBehaviour
     {
