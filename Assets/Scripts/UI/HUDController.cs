@@ -141,20 +141,18 @@ namespace Ashfall.UI
         {
             if (inventoryText == null || playerInventory == null) return;
 
-            var items = playerInventory.inventory.items;
+            int keyCount = 0;
+            int potionCount = 0;
 
-            if (items.Count == 0)
+            foreach (var item in playerInventory.inventory.items)
             {
-                inventoryText.text = "Empty";
-                return;
+                if (item.type == ItemType.Key) keyCount++;
+                else if (item.type == ItemType.Potion) potionCount++;
             }
 
-            // sorted so the display order is stable instead of pickup order
-            playerInventory.inventory.SortByType();
-
             var sb = new StringBuilder();
-            foreach (var item in items)
-                sb.AppendLine(item.name);
+            if (keyCount > 0) sb.AppendLine($"<sprite name=\"key\"> x{keyCount}");
+            if (potionCount > 0) sb.AppendLine($"<sprite name=\"potion\"> x{potionCount}");
 
             inventoryText.text = sb.ToString();
         }
@@ -167,12 +165,19 @@ namespace Ashfall.UI
 
             foreach (var objective in ObjectiveManager.Instance.Objectives)
             {
-                // tick/cross instead of the word "complete", keeps it readable at a glance
-                sb.AppendLine($"{(objective.IsComplete ? "\u2713" : "\u2022")} {objective.Description}");
+                // real icon instead of a text glyph, so it renders regardless of font coverage
+                string mark = objective.IsComplete ? "<sprite name=\"check\">" : "\u2022";
+                string line = $"{mark} {objective.Description}";
+
+                // TMP rich text - green once complete, default color otherwise
+                if (objective.IsComplete)
+                    sb.AppendLine($"<color=#4CE082>{line}</color>");
+                else
+                    sb.AppendLine(line);
             }
 
             if (ObjectiveManager.Instance.AllComplete)
-                sb.AppendLine("\u2713 Exit is open");
+                sb.AppendLine("<color=#4CE082><sprite name=\"check\"> Exit is open</color>");
 
             objectivesText.text = sb.ToString();
         }
