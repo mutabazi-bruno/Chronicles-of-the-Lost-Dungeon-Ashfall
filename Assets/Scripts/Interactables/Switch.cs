@@ -9,6 +9,11 @@ namespace Ashfall.Interactables
         public bool isActivated;
         public AudioClip activateSound;
 
+        [Header("Prompt")]
+        [Tooltip("Shown next to the lever while it can still be pulled. The control name is " +
+                 "added automatically.")]
+        public string promptAction = "pull the lever";
+
         Animator animator;
 
         // observer pattern - doors (or anything else) subscribe to this
@@ -19,6 +24,12 @@ namespace Ashfall.Interactables
         {
             animator = GetComponent<Animator>(); // null if you haven't added one yet, that's fine
         }
+
+        // One time switch, so once it has fired there is nothing left to tell the player.
+        public string InteractionPrompt =>
+            isActivated ? string.Empty : $"{Ashfall.Systems.GameInput.InteractActionLabel} to {promptAction}";
+
+        public bool CanInteract => !isActivated;
 
         public void Interact()
         {
