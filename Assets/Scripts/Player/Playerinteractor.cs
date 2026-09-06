@@ -22,12 +22,29 @@ namespace Ashfall.Player
 
         void Update()
         {
+            // Paused, dead, or watching the level complete screen. Leaving the prompt on
+            // screen behind a menu looks like a bug.
+            if (!IsPlaying())
+            {
+                SetFocus(null, null);
+                return;
+            }
+
             RefreshFocus();
 
             if (GameInput.InteractPressed)
             {
                 TryInteract();
             }
+        }
+
+        static bool IsPlaying()
+        {
+            var manager = GameManager.Instance;
+
+            // No manager in the scene usually means a test scene, so stay permissive rather
+            // than silently doing nothing.
+            return manager == null || manager.CurrentState == GameState.Playing;
         }
 
         void OnDisable()
@@ -55,8 +72,14 @@ namespace Ashfall.Player
 
         void TryInteract()
         {
-            FindClosestInteractable(out IInteractable interactable, out _);
-            interactable?.Interact();
+            if (focused == null) return;
+            if (!focused.CanInteract) return;
+
+            focused.Interact();
+
+            // Opening a chest changes its prompt to nothing, and the player is still standing
+            // in range, so the focus has to be recalculated before the next frame draws.
+            RefreshFocus();
         }
 
         // Pulled out of TryInteract so the on-screen prompt can ask the same question every
