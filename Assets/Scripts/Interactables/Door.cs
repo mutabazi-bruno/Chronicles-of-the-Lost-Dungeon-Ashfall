@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Ashfall.Interfaces;
 
 namespace Ashfall.Interactables
@@ -11,6 +11,8 @@ namespace Ashfall.Interactables
         public bool requiresKey;
         public string requiredKeyName = "Key";
         public AudioClip openSound;
+        [Tooltip("Optional - played when the door refuses to open")]
+        public AudioClip lockedSound;
 
         [Tooltip("leave empty if this door isn't gated by a switch. If set, the switch must be " +
                  "activated AND (if requiresKey is on) the player must have the key, before Interact() will open it.")]
@@ -51,6 +53,8 @@ namespace Ashfall.Interactables
             {
                 if (linkedSwitch != null && !linkedSwitch.isActivated)
                 {
+                    // used to return in silence, which reads as a broken door
+                    Refuse($"{name} is held by a switch that has not been activated yet");
                     return;
                 }
 
@@ -59,6 +63,7 @@ namespace Ashfall.Interactables
                     var inventory = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Ashfall.Player.PlayerInventory>();
                     if (inventory == null || !inventory.HasKey(requiredKeyName))
                     {
+                        Refuse($"{name} needs a '{requiredKeyName}' and the player does not have one");
                         return;
                     }
 
@@ -67,6 +72,18 @@ namespace Ashfall.Interactables
             }
 
             Open();
+        }
+
+        // Every refusal path used to be a bare return, so a player standing at a
+        // door with the right key had no way to tell what was missing.
+        void Refuse(string reason)
+        {
+            Debug.Log($"[Door] {reason}", this);
+
+            if (lockedSound != null)
+            {
+                Ashfall.Systems.AudioManager.Instance?.PlaySFX(lockedSound);
+            }
         }
 
         public void Open()
