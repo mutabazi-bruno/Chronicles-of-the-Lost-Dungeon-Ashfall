@@ -377,3 +377,38 @@ def reparent(text, child_path, new_parent_path, pos=(0, 0), size=None):
                     pos=pos, size=size,
                     anchor_min=(0.5, 0.5), anchor_max=(0.5, 0.5), pivot=(0.5, 0.5))
     return text
+
+
+def add_script_component(text, path, script_guid, class_identifier, fields=""):
+    """Attach a MonoBehaviour to an existing object and return the new text."""
+    obj = index(text)
+    tr = find_transform(obj, path)
+    go = hierarchy(obj)[3][tr]
+
+    comp = _new_id(text, path + class_identifier + "component")
+
+    block = """--- !u!114 &{comp}
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {{fileID: 0}}
+  m_PrefabInstance: {{fileID: 0}}
+  m_PrefabAsset: {{fileID: 0}}
+  m_GameObject: {{fileID: {go}}}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {{fileID: 11500000, guid: {guid}, type: 3}}
+  m_Name: 
+  m_EditorClassIdentifier: {cls}
+{fields}""".format(comp=comp, go=go, guid=script_guid,
+                   cls=class_identifier, fields=fields)
+
+    text = text.rstrip("\n") + "\n" + block
+
+    obj = index(text)
+    _, gblock = obj[go]
+    original = gblock
+    gblock = re.sub(r"(m_Component:(?:\n\s*- component: \{fileID: \d+\})+)",
+                    r"\1\n  - component: {fileID: %s}" % comp, gblock, count=1)
+    if gblock == original:
+        raise RuntimeError("could not extend the component list on %s" % path)
+    return text.replace(original, gblock, 1)

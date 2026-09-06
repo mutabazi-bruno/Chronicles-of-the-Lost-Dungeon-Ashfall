@@ -961,6 +961,7 @@ GameObject:
   - component: {fileID: 295106986}
   - component: {fileID: 295106985}
   - component: {fileID: 295106984}
+  - component: {fileID: 872347185334836355}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -7710,3 +7711,20 @@ SceneRoots:
   - {fileID: 4950583459315674749}
   - {fileID: 1408546248}
   - {fileID: 1848860095}
+--- !u!114 &872347185334836355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295106983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c41d2b70e5a4f1d9b3ea6c25d7f8014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Systems.CameraBoundsClamp
+  boundsRoot: {fileID: 0}
+  boundsObjectName: Background
+  clampHorizontally: 1
+  clampVertically: 1
+  padding: 0
