@@ -40,6 +40,11 @@ namespace Ashfall.Player
                 var candidate = hit.GetComponent<IInteractable>();
                 if (candidate == null) continue;
 
+                // An opened chest and a pulled lever both keep their collider so they stay
+                // visible, but they have nothing left to say. Skipping them here stops a dead
+                // prop stealing focus from a live one standing right next to it.
+                if (string.IsNullOrEmpty(candidate.InteractionPrompt)) continue;
+
                 float dist = Vector2.Distance(transform.position, hit.transform.position);
                 if (dist >= closestDist) continue;
 
