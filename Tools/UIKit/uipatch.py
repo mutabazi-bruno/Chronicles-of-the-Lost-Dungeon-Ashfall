@@ -189,3 +189,147 @@ def reorder_children(text, parent_path, order):
     if block == original:
         raise RuntimeError("child list unchanged")
     return text.replace(original, block, 1)
+
+
+IMAGE_SCRIPT_GUID = "fe87c0e1cc204ed48ad3b37840f39efc"
+
+
+def _new_id(text, salt):
+    """A stable fileID that is not already used in this file."""
+    import hashlib
+    n = 0
+    while True:
+        h = hashlib.md5(("%s#%d" % (salt, n)).encode()).hexdigest()
+        candidate = str(int(h[:15], 16))
+        if ("&" + candidate) not in text:
+            return candidate
+        n += 1
+
+
+def add_image_child(text, parent_path, child_name, sprite_guid,
+                    size=(40, 40), pos=(0, 0), colour=(1, 1, 1, 1),
+                    anchor=(0.5, 0.5), active=True):
+    """Append a child holding a single UI Image, and return (text, gameObjectId).
+
+    Written out by hand because there is no way to add a GameObject to a scene
+    from outside the editor. The block layout follows what Unity itself writes.
+    """
+    obj = index(text)
+    parent_tr = find_transform(obj, parent_path)
+
+    go = _new_id(text, parent_path + child_name + "go")
+    rt = _new_id(text, parent_path + child_name + "rt")
+    cr = _new_id(text, parent_path + child_name + "cr")
+    im = _new_id(text, parent_path + child_name + "im")
+
+    block = """--- !u!1 &{go}
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {{fileID: 0}}
+  m_PrefabInstance: {{fileID: 0}}
+  m_PrefabAsset: {{fileID: 0}}
+  serializedVersion: 6
+  m_Component:
+  - component: {{fileID: {rt}}}
+  - component: {{fileID: {cr}}}
+  - component: {{fileID: {im}}}
+  m_Layer: 5
+  m_Name: {name}
+  m_TagString: Untagged
+  m_Icon: {{fileID: 0}}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: {active}
+--- !u!224 &{rt}
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {{fileID: 0}}
+  m_PrefabInstance: {{fileID: 0}}
+  m_PrefabAsset: {{fileID: 0}}
+  m_GameObject: {{fileID: {go}}}
+  serializedVersion: 2
+  m_LocalRotation: {{x: 0, y: 0, z: 0, w: 1}}
+  m_LocalPosition: {{x: 0, y: 0, z: 0}}
+  m_LocalScale: {{x: 1, y: 1, z: 1}}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {{fileID: {parent}}}
+  m_LocalEulerAnglesHint: {{x: 0, y: 0, z: 0}}
+  m_AnchorMin: {{x: {ax}, y: {ay}}}
+  m_AnchorMax: {{x: {ax}, y: {ay}}}
+  m_AnchoredPosition: {{x: {px}, y: {py}}}
+  m_SizeDelta: {{x: {sw}, y: {sh}}}
+  m_Pivot: {{x: 0.5, y: 0.5}}
+--- !u!222 &{cr}
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {{fileID: 0}}
+  m_PrefabInstance: {{fileID: 0}}
+  m_PrefabAsset: {{fileID: 0}}
+  m_GameObject: {{fileID: {go}}}
+  m_CullTransparentMesh: 1
+--- !u!114 &{im}
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {{fileID: 0}}
+  m_PrefabInstance: {{fileID: 0}}
+  m_PrefabAsset: {{fileID: 0}}
+  m_GameObject: {{fileID: {go}}}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {{fileID: 11500000, guid: {imgguid}, type: 3}}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {{fileID: 0}}
+  m_Color: {{r: {cr_}, g: {cg}, b: {cb}, a: {ca}}}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {{x: 0, y: 0, z: 0, w: 0}}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {{fileID: 21300000, guid: {spriteguid}, type: 3}}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+""".format(go=go, rt=rt, cr=cr, im=im, name=child_name,
+           active=1 if active else 0, parent=parent_tr,
+           ax=anchor[0], ay=anchor[1], px=pos[0], py=pos[1],
+           sw=size[0], sh=size[1],
+           cr_=colour[0], cg=colour[1], cb=colour[2], ca=colour[3],
+           imgguid=IMAGE_SCRIPT_GUID, spriteguid=sprite_guid)
+
+    text = text.rstrip("\n") + "\n" + block
+
+    # hook it into the parent's child list
+    obj = index(text)
+    _, pblock = obj[parent_tr]
+    original = pblock
+    if re.search(r"m_Children: \[\]", pblock):
+        pblock = pblock.replace("m_Children: []",
+                                "m_Children:\n  - {fileID: %s}" % rt, 1)
+    else:
+        pblock = re.sub(r"(m_Children:(?:\n\s*- \{fileID: \d+\})+)",
+                        r"\1\n  - {fileID: %s}" % rt, pblock, count=1)
+    text = text.replace(original, pblock, 1)
+    return text, go
+
+
+def set_field(text, path, class_suffix, field, value):
+    """Point a serialized reference field at something, e.g. lockIcon."""
+    obj = index(text)
+    tr = find_transform(obj, path)
+    fid = component_of(obj, tr, class_suffix)
+    _, block = obj[fid]
+    original = block
+    block = re.sub(r"\n  %s: .*" % re.escape(field), "\n  %s: %s" % (field, value),
+                   block, count=1)
+    if block == original:
+        raise RuntimeError("field %r not found on %s" % (field, path))
+    return text.replace(original, block, 1)
