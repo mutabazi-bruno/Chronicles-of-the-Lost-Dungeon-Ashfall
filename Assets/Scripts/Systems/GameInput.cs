@@ -108,6 +108,18 @@ namespace Ashfall.Systems
             }
         }
 
+        public static string PotionActionLabel
+        {
+            get
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                return "Tap Potion";
+#else
+                return "Press Q";
+#endif
+            }
+        }
+
         // --- called by the on-screen TouchButton components ---
 
         public static void SetHorizontal(float value) => touchHorizontal = value;

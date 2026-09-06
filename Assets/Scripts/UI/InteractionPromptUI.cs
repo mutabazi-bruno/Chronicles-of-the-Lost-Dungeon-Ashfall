@@ -41,6 +41,15 @@ namespace Ashfall.UI
         [Tooltip("How far above the object the prompt sits, in world units. Only used by FollowTarget.")]
         public Vector3 worldOffset = new Vector3(0f, 1.2f, 0f);
 
+        [Header("Low health hint")]
+        [Tooltip("When the player is hurt and carrying a potion, remind them the potion exists. " +
+                 "An interactable in range always wins, so the two never fight for the same line.")]
+        public bool showLowHealthHint = true;
+
+        [Tooltip("Fraction of max health at or below which the hint appears. 0.35 means 35 percent.")]
+        [Range(0.05f, 0.9f)]
+        public float lowHealthFraction = 0.35f;
+
         [Header("Fallback")]
         [Tooltip("When nothing is wired above, build a plain label at runtime. This lets the " +
                  "component be dropped onto the HUD prefab and work in every level without " +
@@ -54,6 +63,9 @@ namespace Ashfall.UI
         IInteractable focused;
         RectTransform canvasRect;
         Camera worldCamera;
+
+        PlayerHealth playerHealth;
+        PlayerInventory playerInventory;
 
         void Awake()
         {
@@ -114,12 +126,60 @@ namespace Ashfall.UI
 
         void Refresh()
         {
+            // An interactable in range beats the potion reminder. Standing at a chest on low
+            // health should tell you about the chest, not about the potion you already have.
             string text = CurrentPrompt();
+
+            if (string.IsNullOrEmpty(text))
+                text = LowHealthHint();
 
             if (string.IsNullOrEmpty(text))
                 Hide();
             else
                 Show(text);
+        }
+
+        string LowHealthHint()
+        {
+            if (!showLowHealthHint) return string.Empty;
+
+            CachePlayer();
+
+            if (playerHealth == null || playerInventory == null) return string.Empty;
+            if (playerHealth.IsDead) return string.Empty;
+
+            var stats = playerHealth.stats;
+            if (stats == null || stats.maxHealth <= 0) return string.Empty;
+
+            float fraction = (float)stats.currentHealth / stats.maxHealth;
+            if (fraction > lowHealthFraction) return string.Empty;
+
+            // No point nagging about a potion the player does not have.
+            if (!HasAnyPotion()) return string.Empty;
+
+            return $"{Ashfall.Systems.GameInput.PotionActionLabel} to use a Health Potion";
+        }
+
+        bool HasAnyPotion()
+        {
+            foreach (var item in playerInventory.inventory.items)
+            {
+                if (item.type == Ashfall.Core.ItemType.Potion) return true;
+            }
+
+            return false;
+        }
+
+        // The player is spawned per scene, so this can't be resolved once at Awake.
+        void CachePlayer()
+        {
+            if (playerHealth != null && playerInventory != null) return;
+
+            var player = GameObject.FindGameObjectWithTag("Player");
+            if (player == null) return;
+
+            playerHealth = player.GetComponent<PlayerHealth>();
+            playerInventory = player.GetComponent<PlayerInventory>();
         }
 
         // LateUpdate so the camera has already moved for this frame, otherwise the label
