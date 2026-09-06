@@ -83,11 +83,7 @@ namespace Ashfall.UI
 
         public void OnExitClicked()
         {
-            #if UNITY_WEBGL && !UNITY_EDITOR
-            Application.ExternalEval("window.location.reload();");
-           #else
             Application.Quit();
-           #endif
         }
     }   
 }
