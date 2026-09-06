@@ -76,8 +76,7 @@ namespace Ashfall.Player
             OnHealthChanged?.Invoke(stats.currentHealth, stats.maxHealth);
         }
 
-        // route coin pickups through here (instead of touching stats.AddCoins directly)
-        // so anything listening (like the HUD) actually finds out it happened
+
         public void AddCoins(int amount)
         {
             stats.AddCoins(amount);
@@ -95,7 +94,7 @@ namespace Ashfall.Player
             GameManager.Instance?.ChangeState(GameState.GameOver);
         }
 
-        // ISaveable implementation - copies our stats into/out of the save file
+        // ISaveable implementation
         public void Save(SaveData data)
         {
             data.health = stats.currentHealth;
@@ -103,6 +102,11 @@ namespace Ashfall.Player
             data.stamina = stats.currentStamina;
             data.maxStamina = stats.maxStamina;
             data.coins = stats.coins;
+
+            // position + scene, so autosave can resume mid-level
+            data.playerX = transform.position.x;
+            data.playerY = transform.position.y;
+            data.lastScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         }
 
         public void Load(SaveData data)
@@ -117,6 +121,12 @@ namespace Ashfall.Player
 
             stats.currentStamina = stats.maxStamina;
             stats.coins = data.coins;
+
+            string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            if (data.lastScene == currentScene && (data.playerX != 0f || data.playerY != 0f))
+            {
+                transform.position = new Vector3(data.playerX, data.playerY, transform.position.z);
+            }
 
             OnHealthChanged?.Invoke(stats.currentHealth, stats.maxHealth);
             OnCoinsChanged?.Invoke(stats.coins);

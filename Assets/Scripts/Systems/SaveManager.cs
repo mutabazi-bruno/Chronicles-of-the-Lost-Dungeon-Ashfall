@@ -18,6 +18,26 @@ namespace Ashfall.Systems
 
         readonly List<ISaveable> registeredSaveables = new List<ISaveable>();
 
+        [Header("Autosave")]
+        [Tooltip("Master switch. Off means progress is only written when a level is completed, " +
+                 "which is how the game behaved before autosave existed.")]
+        public bool autosaveEnabled = true;
+
+        [Tooltip("Seconds between periodic autosaves during gameplay. Set to 0 to only save on " +
+                 "pause, focus loss and quit.")]
+        public float autosaveIntervalSeconds = 30f;
+
+        [Tooltip("Ignore autosave requests that arrive closer together than this. Backgrounding " +
+                 "an app usually fires both OnApplicationPause and OnApplicationFocus, and there " +
+                 "is no reason to write the file twice.")]
+        public float minSecondsBetweenAutosaves = 2f;
+
+        [Tooltip("Log every autosave to the console. Useful while testing, noisy in a build.")]
+        public bool logAutosaves = false;
+
+        // unscaled so a paused game (timeScale 0) still throttles correctly
+        float lastAutosaveTime = float.NegativeInfinity;
+
         void Awake()
         {
             if (Instance != null && Instance != this)
@@ -31,8 +51,7 @@ namespace Ashfall.Systems
             LoadOrCreate();
         }
 
-        // Called by ISaveable objects in their OnEnable, so SaveManager
-        // never has to scan the whole scene to find them.
+
         public void Register(ISaveable saveable)
         {
             if (!registeredSaveables.Contains(saveable))
@@ -133,7 +152,7 @@ namespace Ashfall.Systems
                 CurrentSave = SaveData.CreateNew();
         }
 
-        // wipes progress, used by "New Game" and for testing
+
         public void DeleteSave()
         {
             try
@@ -147,6 +166,50 @@ namespace Ashfall.Systems
             }
 
             CurrentSave = SaveData.CreateNew();
+        }
+
+        // --- autosave -
+
+        void Update()
+        {
+            if (!autosaveEnabled || autosaveIntervalSeconds <= 0f) return;
+            if (Time.unscaledTime - lastAutosaveTime < autosaveIntervalSeconds) return;
+
+            Autosave("interval");
+        }
+        void OnApplicationPause(bool isPaused)
+        {
+            if (isPaused) Autosave("app backgrounded");
+        }
+
+        void OnApplicationFocus(bool hasFocus)
+        {
+            if (!hasFocus) Autosave("focus lost");
+        }
+
+        void OnApplicationQuit()
+        {
+            Autosave("quit");
+        }
+        public void Autosave(string reason)
+        {
+            if (!autosaveEnabled) return;
+            if (!IsGameplayState()) return;
+            if (Time.unscaledTime - lastAutosaveTime < minSecondsBetweenAutosaves) return;
+
+            lastAutosaveTime = Time.unscaledTime;
+            SaveAll();
+
+            if (logAutosaves)
+                Debug.Log($"[SaveManager] autosaved ({reason})");
+        }
+        bool IsGameplayState()
+        {
+            var manager = GameManager.Instance;
+            if (manager == null) return false;
+
+            return manager.CurrentState == GameState.Playing
+                || manager.CurrentState == GameState.Paused;
         }
 
         [ContextMenu("Log Save Path")]
