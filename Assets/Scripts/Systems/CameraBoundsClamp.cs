@@ -30,6 +30,10 @@ namespace Ashfall.Systems
                  "as playable area.")]
         public float padding = 0f;
 
+        [Tooltip("Print what was measured on start. Turn this on when the camera is still " +
+                 "showing background outside the art.")]
+        public bool logBounds = true;
+
         Camera cam;
         Bounds bounds;
         bool hasBounds;
@@ -56,17 +60,24 @@ namespace Ashfall.Systems
                 if (found != null) root = found.transform;
             }
 
-            if (root == null)
+            Renderer[] renderers;
+
+            if (root != null)
             {
-                Debug.LogWarning($"[CameraBoundsClamp] no '{boundsObjectName}' in this scene, " +
-                                 "camera will not be clamped");
-                return;
+                renderers = root.GetComponentsInChildren<Renderer>();
+            }
+            else
+            {
+                // No object by that name. Rather than do nothing, fall back to every sprite
+                // in the scene, which still beats letting the camera wander off the art.
+                Debug.LogWarning($"[CameraBoundsClamp] no '{boundsObjectName}' found, " +
+                                 "falling back to every SpriteRenderer in the scene");
+                renderers = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
             }
 
-            var renderers = root.GetComponentsInChildren<Renderer>();
-            if (renderers.Length == 0)
+            if (renderers == null || renderers.Length == 0)
             {
-                Debug.LogWarning("[CameraBoundsClamp] bounds object has no renderers");
+                Debug.LogWarning("[CameraBoundsClamp] nothing to measure, camera will not be clamped");
                 return;
             }
 
@@ -75,6 +86,26 @@ namespace Ashfall.Systems
                 bounds.Encapsulate(renderers[i].bounds);
 
             hasBounds = true;
+
+            if (logBounds)
+            {
+                float halfHeight = cam != null ? cam.orthographicSize : 0f;
+                float halfWidth = cam != null ? halfHeight * cam.aspect : 0f;
+                Debug.Log($"[CameraBoundsClamp] measured {renderers.Length} renderers, " +
+                          $"bounds min {bounds.min} max {bounds.max}, " +
+                          $"camera half extents {halfWidth} x {halfHeight}. " +
+                          $"Horizontal room: {(bounds.size.x > halfWidth * 2 ? "yes" : "NO, art is narrower than the view")}. " +
+                          $"Vertical room: {(bounds.size.y > halfHeight * 2 ? "yes" : "NO, art is shorter than the view")}.");
+            }
+        }
+
+        // Draws what it actually measured, so a wrong result is visible in the Scene view
+        // rather than something to reason about.
+        void OnDrawGizmosSelected()
+        {
+            if (!hasBounds) return;
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireCube(bounds.center, bounds.size);
         }
 
         void LateUpdate()
