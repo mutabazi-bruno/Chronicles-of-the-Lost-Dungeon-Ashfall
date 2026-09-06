@@ -59,6 +59,7 @@ namespace Ashfall.UI
         public TMP_Text inventoryText;
 
         int enemiesRemaining;
+        ObjectiveManager subscribedObjectives;
 
         PlayerHealth playerHealth;
         PlayerAbilities playerAbilities;
@@ -98,7 +99,8 @@ namespace Ashfall.UI
 
             if (ObjectiveManager.Instance != null)
             {
-                ObjectiveManager.Instance.OnObjectivesChanged += RefreshObjectives;
+                subscribedObjectives = ObjectiveManager.Instance;
+                subscribedObjectives.OnObjectivesChanged += RefreshObjectives;
                 RefreshObjectives();
             }
 
@@ -125,8 +127,11 @@ namespace Ashfall.UI
                 playerInventory.OnItemRemoved -= HandleInventoryChanged;
             }
 
-            if (ObjectiveManager.Instance != null)
-                ObjectiveManager.Instance.OnObjectivesChanged -= RefreshObjectives;
+            if (subscribedObjectives != null)
+            {
+                subscribedObjectives.OnObjectivesChanged -= RefreshObjectives;
+                subscribedObjectives = null;
+            }
 
             Enemy.OnAnyEnemyDeath -= HandleEnemyDefeated;
         }
@@ -234,12 +239,15 @@ namespace Ashfall.UI
 
             foreach (var objective in ObjectiveManager.Instance.Objectives)
             {
-                // tick/cross instead of the word "complete", keeps it readable at a glance
-                sb.AppendLine($"{(objective.IsComplete ? "\u2713" : "\u2022")} {objective.Description}");
+                // completed objectives are struck through and dimmed rather than
+                // marked with a tick - the UI font has no U+2713 glyph
+                sb.AppendLine(objective.IsComplete
+                    ? $"<color=#8A8272><s>• {objective.Description}</s></color>"
+                    : $"• {objective.Description}");
             }
 
             if (ObjectiveManager.Instance.AllComplete)
-                sb.AppendLine("\u2713 Exit is open");
+                sb.AppendLine("<color=#E8C06A>• Exit is open</color>");
 
             objectivesText.text = sb.ToString();
 
