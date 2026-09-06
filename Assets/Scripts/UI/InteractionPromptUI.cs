@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using Ashfall.Interfaces;
 using Ashfall.Player;
@@ -58,6 +58,11 @@ namespace Ashfall.UI
 
         [Tooltip("Font size of the fallback label only. Ignored when you assign your own.")]
         public float fallbackFontSize = 28f;
+
+        [Tooltip("Matches the HUD's control hints so the prompt reads as part of the same " +
+                 "interface. The font asset is already shared - TMP's default is the same " +
+                 "LiberationSans SDF every other label uses - so this is weight, caps and colour.")]
+        public Color fallbackTextColor = new Color32(237, 228, 210, 255);
 
         Transform followTarget;
         IInteractable focused;
@@ -272,6 +277,12 @@ namespace Ashfall.UI
             label.alignment = TextAlignmentOptions.Center;
             label.fontSize = fallbackFontSize;
             label.raycastTarget = false;
+
+            // The HUD's control hints are bold small-caps in a warm off-white. A plain
+            // white regular-weight label next to them reads as a different font even
+            // though it is the same asset, so match the treatment here.
+            label.fontStyle = FontStyles.Bold | FontStyles.SmallCaps;
+            label.color = fallbackTextColor;
 
             promptLabel = label;
             promptRoot = labelObject.GetComponent<RectTransform>();
