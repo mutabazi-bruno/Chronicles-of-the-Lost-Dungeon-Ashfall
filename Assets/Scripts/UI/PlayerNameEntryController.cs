@@ -42,7 +42,28 @@ namespace Ashfall.UI
                 nameInput.text = existing;
                 nameInput.Select();
                 nameInput.ActivateInputField();
+
+                // The error used to sit there until the panel was reopened, so a player who
+                // typed a name after a failed press still saw "Enter a name to continue" and
+                // reasonably assumed the button was broken.
+                nameInput.onValueChanged.RemoveListener(HandleTyping);
+                nameInput.onValueChanged.AddListener(HandleTyping);
+
+                // Enter submits, which is what anyone typing into a name box expects.
+                nameInput.onSubmit.RemoveListener(HandleSubmit);
+                nameInput.onSubmit.AddListener(HandleSubmit);
             }
+        }
+
+        void HandleTyping(string value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+                SetError(string.Empty);
+        }
+
+        void HandleSubmit(string value)
+        {
+            OnConfirmClicked();
         }
 
         public void Hide()
@@ -53,7 +74,7 @@ namespace Ashfall.UI
         // hook this to the panel's "Confirm"/"Play" button
         public void OnConfirmClicked()
         {
-            string typed = nameInput != null ? nameInput.text : string.Empty;
+            string typed = ReadTypedName();
             string trimmed = (typed ?? string.Empty).Trim();
 
             if (string.IsNullOrEmpty(trimmed))
@@ -75,6 +96,19 @@ namespace Ashfall.UI
             var callback = onConfirmed;
             onConfirmed = null;
             callback?.Invoke();
+        }
+
+        // TMP_InputField.text is the source of truth, but read the visible label as a
+        // fallback so a mis-wired viewport cannot silently swallow what the player typed.
+        string ReadTypedName()
+        {
+            if (nameInput == null) return string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(nameInput.text))
+                return nameInput.text;
+
+            var label = nameInput.textComponent;
+            return label != null ? label.text : string.Empty;
         }
 
         void SetError(string message)
