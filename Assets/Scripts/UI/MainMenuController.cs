@@ -105,5 +105,5 @@ namespace Ashfall.UI
         {
             Application.Quit();
         }
-    }
+    }   
 }

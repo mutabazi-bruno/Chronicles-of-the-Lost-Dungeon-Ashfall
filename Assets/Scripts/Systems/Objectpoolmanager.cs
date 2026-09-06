@@ -27,19 +27,23 @@ namespace Ashfall.Systems
                 pools[prefab] = new Queue<GameObject>();
 
             var queue = pools[prefab];
+            
+            GameObject obj = null;
+            // Pooled objects live in whatever scene they were spawned in, but this
 
-            GameObject obj;
-            if (queue.Count > 0)
-            {
+            while (queue.Count > 0 && obj == null)
                 obj = queue.Dequeue();
-                obj.transform.position = position;
-                obj.transform.rotation = rotation;
-                obj.SetActive(true);
+                
+            if (obj != null)
+            {
+              obj.transform.position = position;
+              obj.transform.rotation = rotation;
+              obj.SetActive(true);
             }
             else
             {
-                // pool empty, make a new one, itll get returned to the pool later
-                obj = Instantiate(prefab, position, rotation);
+              // pool empty (or everything left in it was stale), make a new one
+              obj = Instantiate(prefab, position, rotation);
             }
 
             return obj;
