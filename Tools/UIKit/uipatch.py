@@ -333,3 +333,47 @@ def set_field(text, path, class_suffix, field, value):
     if block == original:
         raise RuntimeError("field %r not found on %s" % (field, path))
     return text.replace(original, block, 1)
+
+
+def reparent(text, child_path, new_parent_path, pos=(0, 0), size=None):
+    """Move a child under a new parent, centred on it.
+
+    Draw order on a Canvas follows the hierarchy, and a child always paints over
+    its parent. Nesting a label inside its own backdrop is therefore stable in a
+    way that shuffling siblings is not.
+    """
+    obj = index(text)
+    child = find_transform(obj, child_path)
+    new_parent = find_transform(obj, new_parent_path)
+
+    old_father = re.search(r"m_Father: \{fileID: (\d+)\}", obj[child][1]).group(1)
+
+    # drop it from the old parent's list
+    _, oldblock = obj[old_father]
+    replacement = re.sub(r"\n\s*- \{fileID: %s\}" % child, "", oldblock, count=1)
+    if re.search(r"m_Children:\s*\n\s*m_Father", replacement):
+        replacement = re.sub(r"m_Children:\s*\n(\s*m_Father)", r"m_Children: []\n\1", replacement)
+    text = text.replace(oldblock, replacement, 1)
+
+    # add it to the new parent's list
+    obj = index(text)
+    _, newblock = obj[new_parent]
+    if re.search(r"m_Children: \[\]", newblock):
+        updated = newblock.replace("m_Children: []",
+                                   "m_Children:\n  - {fileID: %s}" % child, 1)
+    else:
+        updated = re.sub(r"(m_Children:(?:\n\s*- \{fileID: \d+\})+)",
+                         r"\1\n  - {fileID: %s}" % child, newblock, count=1)
+    text = text.replace(newblock, updated, 1)
+
+    # point the child at its new parent and centre it
+    obj = index(text)
+    _, cblock = obj[child]
+    fixed = cblock.replace("m_Father: {fileID: %s}" % old_father,
+                           "m_Father: {fileID: %s}" % new_parent, 1)
+    text = text.replace(cblock, fixed, 1)
+
+    text = set_rect(text, new_parent_path + "/" + child_path.split("/")[-1],
+                    pos=pos, size=size,
+                    anchor_min=(0.5, 0.5), anchor_max=(0.5, 0.5), pivot=(0.5, 0.5))
+    return text
