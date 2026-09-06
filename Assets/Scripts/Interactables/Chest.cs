@@ -19,6 +19,11 @@ namespace Ashfall.Interactables
 
         public AudioClip openSound;
 
+        [Header("Prompt")]
+        [Tooltip("Shown next to the chest while it can still be opened. The control name is " +
+                 "added automatically, so \"open the chest\" becomes \"Press E to open the chest\".")]
+        public string promptAction = "open the chest";
+
         bool isOpened;
         Animator animator;
         Collider2D col;
@@ -28,6 +33,13 @@ namespace Ashfall.Interactables
             animator = GetComponent<Animator>();
             col = GetComponent<Collider2D>();
         }
+
+        // A looted chest stays in the scene in its opened state, so it has to stop
+        // advertising itself once the potion is gone.
+        public string InteractionPrompt =>
+            isOpened ? string.Empty : $"{Ashfall.Systems.GameInput.InteractActionLabel} to {promptAction}";
+
+        public bool CanInteract => !isOpened;
 
         public void Interact()
         {
