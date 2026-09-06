@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Ashfall.Interfaces;
 using Ashfall.Systems;
@@ -9,12 +10,47 @@ namespace Ashfall.Player
         public float interactRange = 1f;
         public LayerMask interactableLayer;
 
+        // observer pattern, same shape as PlayerController's sound events. The prompt UI
+        // subscribes to this instead of hunting for the player every frame.
+        // Transform is the thing to point at, and is null when nothing is in range.
+        public static event Action<IInteractable, Transform> OnFocusChanged;
+
+        IInteractable focused;
+        Transform focusedTarget;
+
+        public IInteractable Focused => focused;
+
         void Update()
         {
+            RefreshFocus();
+
             if (GameInput.InteractPressed)
             {
                 TryInteract();
             }
+        }
+
+        void OnDisable()
+        {
+            SetFocus(null, null);
+        }
+
+        // Runs every frame so the prompt appears the moment the player walks into range and
+        // updates itself when a locked door becomes unlocked while they are standing there.
+        void RefreshFocus()
+        {
+            FindClosestInteractable(out IInteractable nearest, out Transform target);
+            SetFocus(nearest, target);
+        }
+
+        void SetFocus(IInteractable next, Transform target)
+        {
+            if (ReferenceEquals(focused, next) && focusedTarget == target) return;
+
+            focused = next;
+            focusedTarget = target;
+
+            OnFocusChanged?.Invoke(focused, focusedTarget);
         }
 
         void TryInteract()
