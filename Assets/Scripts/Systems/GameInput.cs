@@ -92,6 +92,22 @@ namespace Ashfall.Systems
 #endif
         }
 
+        // --- prompt text -----------------------------------------------------
+
+        // What the on-screen prompt should tell the player to do. Mobile builds have no
+        // keyboard, so telling them to press E would be wrong.
+        public static string InteractActionLabel
+        {
+            get
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                return "Tap Interact";
+#else
+                return "Press E";
+#endif
+            }
+        }
+
         // --- called by the on-screen TouchButton components ---
 
         public static void SetHorizontal(float value) => touchHorizontal = value;
