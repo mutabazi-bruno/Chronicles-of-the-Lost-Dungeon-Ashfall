@@ -310,6 +310,7 @@ GameObject:
   - component: {fileID: 7266352153304587699}
   - component: {fileID: 8009337201183878272}
   - component: {fileID: 1462825525369743343}
+  - component: {fileID: 1122334455667788990}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -821,3 +822,21 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1122334455667788990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3886240303954542266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f7c1a90d84b4e0aa1c6b2f5d7e30914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.UI.InteractionPromptUI
+  promptRoot: {fileID: 0}
+  promptLabel: {fileID: 0}
+  canvas: {fileID: 2046250454415352106}
+  worldOffset: {x: 0, y: 1.2, z: 0}
+  buildFallbackWhenUnassigned: 1
+  fallbackFontSize: 28
