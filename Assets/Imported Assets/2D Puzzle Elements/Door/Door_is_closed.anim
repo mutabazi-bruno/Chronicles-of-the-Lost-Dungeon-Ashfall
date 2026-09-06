@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Door_Open
+  m_Name: Door_is_closed
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -23,13 +23,7 @@ AnimationClip:
     - time: 0
       value: {fileID: 2325145658267342539, guid: bb9e8631fb7421d4b8412ea755a7f220, type: 3}
     - time: 0.083333336
-      value: {fileID: 1596292473, guid: bb9e8631fb7421d4b8412ea755a7f220, type: 3}
-    - time: 0.16666667
-      value: {fileID: -399279815, guid: bb9e8631fb7421d4b8412ea755a7f220, type: 3}
-    - time: 0.25
-      value: {fileID: -840049488, guid: bb9e8631fb7421d4b8412ea755a7f220, type: 3}
-    - time: 0.33333334
-      value: {fileID: -809898394, guid: bb9e8631fb7421d4b8412ea755a7f220, type: 3}
+      value: {fileID: 21300000, guid: 6d9416ff8a316eb43ab5ea8d8481aa63, type: 2}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -53,21 +47,18 @@ AnimationClip:
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: 2325145658267342539, guid: bb9e8631fb7421d4b8412ea755a7f220, type: 3}
-    - {fileID: 1596292473, guid: bb9e8631fb7421d4b8412ea755a7f220, type: 3}
-    - {fileID: -399279815, guid: bb9e8631fb7421d4b8412ea755a7f220, type: 3}
-    - {fileID: -840049488, guid: bb9e8631fb7421d4b8412ea755a7f220, type: 3}
-    - {fileID: -809898394, guid: bb9e8631fb7421d4b8412ea755a7f220, type: 3}
+    - {fileID: 21300000, guid: 6d9416ff8a316eb43ab5ea8d8481aa63, type: 2}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.41666666
+    m_StopTime: 0.16666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 0
+    m_LoopTime: 1
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
