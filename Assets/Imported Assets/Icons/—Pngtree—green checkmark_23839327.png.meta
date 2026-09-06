@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 51ac5756984b48846b20bb981c6aa035
+guid: d826f9faa74e5f0479b38e170d3628d2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5456559884583117778
-    second: Door_Black_0
+      213: 7442508152902956510
+    second: "\u2014Pngtree\u2014green checkmark_23839327_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Door_Black_0
+      name: "\u2014Pngtree\u2014green checkmark_23839327_0"
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 18
-        height: 32
+        x: 444
+        y: 420
+        width: 2141
+        height: 1813
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e2cd6cfe1b76644b0800000000000000
-      internalID: -5456559884583117778
+      spriteID: ed5bab3abb9194760800000000000000
+      internalID: 7442508152902956510
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 6f372f3762140d342b13e9546cb04d21
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Door_Black_0: -5456559884583117778
+      "\u2014Pngtree\u2014green checkmark_23839327_0": 7442508152902956510
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

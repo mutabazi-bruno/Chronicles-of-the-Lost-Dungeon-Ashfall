@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2456992597915956842}
   - component: {fileID: 6502356698401984298}
   - component: {fileID: 4963353859042560076}
+  - component: {fileID: 5104928374651029384}
   m_Layer: 0
   m_Name: Systems
   m_TagString: Untagged
@@ -156,5 +157,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f13cfac14e9bfc347a2762363ce4601a, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Systems.InputRouter
+--- !u!114 &5104928374651029384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878022754474953975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2339060d3d0371cc6640457a1e8cba, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Systems.PlayerProfile

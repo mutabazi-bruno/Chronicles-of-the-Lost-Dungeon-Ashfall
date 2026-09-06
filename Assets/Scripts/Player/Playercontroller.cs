@@ -10,6 +10,7 @@ namespace Ashfall.Player
     {
         public static event Action OnMovementSound;
         public static event Action OnFootstepSound;
+        public static event Action OnWallSlideDust;
 
         [Header("Movement")]
         public float moveSpeed = 6f;
@@ -20,16 +21,22 @@ namespace Ashfall.Player
         public float groundCheckRadius = 0.15f;
         public LayerMask groundLayer;
 
+        [Header("Wall Slide")]
+        public float wallSlideSpeed = 2f;
+        public float wallCheckDistance = 0.15f;
+
         [Header("Footsteps")]
         public float footstepInterval = 0.35f;
 
         Rigidbody2D rb;
         Animator animator;
         SpriteRenderer spriteRenderer;
+        Collider2D col;
 
         bool isGrounded;
         bool isDashing;
         bool isDead;
+        bool isWallSliding;
         float horizontalInput;
         float footstepTimer;
         int facingDirection = 1;
@@ -39,6 +46,7 @@ namespace Ashfall.Player
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
             spriteRenderer = GetComponent<SpriteRenderer>();
+            col = GetComponent<Collider2D>();
         }
 
         void Update()
@@ -64,7 +72,14 @@ namespace Ashfall.Player
         void FixedUpdate()
         {
             if (isDashing || isDead) return;
+
+            CheckWallSlide();
             Move(new Vector2(horizontalInput, 0));
+
+            if (isWallSliding && rb.linearVelocity.y < -wallSlideSpeed)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, -wallSlideSpeed);
+            }
         }
 
         public bool FacingRight => facingDirection == 1;
@@ -124,6 +139,32 @@ namespace Ashfall.Player
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         }
 
+        void CheckWallSlide()
+        {
+            if (isGrounded || Mathf.Abs(horizontalInput) < 0.01f || Mathf.Sign(horizontalInput) != facingDirection)
+            {
+                isWallSliding = false;
+                return;
+            }
+
+            Vector2 origin = col.bounds.center;
+            Vector2 castSize = new Vector2(0.05f, col.bounds.size.y * 0.6f);
+            float castDistance = col.bounds.extents.x + wallCheckDistance;
+
+            RaycastHit2D wallHit = Physics2D.BoxCast(
+                origin, castSize, 0f,
+                new Vector2(facingDirection, 0f),
+                castDistance, groundLayer);
+
+            isWallSliding = wallHit.collider != null;
+        }
+
+        // Called via Animation Event from HeroKnight_WallSlide.anim
+        void AE_SlideDust()
+        {
+            OnWallSlideDust?.Invoke();
+        }
+
         void FlipSprite()
         {
             if (horizontalInput > 0)
@@ -145,6 +186,7 @@ namespace Ashfall.Player
             animator.SetBool("Grounded", isGrounded);
             animator.SetFloat("AirSpeedY", rb.linearVelocity.y);
             animator.SetInteger("AnimState", Mathf.Abs(horizontalInput) > 0.01f ? 1 : 0);
+            animator.SetBool("WallSlide", isWallSliding);
         }
 
         public void SetDead()

@@ -22,6 +22,16 @@ namespace Ashfall.Player
             health = GetComponent<PlayerHealth>();
         }
 
+        void OnEnable()
+        {
+            SaveManager.Instance?.Register(this);
+        }
+
+        void OnDisable()
+        {
+            SaveManager.Instance?.Unregister(this);
+        }
+
         void Update()
         {
             if (GameInput.UsePotionPressed)
