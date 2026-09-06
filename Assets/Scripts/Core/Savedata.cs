@@ -21,6 +21,11 @@ namespace Ashfall.Core
         public float musicVolume = 1f;
         public float sfxVolume = 1f;
 
+        // player position and last scene, so autosave can resume mid-level
+        public float playerX;
+        public float playerY;
+        public string lastScene = "";
+
         // fresh save, only level 1 unlocked
         public static SaveData CreateNew()
         {
