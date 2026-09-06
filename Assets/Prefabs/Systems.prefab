@@ -191,6 +191,6 @@ MonoBehaviour:
   canvas: {fileID: 0}
   worldOffset: {x: 0, y: 1.2, z: 0}
   showLowHealthHint: 1
-  lowHealthFraction: 0.35
+  lowHealthFraction: 0.5
   buildFallbackWhenUnassigned: 1
   fallbackFontSize: 28

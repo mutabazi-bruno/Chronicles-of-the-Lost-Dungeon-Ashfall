@@ -46,9 +46,9 @@ namespace Ashfall.UI
                  "An interactable in range always wins, so the two never fight for the same line.")]
         public bool showLowHealthHint = true;
 
-        [Tooltip("Fraction of max health at or below which the hint appears. 0.35 means 35 percent.")]
+        [Tooltip("Fraction of max health at or below which the hint appears. 0.5 means half health.")]
         [Range(0.05f, 0.9f)]
-        public float lowHealthFraction = 0.35f;
+        public float lowHealthFraction = 0.5f;
 
         [Header("Fallback")]
         [Tooltip("When nothing is wired above, build a plain label at runtime. This lets the " +
@@ -126,6 +126,15 @@ namespace Ashfall.UI
 
         void Refresh()
         {
+            // Nothing belongs on screen unless the level is actually being played. The
+            // potion hint was showing over the level complete and pause screens, because
+            // it only ever checked health.
+            if (!IsPlaying())
+            {
+                Hide();
+                return;
+            }
+
             // An interactable in range beats the potion reminder. Standing at a chest on low
             // health should tell you about the chest, not about the potion you already have.
             string text = CurrentPrompt();
@@ -137,6 +146,16 @@ namespace Ashfall.UI
                 Hide();
             else
                 Show(text);
+        }
+
+        static bool IsPlaying()
+        {
+            var manager = Ashfall.Systems.GameManager.Instance;
+
+            // No manager usually means a test scene, so stay permissive rather than
+            // silently showing nothing at all.
+            return manager == null
+                || manager.CurrentState == Ashfall.Systems.GameState.Playing;
         }
 
         string LowHealthHint()
