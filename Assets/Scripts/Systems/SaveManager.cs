@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Ashfall.Core;
 using Ashfall.Interfaces;
 
@@ -49,6 +50,33 @@ namespace Ashfall.Systems
             DontDestroyOnLoad(gameObject);
 
             LoadOrCreate();
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+            // Ask the browser to tell us when the page is going away, since closing a
+            // tab does not raise OnApplicationQuit.
+            AshfallRegisterUnloadHook(gameObject.name, nameof(WebGLFlush));
+#endif
+        }
+
+        void OnDestroy()
+        {
+            if (Instance == this)
+                SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        // LoadIntoScene had no caller at all, which is why a saved inventory was
+        // written to disk and never came back. sceneLoaded is the right moment: it
+        // runs after every Awake/OnEnable, so all ISaveables have registered, and
+        // before any Start, so nothing has acted on default values yet.
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            var manager = GameManager.Instance;
+            bool gameplay = manager != null && manager.gameplayScenes.Contains(scene.name);
+            if (!gameplay) return;
+
+            LoadIntoScene();
         }
 
 
@@ -73,8 +101,31 @@ namespace Ashfall.Systems
         {
             if (CurrentSave == null) CurrentSave = SaveData.CreateNew();
 
+            // Saving from inside a level is what makes it resumable. Marking it here
+            // rather than in one of the ISaveables keeps the flag from depending on
+            // which components happen to be present in the scene.
+            var manager = GameManager.Instance;
+            string scene = SceneManager.GetActiveScene().name;
+            if (manager != null && manager.gameplayScenes.Contains(scene))
+                CurrentSave.runInProgress = true;
+
             foreach (var saveable in registeredSaveables)
                 saveable.Save(CurrentSave);
+
+            Save();
+        }
+
+        // Forgets a level's world state and the resume point, so it starts clean the
+        // next time it is entered. Used when a level is finished and when the player
+        // dies and restarts it.
+        public void ClearLevelProgress(string sceneName)
+        {
+            if (CurrentSave == null) return;
+
+            CurrentSave.ClearSceneState(sceneName);
+
+            if (CurrentSave.lastScene == sceneName)
+                CurrentSave.ClearResumePoint();
 
             Save();
         }
@@ -110,9 +161,28 @@ namespace Ashfall.Systems
         }
 
 #if UNITY_WEBGL && !UNITY_EDITOR
+        // Implemented in Assets/Plugins/WebGL/SaveSync.jslib. This replaces
+        // Application.ExternalEval, which is deprecated in Unity 6.
+        [System.Runtime.InteropServices.DllImport("__Internal")]
+        static extern void AshfallSyncSaveFs();
+
+        [System.Runtime.InteropServices.DllImport("__Internal")]
+        static extern void AshfallRegisterUnloadHook(string objectName, string methodName);
+
         void SyncWebGLFiles()
         {
-            Application.ExternalEval("FS.syncfs(false, function(err){});");
+            AshfallSyncSaveFs();
+        }
+
+        // Called from the browser when the page is being hidden or unloaded, which
+        // is the one moment a browser reliably gives us and OnApplicationQuit does not.
+        // Deliberately bypasses the autosave throttle - there is no "next time".
+        public void WebGLFlush()
+        {
+            if (!IsGameplayState()) return;
+
+            lastAutosaveTime = Time.unscaledTime;
+            SaveAll();
         }
 #endif
 

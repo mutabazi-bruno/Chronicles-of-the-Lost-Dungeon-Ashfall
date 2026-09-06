@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8864014412012099207}
   - component: {fileID: 3562418378130244642}
   - component: {fileID: 1177064927002505843}
+  - component: {fileID: 836865434604872928}
   - component: {fileID: 2326124574517246470}
   - component: {fileID: 2456992597915956842}
   - component: {fileID: 6502356698401984298}
@@ -194,3 +195,16 @@ MonoBehaviour:
   lowHealthFraction: 0.5
   buildFallbackWhenUnassigned: 1
   fallbackFontSize: 28
+--- !u!114 &836865434604872928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878022754474953975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a9ea059401266acf43af005e5f485b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ashfall.Systems.WorldStateManager
+  logWorldState: 0

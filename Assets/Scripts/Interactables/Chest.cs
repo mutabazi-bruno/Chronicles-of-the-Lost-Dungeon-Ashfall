@@ -41,6 +41,22 @@ namespace Ashfall.Interactables
 
         public bool CanInteract => !isOpened;
 
+        public bool IsOpened => isOpened;
+
+        // Puts a loaded chest straight into its opened state without handing out the
+        // reward again - the player already banked it in the session being restored.
+        public void RestoreOpened()
+        {
+            if (isOpened) return;
+            isOpened = true;
+
+            if (animator != null)
+                animator.SetBool("IsOpened", true);
+
+            if (col != null)
+                col.enabled = false;
+        }
+
         public void Interact()
         {
             if (isOpened) return;

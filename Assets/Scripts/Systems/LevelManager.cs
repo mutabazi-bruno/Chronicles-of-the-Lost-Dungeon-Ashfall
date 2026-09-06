@@ -59,6 +59,11 @@ namespace Ashfall.Systems
             // Save state before announcing completion.
             SaveManager.Instance.SaveAll();
 
+            // A finished level is no longer "in progress": drop its world state and
+            // resume point so the level select row goes back to CLEARED rather than
+            // offering to drop the player back at the exit they just walked through.
+            SaveManager.Instance.ClearLevelProgress(levelId);
+
             if (unlockedSomething)
                 OnLevelUnlocked?.Invoke(next);
 

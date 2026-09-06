@@ -104,8 +104,14 @@ namespace Ashfall.UI
         // hook this up to a "Replay" button on the level-complete panel
         public void OnReplayClicked()
         {
+            string current = SceneManager.GetActiveScene().name;
+
+            // replaying means playing it again, not walking back into the finished
+            // state - drop any world state left over from the run just completed
+            SaveManager.Instance?.ClearLevelProgress(current);
+
             GameManager.Instance?.ChangeState(GameState.Playing);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene(current);
         }
 
         public void OnMainMenuClicked()

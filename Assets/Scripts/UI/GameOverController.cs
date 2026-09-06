@@ -74,6 +74,12 @@ namespace Ashfall.UI
         public void OnRestartClicked()
         {
             string current = SceneManager.GetActiveScene().name;
+
+            // Dying resets the level. Without this the player would reload into a
+            // world where everything they already killed stays dead, so a hard level
+            // could be ground down by dying repeatedly.
+            SaveManager.Instance?.ClearLevelProgress(current);
+
             GameManager.Instance.ChangeState(GameState.Playing); // resets timescale before reload
             SceneManager.LoadScene(current);
         }

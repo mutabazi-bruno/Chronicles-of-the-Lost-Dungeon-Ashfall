@@ -155,6 +155,24 @@ namespace Ashfall.Interactables
             }
         }
 
+        public bool IsOpen => isOpen;
+
+        // Restores a door the player already opened. Skips the sound and the
+        // animation trigger and simply lands in the open state, so reloading a save
+        // does not replay every door opening in the level.
+        public void RestoreOpened()
+        {
+            if (isOpen) return;
+
+            isOpen = true;
+            if (col != null) col.enabled = false;
+
+            // the controller only exposes an "Open" trigger, no open/closed bool,
+            // so this is the one way to land in the opened state
+            if (animator != null)
+                animator.SetTrigger("Open");
+        }
+
         public void Open()
         {
             if (isOpen) return;

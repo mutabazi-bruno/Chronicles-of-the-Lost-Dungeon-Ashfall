@@ -140,6 +140,22 @@ namespace Ashfall.Enemies
                 animator?.SetTrigger("Hurt");
         }
 
+        // Applies persisted state on load. Deliberately does NOT go through Die():
+        // that would re-spawn dropOnDeath and re-fire OnAnyEnemyDeath, handing out a
+        // second loot drop and miscounting objectives every time a save is loaded.
+        public void RestoreState(bool dead, int savedHealth)
+        {
+            if (dead)
+            {
+                isDead = true;
+                Destroy(gameObject);
+                return;
+            }
+
+            if (savedHealth > 0)
+                currentHealth = Mathf.Min(savedHealth, maxHealth);
+        }
+
         void Die()
         {
             isDead = true;

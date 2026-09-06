@@ -41,12 +41,9 @@ namespace Ashfall.Player
             SaveManager.Instance?.Unregister(this);
         }
 
-        void Start()
-        {
-            // pull persisted values (coins especially) into this level's player
-            if (SaveManager.Instance != null && SaveManager.Instance.CurrentSave != null)
-                Load(SaveManager.Instance.CurrentSave);
-        }
+        // No self-load here any more. SaveManager drives every ISaveable from
+        // sceneLoaded so player, inventory and world state are applied together in a
+        // known order, instead of each component racing to restore itself in Start.
 
         void Update()
         {
@@ -115,15 +112,24 @@ namespace Ashfall.Player
             stats.maxHealth = data.maxHealth > 0 ? data.maxHealth : 100;
             stats.maxStamina = data.maxStamina > 0 ? (int)data.maxStamina : 100;
 
-            stats.currentHealth = restoreHealthFromSave && data.health > 0
-                ? data.health
-                : stats.maxHealth;
+            string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+            // Resuming means picking this level back up exactly where it was left.
+            // Entering it any other way is a fresh attempt.
+            bool resuming = data.HasResumePointFor(currentScene);
+
+            // Carrying low health into a level you are starting can soft-lock a run,
+            // which is what restoreHealthFromSave guards against. That risk does not
+            // apply when resuming the level you were already standing in, so the
+            // saved health is honoured there regardless of the flag.
+            bool useSavedHealth = (resuming || restoreHealthFromSave) && data.health > 0;
+
+            stats.currentHealth = useSavedHealth ? data.health : stats.maxHealth;
 
             stats.currentStamina = stats.maxStamina;
             stats.coins = data.coins;
 
-            string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            if (data.lastScene == currentScene && (data.playerX != 0f || data.playerY != 0f))
+            if (resuming && (data.playerX != 0f || data.playerY != 0f))
             {
                 transform.position = new Vector3(data.playerX, data.playerY, transform.position.z);
             }
