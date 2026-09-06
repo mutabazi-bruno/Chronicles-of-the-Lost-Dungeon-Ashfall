@@ -195,6 +195,9 @@ MonoBehaviour:
   lowHealthFraction: 0.5
   buildFallbackWhenUnassigned: 1
   fallbackFontSize: 28
+  fallbackBackground: {fileID: 21300000, guid: 28421e6092bf6dbf945ed9a5fd50baef, type: 3}
+  fallbackPadding: {x: 34, y: 14}
+  fallbackTextColor: {r: 0.929412, g: 0.894118, b: 0.823529, a: 1}
 --- !u!114 &836865434604872928
 MonoBehaviour:
   m_ObjectHideFlags: 0

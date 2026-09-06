@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using Ashfall.Interfaces;
 using Ashfall.Player;
@@ -63,6 +64,14 @@ namespace Ashfall.UI
                  "interface. The font asset is already shared - TMP's default is the same " +
                  "LiberationSans SDF every other label uses - so this is weight, caps and colour.")]
         public Color fallbackTextColor = new Color32(237, 228, 210, 255);
+
+        [Tooltip("Card drawn behind the prompt. Assign the shared HUD panel sprite so the " +
+                 "prompt sits on the same furniture as the control hints and objective board. " +
+                 "Leave empty for bare text on the scene.")]
+        public Sprite fallbackBackground;
+
+        [Tooltip("Space between the text and the edge of its card, in canvas units.")]
+        public Vector2 fallbackPadding = new Vector2(34f, 14f);
 
         Transform followTarget;
         IInteractable focused;
@@ -270,8 +279,41 @@ namespace Ashfall.UI
                 scaler.referenceResolution = new Vector2(1920f, 1080f);
             }
 
+            // The card is the thing that gets shown, hidden and positioned; the label
+            // lives inside it so the box hugs whatever text is currently set.
+            var cardObject = new GameObject("PromptCard");
+            cardObject.transform.SetParent(canvas.transform, false);
+
+            var card = cardObject.AddComponent<Image>();
+            card.sprite = fallbackBackground;
+            card.type = Image.Type.Sliced;
+            card.raycastTarget = false;
+
+            // With no sprite assigned an Image still paints a white block, which would
+            // be worse than no card at all - so make it invisible in that case and let
+            // the text sit on the scene as before.
+            if (fallbackBackground == null)
+                card.color = new Color(1f, 1f, 1f, 0f);
+
+            // Layout group plus fitter means the card resizes itself to the prompt.
+            // "Press E to open the chest" and "Press E to pull the lever" are different
+            // lengths, and a fixed 900px box would leave one of them swimming in space.
+            var layout = cardObject.AddComponent<HorizontalLayoutGroup>();
+            layout.padding = new RectOffset(
+                Mathf.RoundToInt(fallbackPadding.x), Mathf.RoundToInt(fallbackPadding.x),
+                Mathf.RoundToInt(fallbackPadding.y), Mathf.RoundToInt(fallbackPadding.y));
+            layout.childAlignment = TextAnchor.MiddleCenter;
+            layout.childForceExpandWidth = false;
+            layout.childForceExpandHeight = false;
+            layout.childControlWidth = true;
+            layout.childControlHeight = true;
+
+            var fitter = cardObject.AddComponent<ContentSizeFitter>();
+            fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
             var labelObject = new GameObject("PromptLabel");
-            labelObject.transform.SetParent(canvas.transform, false);
+            labelObject.transform.SetParent(cardObject.transform, false);
 
             var label = labelObject.AddComponent<TextMeshProUGUI>();
             label.alignment = TextAlignmentOptions.Center;
@@ -285,8 +327,7 @@ namespace Ashfall.UI
             label.color = fallbackTextColor;
 
             promptLabel = label;
-            promptRoot = labelObject.GetComponent<RectTransform>();
-            promptRoot.sizeDelta = new Vector2(900f, 60f);
+            promptRoot = cardObject.GetComponent<RectTransform>();
         }
     }
 }
