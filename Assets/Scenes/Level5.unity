@@ -5587,6 +5587,9 @@ MonoBehaviour:
   sceneToLoadAfter: 
   lockedVisual: {fileID: 0}
   unlockedVisual: {fileID: 0}
+  requireObjectives: 0
+  requireKey: 1
+  requiredKeyName: Key
 --- !u!61 &1764731362
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5631,7 +5634,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.5, y: 1.6}
+  m_Size: {x: 1.4, y: 2.4}
   m_EdgeRadius: 0
 --- !u!4 &1764731363
 Transform:
@@ -5642,7 +5645,7 @@ Transform:
   m_GameObject: {fileID: 1764731360}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.113, y: -1.776, z: 0}
+  m_LocalPosition: {x: 25.913, y: -1.776, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7246,7 +7249,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 1.6, z: 1}
+  m_LocalScale: {x: 1.4, y: 2.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1764731363}
