@@ -51,6 +51,7 @@ namespace Ashfall.UI
         public float fallbackFontSize = 28f;
 
         Transform followTarget;
+        IInteractable focused;
         RectTransform canvasRect;
         Camera worldCamera;
 
@@ -96,31 +97,37 @@ namespace Ashfall.UI
             }
         }
 
+        // Only caches what the interactor found. The text itself is worked out every frame,
+        // because a door's prompt changes the moment the player picks up its key and no focus
+        // event fires for that.
         void HandleFocusChanged(IInteractable interactable, Transform target)
         {
+            focused = interactable;
             followTarget = target;
+        }
 
-            if (interactable == null || target == null)
-            {
-                Hide();
-                return;
-            }
+        string CurrentPrompt()
+        {
+            if (focused == null) return string.Empty;
+            return focused.InteractionPrompt;
+        }
 
-            string text = interactable.InteractionPrompt;
+        void Refresh()
+        {
+            string text = CurrentPrompt();
 
             if (string.IsNullOrEmpty(text))
-            {
                 Hide();
-                return;
-            }
-
-            Show(text);
+            else
+                Show(text);
         }
 
         // LateUpdate so the camera has already moved for this frame, otherwise the label
         // trails the object by a frame whenever the camera is following the player.
         void LateUpdate()
         {
+            Refresh();
+
             if (placement != PromptPlacement.FollowTarget) return;
             if (followTarget == null || canvasRect == null || promptRoot == null) return;
 
@@ -155,8 +162,6 @@ namespace Ashfall.UI
 
         void Hide()
         {
-            followTarget = null;
-
             if (promptRoot != null)
                 promptRoot.gameObject.SetActive(false);
         }
