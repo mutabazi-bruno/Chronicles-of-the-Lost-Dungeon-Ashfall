@@ -6906,7 +6906,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <color=#C9B78A>[A/D]</color> Move   <color=#C9B78A>[Space]</color> Jump   <color=#C9B78A>[Ctrl]</color> Attack   <color=#C9B78A>[Shift]</color> Dash   <color=#C9B78A>[E]</color> Interact   <color=#C9B78A>[Esc]</color> Pause
+  m_text: <color=#C9B78A>[A/D]</color> Move   <color=#C9B78A>[Space]</color> Jump   <color=#C9B78A>[Shift]</color> Dash   <color=#C9B78A>[E]</color> Interact   <color=#C9B78A>[Esc]</color> Pause
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -6936,7 +6936,7 @@ MonoBehaviour:
   m_fontSize: 17
   m_fontSizeBase: 17
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 13
   m_fontSizeMax: 17
   m_fontStyle: 17
