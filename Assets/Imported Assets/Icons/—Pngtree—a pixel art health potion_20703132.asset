@@ -88,7 +88,7 @@ MonoBehaviour:
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 1
-    m_Scale: 1.6
+    m_Scale: 2
     m_Name: potion
   - m_ElementType: 2
     m_Unicode: 65534
@@ -121,7 +121,7 @@ MonoBehaviour:
       m_HorizontalAdvance: 1647.3334
     m_GlyphRect:
       m_X: 395
-      m_Y: 76
+      m_Y: 125
       m_Width: 1647
       m_Height: 1922
     m_Scale: 1
