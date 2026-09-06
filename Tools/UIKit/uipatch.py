@@ -150,3 +150,42 @@ def set_rect(text, path, pos=None, size=None, anchor_min=None, anchor_max=None, 
     if block == original:
         raise RuntimeError("nothing changed for %s" % path)
     return text.replace(original, block, 1)
+
+
+def reorder_children(text, parent_path, order):
+    """Reorder a parent's children by name.
+
+    Sibling order is draw order on a Canvas: later children paint over earlier
+    ones. Names listed in `order` are moved to the front in the order given, and
+    anything not listed keeps its relative position after them.
+    """
+    obj = index(text)
+    name, comps, children, owner = hierarchy(obj)
+    parent = find_transform(obj, parent_path) if parent_path else next(
+        f for f in owner if "m_Father: {fileID: 0}" in obj[f][1])
+
+    current = [c for c in children[parent] if c in owner]
+    by_name = {}
+    for c in current:
+        by_name.setdefault(name[owner[c]], []).append(c)
+
+    front = []
+    for n in order:
+        if n not in by_name:
+            raise KeyError("no child named %r" % n)
+        front.extend(by_name[n])
+
+    rest = [c for c in current if c not in front]
+    new_order = front + rest
+
+    _, block = obj[parent]
+    original = block
+    rendered = "".join("\n  - {fileID: %s}" % c for c in new_order)
+    block = re.sub(
+        r"m_Children:\s*(?:\[\]|(?:\n\s*- \{fileID: \d+\})+)",
+        "m_Children:" + rendered,
+        block, count=1)
+
+    if block == original:
+        raise RuntimeError("child list unchanged")
+    return text.replace(original, block, 1)
