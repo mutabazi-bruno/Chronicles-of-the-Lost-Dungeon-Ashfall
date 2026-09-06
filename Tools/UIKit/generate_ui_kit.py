@@ -190,6 +190,73 @@ def divider(size, accent, seed=SEED):
     return tint(line, accent)
 
 
+def icon_lock(size=(96, 96), accent=BONE, seed=SEED + 41):
+    """A padlock, drawn with the same wobble as the panels so it belongs to them."""
+    w, h = size
+    layer = Image.new("L", (w * 2, h * 2), 0)
+    d = ImageDraw.Draw(layer)
+    rng = random.Random(seed)
+
+    # shackle
+    cx, cy, r = w, int(h * 0.78), int(w * 0.40)
+    pts = []
+    for i in range(41):
+        a = math.radians(180 + 180 * i / 40)
+        pts.append((cx + math.cos(a) * (r + rng.uniform(-2, 2)),
+                    cy + math.sin(a) * (r + rng.uniform(-2, 2))))
+    for i in range(len(pts) - 1):
+        d.line([pts[i], pts[i + 1]], fill=255, width=int(w * 0.20))
+
+    # body
+    bw, bh = int(w * 1.20), int(h * 0.86)
+    bx, by = w - bw // 2, int(h * 0.92)
+    d.rounded_rectangle([bx, by, bx + bw, by + bh], radius=int(w * 0.16), fill=255)
+
+    layer = layer.resize(size, Image.LANCZOS)
+    body = erode(layer, seed, amount=0.14)
+
+    img = tint(body, accent)
+
+    # keyhole punched back out so it reads at small sizes
+    hole = Image.new("L", (w * 2, h * 2), 0)
+    hd = ImageDraw.Draw(hole)
+    kx, ky = w, int(h * 1.30)
+    kr = int(w * 0.15)
+    hd.ellipse([kx - kr, ky - kr, kx + kr, ky + kr], fill=255)
+    hd.polygon([(kx - kr // 2, ky), (kx + kr // 2, ky), (kx + kr // 3, ky + kr * 2),
+                (kx - kr // 3, ky + kr * 2)], fill=255)
+    hole = hole.resize(size, Image.LANCZOS)
+
+    alpha = np.asarray(img.getchannel("A")).astype(np.int16)
+    alpha = np.clip(alpha - np.asarray(hole).astype(np.int16), 0, 255).astype(np.uint8)
+    img.putalpha(Image.fromarray(alpha))
+    return img
+
+
+def icon_check(size=(96, 96), accent=(150, 200, 120, 255), seed=SEED + 47):
+    """A tick. The objective list currently asks the font for a Unicode box that
+    is not in the atlas, so it renders as nothing."""
+    w, h = size
+    layer = Image.new("L", (w * 2, h * 2), 0)
+    d = ImageDraw.Draw(layer)
+    rng = random.Random(seed)
+
+    stroke = int(w * 0.22)
+    path = [(w * 0.36, h * 1.05), (w * 0.85, h * 1.50), (w * 1.64, h * 0.55)]
+    dense = []
+    for i in range(len(path) - 1):
+        ax, ay = path[i]; bx, by = path[i + 1]
+        for t in range(21):
+            f = t / 20
+            dense.append((ax + (bx - ax) * f + rng.uniform(-2, 2),
+                          ay + (by - ay) * f + rng.uniform(-2, 2)))
+    for i in range(len(dense) - 1):
+        d.line([dense[i], dense[i + 1]], fill=255, width=stroke)
+
+    layer = layer.resize(size, Image.LANCZOS)
+    return tint(erode(layer, seed, amount=0.16), accent)
+
+
 def save(img, name):
     path = os.path.join(OUT, name + ".png")
     img.save(path)
@@ -216,6 +283,9 @@ def main():
     save(slot((96, 96), GOLD, seed=SEED + 31), "Slot_Filled")
 
     save(divider((240, 12), BONE), "Divider")
+
+    save(icon_lock(), "Icon_Lock")
+    save(icon_check(), "Icon_Check")
 
 
 if __name__ == "__main__":
