@@ -112,3 +112,9 @@ web-chronicle/
 # was open, which Unity would then import as a second scene asset.
 /[Aa]ssets/_[Rr]ecovery/
 /[Aa]ssets/_[Rr]ecovery.meta
+
+# Local build output folders
+webbuid/
+Builds/
+MacBuild/
+WebBuild/
