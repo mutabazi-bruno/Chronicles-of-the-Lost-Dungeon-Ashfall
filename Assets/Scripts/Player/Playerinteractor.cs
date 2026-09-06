@@ -17,28 +17,36 @@ namespace Ashfall.Player
             }
         }
 
-        // Find the closest interactable object in range.
         void TryInteract()
         {
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactRange, interactableLayer);
+            FindClosestInteractable(out IInteractable interactable, out _);
+            interactable?.Interact();
+        }
 
+        // Pulled out of TryInteract so the on-screen prompt can ask the same question every
+        // frame without duplicating the search.
+        void FindClosestInteractable(out IInteractable interactable, out Transform target)
+        {
+            interactable = null;
+            target = null;
+
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactRange, interactableLayer);
             if (hits.Length == 0) return;
 
-            Collider2D closest = hits[0];
-            float closestDist = Vector2.Distance(transform.position, closest.transform.position);
+            float closestDist = float.MaxValue;
 
             foreach (var hit in hits)
             {
-                float dist = Vector2.Distance(transform.position, hit.transform.position);
-                if (dist < closestDist)
-                {
-                    closest = hit;
-                    closestDist = dist;
-                }
-            }
+                var candidate = hit.GetComponent<IInteractable>();
+                if (candidate == null) continue;
 
-            var interactable = closest.GetComponent<IInteractable>();
-            interactable?.Interact();
+                float dist = Vector2.Distance(transform.position, hit.transform.position);
+                if (dist >= closestDist) continue;
+
+                closestDist = dist;
+                interactable = candidate;
+                target = hit.transform;
+            }
         }
 
         void OnDrawGizmosSelected()
