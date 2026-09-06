@@ -1,9 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Ashfall.Core;
+using Ashfall.Enemies;
 using Ashfall.Player;
 using Ashfall.Systems;
 
@@ -19,7 +22,31 @@ namespace Ashfall.UI
 
         [Header("Level info")]
         public TMP_Text levelNameText;
+        public TMP_Text chapterText;
         public TMP_Text objectivesText;
+
+        [Serializable]
+        public class LevelTitle
+        {
+            public string sceneName;
+            public string chapter;
+            public string placeName;
+        }
+
+        [Tooltip("Chapter + place shown bottom-right. Falls back to the raw scene " +
+                 "name if the level isn't listed.")]
+        public List<LevelTitle> levelTitles = new List<LevelTitle>();
+
+        [Header("Vital readouts (optional, e.g. \"140/180\")")]
+        public TMP_Text healthValueText;
+        public TMP_Text staminaValueText;
+
+        [Header("Objectives board")]
+        public TMP_Text enemiesText;
+        [Tooltip("Board grows with the objective count; height = base + line * count")]
+        public RectTransform objectivesCard;
+        public float objectivesBaseHeight = 96f;
+        public float objectivesLineHeight = 44f;
 
         [Header("Ability indicators")]
         [Tooltip("Icon dims when there isn't enough stamina to use the ability")]
@@ -30,6 +57,8 @@ namespace Ashfall.UI
 
         [Header("Inventory")]
         public TMP_Text inventoryText;
+
+        int enemiesRemaining;
 
         PlayerHealth playerHealth;
         PlayerAbilities playerAbilities;
@@ -73,8 +102,13 @@ namespace Ashfall.UI
                 RefreshObjectives();
             }
 
-            if (levelNameText != null)
-                levelNameText.text = SceneManager.GetActiveScene().name;
+            ApplyLevelTitle();
+
+            // counted once from what the scene spawned with, then kept current from
+            // the death event rather than rescanning every frame
+            enemiesRemaining = FindObjectsByType<Enemy>(FindObjectsSortMode.None).Length;
+            Enemy.OnAnyEnemyDeath += HandleEnemyDefeated;
+            RefreshEnemies();
         }
 
         void OnDestroy()
@@ -93,6 +127,32 @@ namespace Ashfall.UI
 
             if (ObjectiveManager.Instance != null)
                 ObjectiveManager.Instance.OnObjectivesChanged -= RefreshObjectives;
+
+            Enemy.OnAnyEnemyDeath -= HandleEnemyDefeated;
+        }
+
+        void ApplyLevelTitle()
+        {
+            string scene = SceneManager.GetActiveScene().name;
+            LevelTitle match = levelTitles.Find(t => t != null && t.sceneName == scene);
+
+            if (levelNameText != null)
+                levelNameText.text = match != null ? match.placeName : scene;
+
+            if (chapterText != null)
+                chapterText.text = match != null ? match.chapter : string.Empty;
+        }
+
+        void HandleEnemyDefeated()
+        {
+            enemiesRemaining = Mathf.Max(0, enemiesRemaining - 1);
+            RefreshEnemies();
+        }
+
+        void RefreshEnemies()
+        {
+            if (enemiesText != null)
+                enemiesText.text = enemiesRemaining.ToString("000");
         }
 
         void Update()
@@ -103,6 +163,10 @@ namespace Ashfall.UI
             // rather than an event
             if (staminaBar != null)
                 staminaBar.value = playerHealth.stats.currentStamina;
+
+            if (staminaValueText != null)
+                staminaValueText.text =
+                    $"{Mathf.CeilToInt(playerHealth.stats.currentStamina)}/{playerHealth.stats.maxStamina}";
 
             RefreshAbilityIcons();
         }
@@ -124,6 +188,9 @@ namespace Ashfall.UI
 
         void HandleHealthChanged(int current, int max)
         {
+            if (healthValueText != null)
+                healthValueText.text = $"{current}/{max}";
+
             if (healthBar == null) return;
             healthBar.maxValue = max;
             healthBar.value = current;
@@ -175,6 +242,21 @@ namespace Ashfall.UI
                 sb.AppendLine("\u2713 Exit is open");
 
             objectivesText.text = sb.ToString();
+
+            ResizeObjectivesBoard();
+        }
+
+        // The board is meant to grow with the list rather than clip it or leave a
+        // gap, so its height is driven from the number of lines actually shown.
+        void ResizeObjectivesBoard()
+        {
+            if (objectivesCard == null || ObjectiveManager.Instance == null) return;
+
+            int lines = ObjectiveManager.Instance.Objectives.Count;
+            if (ObjectiveManager.Instance.AllComplete) lines++;
+
+            float height = objectivesBaseHeight + objectivesLineHeight * Mathf.Max(1, lines);
+            objectivesCard.sizeDelta = new Vector2(objectivesCard.sizeDelta.x, height);
         }
     }
 }
