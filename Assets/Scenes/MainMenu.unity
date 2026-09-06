@@ -5657,7 +5657,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1159242630}
         m_TargetAssemblyTypeName: Ashfall.UI.SettingsController, Assembly-CSharp
         m_MethodName: OnMuteToggled
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8831,7 +8831,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1159242630}
         m_TargetAssemblyTypeName: Ashfall.UI.SettingsController, Assembly-CSharp
         m_MethodName: OnMasterVolumeChanged
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9377,7 +9377,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1159242630}
         m_TargetAssemblyTypeName: Ashfall.UI.SettingsController, Assembly-CSharp
         m_MethodName: OnMusicVolumeChanged
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -10766,7 +10766,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1159242630}
         m_TargetAssemblyTypeName: Ashfall.UI.SettingsController, Assembly-CSharp
         m_MethodName: OnSfxVolumeChanged
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

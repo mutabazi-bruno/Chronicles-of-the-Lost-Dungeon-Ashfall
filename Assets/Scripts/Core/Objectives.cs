@@ -28,7 +28,7 @@ namespace Ashfall.Core
             Required = required < 0 ? 0 : required;
         }
 
-        public string Description => $"Defeat enemies  {Current}/{Required}";
+        public string Description => $"Defeat {Required} enemies";
 
         public bool IsComplete => Current >= Required;
 
@@ -50,7 +50,7 @@ namespace Ashfall.Core
             Required = required < 0 ? 0 : required;
         }
 
-        public string Description => $"Collect coins  {Current}/{Required}";
+        public string Description => $"Collect {Required} coins";
 
         public bool IsComplete => Current >= Required;
 

@@ -28,6 +28,8 @@ namespace Ashfall.Systems
         DefeatEnemiesObjective defeatObjective;
         CollectCoinsObjective coinObjective;
 
+        readonly HashSet<Enemy> registeredEnemies = new HashSet<Enemy>();
+
         int coinsAtLevelStart;
         PlayerHealth playerHealth;
 
@@ -47,6 +49,18 @@ namespace Ashfall.Systems
         void Awake()
         {
             Instance = this;
+        }
+
+        // Called by Enemy in its OnEnable, so we never have to scan the whole
+        // scene to find out how many enemies exist.
+        public void RegisterEnemy(Enemy enemy)
+        {
+            registeredEnemies.Add(enemy);
+        }
+
+        public void UnregisterEnemy(Enemy enemy)
+        {
+            registeredEnemies.Remove(enemy);
         }
 
         void Start()
@@ -104,11 +118,7 @@ namespace Ashfall.Systems
 
         int CountEnemiesInScene()
         {
-#if UNITY_2022_2_OR_NEWER
-            return UnityEngine.Object.FindObjectsByType<Enemy>(FindObjectsSortMode.None).Length;
-#else
-            return UnityEngine.Object.FindObjectsOfType<Enemy>().Length;
-#endif
+            return registeredEnemies.Count;
         }
 
         void HandleEnemyDefeated()

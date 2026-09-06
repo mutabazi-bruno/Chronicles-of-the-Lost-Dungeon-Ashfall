@@ -4,6 +4,7 @@ using Ashfall.Interfaces;
 namespace Ashfall.Interactables
 {
     [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(Animator))]
     public class Door : MonoBehaviour, IInteractable
     {
         public bool isLocked;
@@ -17,10 +18,12 @@ namespace Ashfall.Interactables
 
         bool isOpen;
         Collider2D col;
+        Animator animator;
 
         void Awake()
         {
             col = GetComponent<Collider2D>();
+            animator = GetComponent<Animator>();
         }
 
         void OnEnable()
@@ -71,11 +74,11 @@ namespace Ashfall.Interactables
             if (isOpen) return;
 
             isOpen = true;
-            col.enabled = false; // just disabling collision, swap for an anim later
+            col.enabled = false; // player can walk through as soon as it starts opening
 
             Ashfall.Systems.AudioManager.Instance?.PlaySFX(openSound);
 
-            gameObject.SetActive(false); // simple for now, replace with open animation later
+            animator.SetTrigger("Open");
         }
     }
 }

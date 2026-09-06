@@ -112,5 +112,5 @@ namespace Ashfall.UI
             Application.Quit();
 #endif
         }
-    }
+    }   
 }
