@@ -28,6 +28,12 @@ namespace Ashfall.Systems
         public bool clampHorizontally = true;
         public bool clampVertically = true;
 
+        [Tooltip("Hold the camera at the vertical middle of the art instead of letting it " +
+                 "drift. These levels are one ground line seen from the side, and the art is " +
+                 "barely taller than the view, so any vertical movement risks showing the edge " +
+                 "for the sake of travel nobody asked for.")]
+        public bool lockVertical = true;
+
         [Tooltip("Pulls the limit in slightly so a sprite's transparent border does not count " +
                  "as playable area.")]
         public float padding = 0f;
@@ -122,7 +128,9 @@ namespace Ashfall.Systems
             if (clampHorizontally)
                 position.x = ClampAxis(position.x, bounds.min.x, bounds.max.x, halfWidth, bounds.center.x);
 
-            if (clampVertically)
+            if (lockVertical)
+                position.y = bounds.center.y;
+            else if (clampVertically)
                 position.y = ClampAxis(position.y, bounds.min.y, bounds.max.y, halfHeight, bounds.center.y);
 
             transform.position = position;

@@ -7334,6 +7334,7 @@ MonoBehaviour:
   boundsObjectName: Background
   clampHorizontally: 1
   clampVertically: 1
+  lockVertical: 1
   padding: 0
   logBounds: 0
 --- !u!1 &489477342963489391
