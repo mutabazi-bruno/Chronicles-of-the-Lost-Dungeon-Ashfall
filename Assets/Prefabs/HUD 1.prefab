@@ -34,9 +34,6 @@ RectTransform:
   m_Children:
   - {fileID: 8170227478622932300}
   - {fileID: 1129326006872444421}
-  - {fileID: 3486136967995019168}
-  - {fileID: 3747625844451463083}
-  - {fileID: 8198335527837105624}
   - {fileID: 3007604002537718809}
   - {fileID: 6123531188781748976}
   - {fileID: 1009932404156149379}
@@ -53,6 +50,9 @@ RectTransform:
   - {fileID: 408740336}
   - {fileID: 910347466}
   - {fileID: 1361707861}
+  - {fileID: 3486136967995019168}
+  - {fileID: 3747625844451463083}
+  - {fileID: 8198335527837105624}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -169,6 +169,10 @@ MonoBehaviour:
   - sceneName: Level5
     chapter: CHAPTER V
     placeName: Throne of the Lost Dungeon
+  inventoryCard: {fileID: 1139910182}
+  inventoryBaseHeight: 46
+  inventoryRowHeight: 30
+  inventoryEmptyHeight: 96
 --- !u!1 &180455172143291723
 GameObject:
   m_ObjectHideFlags: 0
@@ -4489,8 +4493,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0, y: 0.0}
-  m_SizeDelta: {x: -44, y: -44}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -36, y: -32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3245216849926965234
 CanvasRenderer:
@@ -4547,15 +4551,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 19
+  m_fontSizeBase: 19
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 14
   m_fontSizeMax: 20
   m_fontStyle: 17
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -6725,7 +6729,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 48, y: -320}
-  m_SizeDelta: {x: 290, y: 560}
+  m_SizeDelta: {x: 290, y: 110}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1422454142
 MonoBehaviour:
@@ -6801,7 +6805,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 48, y: 42}
-  m_SizeDelta: {x: 740, y: 52}
+  m_SizeDelta: {x: 900, y: 52}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &493184161
 MonoBehaviour:
@@ -6906,7 +6910,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <color=#C9B78A>[A/D]</color> Move   <color=#C9B78A>[Space]</color> Jump   <color=#C9B78A>[Shift]</color> Dash   <color=#C9B78A>[E]</color> Interact   <color=#C9B78A>[Esc]</color> Pause
+  m_text: <color=#C9B78A>[A/D]</color> Move   <color=#C9B78A>[Space]</color> Jump   <color=#C9B78A>[Shift]</color> Dash   <color=#C9B78A>[E]</color> Interact   <color=#C9B78A>[1-9]</color> Select   <color=#C9B78A>[Q]</color> Use   <color=#C9B78A>[Esc]</color> Pause
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -6936,7 +6940,7 @@ MonoBehaviour:
   m_fontSize: 17
   m_fontSizeBase: 17
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 13
   m_fontSizeMax: 17
   m_fontStyle: 17

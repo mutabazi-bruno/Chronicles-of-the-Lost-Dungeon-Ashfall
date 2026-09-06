@@ -57,6 +57,11 @@ namespace Ashfall.UI
 
         [Header("Inventory")]
         public TMP_Text inventoryText;
+        [Tooltip("Card shrinks to the empty height and grows a row at a time")]
+        public RectTransform inventoryCard;
+        public float inventoryBaseHeight = 84f;
+        public float inventoryRowHeight = 34f;
+        public float inventoryEmptyHeight = 110f;
 
         int enemiesRemaining;
         ObjectiveManager subscribedObjectives;
@@ -94,6 +99,7 @@ namespace Ashfall.UI
             {
                 playerInventory.OnItemAdded += HandleInventoryChanged;
                 playerInventory.OnItemRemoved += HandleInventoryChanged;
+                playerInventory.OnSelectionChanged += RefreshInventory;
                 RefreshInventory();
             }
 
@@ -125,6 +131,7 @@ namespace Ashfall.UI
             {
                 playerInventory.OnItemAdded -= HandleInventoryChanged;
                 playerInventory.OnItemRemoved -= HandleInventoryChanged;
+                playerInventory.OnSelectionChanged -= RefreshInventory;
             }
 
             if (subscribedObjectives != null)
@@ -213,21 +220,52 @@ namespace Ashfall.UI
         {
             if (inventoryText == null || playerInventory == null) return;
 
-            int keyCount = 0;
-            int potionCount = 0;
+            var stacks = playerInventory.GetStacks();
 
-            foreach (var item in playerInventory.inventory.items)
+            if (stacks.Count == 0)
             {
-                if (item.type == ItemType.Key) keyCount++;
-                else if (item.type == ItemType.Potion) potionCount++;
+                inventoryText.text = "<color=#7E7668>EMPTY</color>";
+                ResizeInventoryCard(0);
+                return;
             }
 
-            var parts = new System.Collections.Generic.List<string>();
-            if (keyCount > 0) parts.Add($"<sprite name=\"key\"> x{keyCount}");
-            if (potionCount > 0) parts.Add($"<sprite name=\"potion\"> x{potionCount}");
+            var sb = new StringBuilder();
 
-            // side by side on one line, with some spacing between them, instead of stacked
-            inventoryText.text = string.Join("      ", parts);
+            for (int i = 0; i < stacks.Count; i++)
+            {
+                var stack = stacks[i];
+                bool selected = i == playerInventory.SelectedSlot;
+
+                // the number is the key that selects the row, so it is always shown
+                string row = $"{i + 1}. {IconFor(stack.type)}{stack.name}";
+                if (stack.count > 1) row += $" x{stack.count}";
+
+                sb.AppendLine(selected
+                    ? $"<color=#E8C06A>> {row}</color>"
+                    : $"<color=#D8D0BE>  {row}</color>");
+            }
+
+            inventoryText.text = sb.ToString();
+            ResizeInventoryCard(stacks.Count);
+        }
+
+        static string IconFor(ItemType type)
+        {
+            // only these two have sprites in the atlas; anything else stays text-only
+            if (type == ItemType.Key) return "<sprite name=\"key\"> ";
+            if (type == ItemType.Potion) return "<sprite name=\"potion\"> ";
+            return string.Empty;
+        }
+
+        void ResizeInventoryCard(int rows)
+        {
+            if (inventoryCard == null) return;
+
+            float height = rows == 0
+                ? inventoryEmptyHeight
+                : inventoryBaseHeight + inventoryRowHeight * rows;
+
+            inventoryCard.sizeDelta = new Vector2(inventoryCard.sizeDelta.x, height);
         }
 
         void RefreshObjectives()
