@@ -1,9 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Ashfall.Core;
+using Ashfall.Enemies;
 using Ashfall.Player;
 using Ashfall.Systems;
 
@@ -19,7 +22,31 @@ namespace Ashfall.UI
 
         [Header("Level info")]
         public TMP_Text levelNameText;
+        public TMP_Text chapterText;
         public TMP_Text objectivesText;
+
+        [Serializable]
+        public class LevelTitle
+        {
+            public string sceneName;
+            public string chapter;
+            public string placeName;
+        }
+
+        [Tooltip("Chapter + place shown bottom-right. Falls back to the raw scene " +
+                 "name if the level isn't listed.")]
+        public List<LevelTitle> levelTitles = new List<LevelTitle>();
+
+        [Header("Vital readouts (optional, e.g. \"140/180\")")]
+        public TMP_Text healthValueText;
+        public TMP_Text staminaValueText;
+
+        [Header("Objectives board")]
+        public TMP_Text enemiesText;
+        [Tooltip("Board grows with the objective count; height = base + line * count")]
+        public RectTransform objectivesCard;
+        public float objectivesBaseHeight = 96f;
+        public float objectivesLineHeight = 44f;
 
         [Header("Ability indicators")]
         [Tooltip("Icon dims when there isn't enough stamina to use the ability")]
@@ -30,6 +57,14 @@ namespace Ashfall.UI
 
         [Header("Inventory")]
         public TMP_Text inventoryText;
+        [Tooltip("Card shrinks to the empty height and grows a row at a time")]
+        public RectTransform inventoryCard;
+        public float inventoryBaseHeight = 84f;
+        public float inventoryRowHeight = 34f;
+        public float inventoryEmptyHeight = 110f;
+
+        int enemiesRemaining;
+        ObjectiveManager subscribedObjectives;
 
         PlayerHealth playerHealth;
         PlayerAbilities playerAbilities;
@@ -64,17 +99,24 @@ namespace Ashfall.UI
             {
                 playerInventory.OnItemAdded += HandleInventoryChanged;
                 playerInventory.OnItemRemoved += HandleInventoryChanged;
+                playerInventory.OnSelectionChanged += RefreshInventory;
                 RefreshInventory();
             }
 
             if (ObjectiveManager.Instance != null)
             {
-                ObjectiveManager.Instance.OnObjectivesChanged += RefreshObjectives;
+                subscribedObjectives = ObjectiveManager.Instance;
+                subscribedObjectives.OnObjectivesChanged += RefreshObjectives;
                 RefreshObjectives();
             }
 
-            if (levelNameText != null)
-                levelNameText.text = SceneManager.GetActiveScene().name;
+            ApplyLevelTitle();
+
+            // counted once from what the scene spawned with, then kept current from
+            // the death event rather than rescanning every frame
+            enemiesRemaining = FindObjectsByType<Enemy>(FindObjectsSortMode.None).Length;
+            Enemy.OnAnyEnemyDeath += HandleEnemyDefeated;
+            RefreshEnemies();
         }
 
         void OnDestroy()
@@ -89,10 +131,40 @@ namespace Ashfall.UI
             {
                 playerInventory.OnItemAdded -= HandleInventoryChanged;
                 playerInventory.OnItemRemoved -= HandleInventoryChanged;
+                playerInventory.OnSelectionChanged -= RefreshInventory;
             }
 
-            if (ObjectiveManager.Instance != null)
-                ObjectiveManager.Instance.OnObjectivesChanged -= RefreshObjectives;
+            if (subscribedObjectives != null)
+            {
+                subscribedObjectives.OnObjectivesChanged -= RefreshObjectives;
+                subscribedObjectives = null;
+            }
+
+            Enemy.OnAnyEnemyDeath -= HandleEnemyDefeated;
+        }
+
+        void ApplyLevelTitle()
+        {
+            string scene = SceneManager.GetActiveScene().name;
+            LevelTitle match = levelTitles.Find(t => t != null && t.sceneName == scene);
+
+            if (levelNameText != null)
+                levelNameText.text = match != null ? match.placeName : scene;
+
+            if (chapterText != null)
+                chapterText.text = match != null ? match.chapter : string.Empty;
+        }
+
+        void HandleEnemyDefeated()
+        {
+            enemiesRemaining = Mathf.Max(0, enemiesRemaining - 1);
+            RefreshEnemies();
+        }
+
+        void RefreshEnemies()
+        {
+            if (enemiesText != null)
+                enemiesText.text = enemiesRemaining.ToString("000");
         }
 
         void Update()
@@ -103,6 +175,10 @@ namespace Ashfall.UI
             // rather than an event
             if (staminaBar != null)
                 staminaBar.value = playerHealth.stats.currentStamina;
+
+            if (staminaValueText != null)
+                staminaValueText.text =
+                    $"{Mathf.CeilToInt(playerHealth.stats.currentStamina)}/{playerHealth.stats.maxStamina}";
 
             RefreshAbilityIcons();
         }
@@ -124,6 +200,9 @@ namespace Ashfall.UI
 
         void HandleHealthChanged(int current, int max)
         {
+            if (healthValueText != null)
+                healthValueText.text = $"{current}/{max}";
+
             if (healthBar == null) return;
             healthBar.maxValue = max;
             healthBar.value = current;
@@ -141,21 +220,52 @@ namespace Ashfall.UI
         {
             if (inventoryText == null || playerInventory == null) return;
 
-            int keyCount = 0;
-            int potionCount = 0;
+            var stacks = playerInventory.GetStacks();
 
-            foreach (var item in playerInventory.inventory.items)
+            if (stacks.Count == 0)
             {
-                if (item.type == ItemType.Key) keyCount++;
-                else if (item.type == ItemType.Potion) potionCount++;
+                inventoryText.text = "<color=#7E7668>EMPTY</color>";
+                ResizeInventoryCard(0);
+                return;
             }
 
-            var parts = new System.Collections.Generic.List<string>();
-            if (keyCount > 0) parts.Add($"<sprite name=\"key\"> x{keyCount}");
-            if (potionCount > 0) parts.Add($"<sprite name=\"potion\"> x{potionCount}");
+            var sb = new StringBuilder();
 
-            // side by side on one line, with some spacing between them, instead of stacked
-            inventoryText.text = string.Join("      ", parts);
+            for (int i = 0; i < stacks.Count; i++)
+            {
+                var stack = stacks[i];
+                bool selected = i == playerInventory.SelectedSlot;
+
+                // the number is the key that selects the row, so it is always shown
+                string row = $"{i + 1}. {IconFor(stack.type)}{stack.name}";
+                if (stack.count > 1) row += $" x{stack.count}";
+
+                sb.AppendLine(selected
+                    ? $"<color=#E8C06A>> {row}</color>"
+                    : $"<color=#D8D0BE>  {row}</color>");
+            }
+
+            inventoryText.text = sb.ToString();
+            ResizeInventoryCard(stacks.Count);
+        }
+
+        static string IconFor(ItemType type)
+        {
+            // only these two have sprites in the atlas; anything else stays text-only
+            if (type == ItemType.Key) return "<sprite name=\"key\"> ";
+            if (type == ItemType.Potion) return "<sprite name=\"potion\"> ";
+            return string.Empty;
+        }
+
+        void ResizeInventoryCard(int rows)
+        {
+            if (inventoryCard == null) return;
+
+            float height = rows == 0
+                ? inventoryEmptyHeight
+                : inventoryBaseHeight + inventoryRowHeight * rows;
+
+            inventoryCard.sizeDelta = new Vector2(inventoryCard.sizeDelta.x, height);
         }
 
         void RefreshObjectives()
@@ -181,6 +291,21 @@ namespace Ashfall.UI
                 sb.AppendLine("<color=#4CE082><sprite name=\"check\"> Exit is open</color>");
 
             objectivesText.text = sb.ToString();
+
+            ResizeObjectivesBoard();
+        }
+
+        // The board is meant to grow with the list rather than clip it or leave a
+        // gap, so its height is driven from the number of lines actually shown.
+        void ResizeObjectivesBoard()
+        {
+            if (objectivesCard == null || ObjectiveManager.Instance == null) return;
+
+            int lines = ObjectiveManager.Instance.Objectives.Count;
+            if (ObjectiveManager.Instance.AllComplete) lines++;
+
+            float height = objectivesBaseHeight + objectivesLineHeight * Mathf.Max(1, lines);
+            objectivesCard.sizeDelta = new Vector2(objectivesCard.sizeDelta.x, height);
         }
     }
 }

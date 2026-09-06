@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using Ashfall.Systems;
 
@@ -18,6 +18,14 @@ namespace Ashfall.Levels
         [Tooltip("Optional. Normally leave this empty - the level complete screen decides " +
                  "where to go next, so loading a scene here would skip straight past it.")]
         public string sceneToLoadAfter;
+
+        [Header("Requirements")]
+        [Tooltip("When on, every objective must be complete before the exit opens")]
+        public bool requireObjectives = false;
+
+        [Tooltip("When on, the player must be carrying this key to finish the level")]
+        public bool requireKey = true;
+        public string requiredKeyName = "Key";
 
         [Header("Locked appearance")]
         [Tooltip("Optional visual shown while objectives are still outstanding")]
@@ -61,7 +69,7 @@ namespace Ashfall.Levels
 
         void RefreshVisuals()
         {
-            bool open = ObjectivesSatisfied();
+            bool open = ObjectivesSatisfied() && HasRequiredKey();
 
             if (lockedVisual != null) lockedVisual.SetActive(!open);
             if (unlockedVisual != null) unlockedVisual.SetActive(open);
@@ -69,8 +77,22 @@ namespace Ashfall.Levels
 
         bool ObjectivesSatisfied()
         {
+            if (!requireObjectives) return true;
+
             // no manager in the scene means the level has no objectives - stay permissive
             return ObjectiveManager.Instance == null || ObjectiveManager.Instance.AllComplete;
+        }
+
+        bool HasRequiredKey()
+        {
+            if (!requireKey) return true;
+
+            var player = GameObject.FindGameObjectWithTag("Player");
+            var inventory = player != null
+                ? player.GetComponent<Ashfall.Player.PlayerInventory>()
+                : null;
+
+            return inventory != null && inventory.HasKey(requiredKeyName);
         }
 
         void OnTriggerEnter2D(Collider2D other)
@@ -91,8 +113,17 @@ namespace Ashfall.Levels
         {
             if (triggered) return;
 
+            // both gates used to fail in silence, which is indistinguishable from
+            // the trigger not firing at all
             if (!ObjectivesSatisfied())
             {
+                Debug.Log("[LevelExit] objectives are not complete yet", this);
+                return;
+            }
+
+            if (!HasRequiredKey())
+            {
+                Debug.Log($"[LevelExit] needs a '{requiredKeyName}' to finish this level", this);
                 return;
             }
 

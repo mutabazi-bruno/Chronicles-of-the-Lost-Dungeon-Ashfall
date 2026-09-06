@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using TMPro;
@@ -22,6 +22,16 @@ namespace Ashfall.UI
 
         [Header("Options")]
         public int maxRowsToShow = 10;
+
+        // Column stops, as a percentage of the text field's width. Using <pos=>
+        // rather than padded spaces is what makes the columns actually line up -
+        // the UI font is proportional, so spaces are not a reliable ruler.
+        const string RankStop = "2%";
+        const string NameStop = "18%";
+        const string ScoreStop = "76%";
+
+        static readonly string[] MedalColours = { "#F2D27C", "#D6D8DC", "#C98A54" };
+        const string RowColour = "#E8E0CE";
 
         bool subscribed;
 
@@ -104,7 +114,18 @@ namespace Ashfall.UI
 
             for (int i = 0; i < rows; i++)
             {
-                sb.AppendLine($"{i + 1}.  {entries[i].name}  -  {entries[i].score}");
+                string colour = i < MedalColours.Length ? MedalColours[i] : RowColour;
+
+                sb.Append("<color=").Append(colour).Append('>')
+                  .Append("<pos=").Append(RankStop).Append('>').Append(i + 1)
+                  .Append("<pos=").Append(NameStop).Append('>').Append(Sanitise(entries[i].name))
+                  .Append("<pos=").Append(ScoreStop).Append('>').Append(entries[i].score)
+                  .Append("</color>");
+
+                if (i < rows - 1)
+                {
+                    sb.AppendLine();
+                }
             }
 
             if (entriesText != null)
@@ -114,6 +135,18 @@ namespace Ashfall.UI
         void HandleScoreSubmitted(bool success)
         {
             SetStatus(success ? "Score submitted." : "Couldn't reach the leaderboard - progress saved locally.");
+        }
+
+        // Names come from player input, so they must not be able to inject TMP
+        // rich-text tags into the rows we build here.
+        static string Sanitise(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return "-";
+            }
+
+            return name.Replace('<', ' ').Replace('>', ' ').Trim();
         }
 
         void SetStatus(string message)

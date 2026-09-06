@@ -104,4 +104,11 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# WebGL build output
 web-chronicle/
+
+# Unity crash-recovery scratch - it drops a duplicate copy of whatever scene
+# was open, which Unity would then import as a second scene asset.
+/[Aa]ssets/_[Rr]ecovery/
+/[Aa]ssets/_[Rr]ecovery.meta

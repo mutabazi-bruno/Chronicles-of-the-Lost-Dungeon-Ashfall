@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Ashfall.Systems
 {
@@ -13,6 +13,7 @@ namespace Ashfall.Systems
         static bool touchHeavyQueued;
         static bool touchInteractQueued;
         static bool touchPotionQueued;
+        static int touchSlotQueued;
 
         // -1, 0 or 1. Keyboard and touch are merged so the editor stays playable with a
         // keyboard even while the on-screen controls are visible.
@@ -37,6 +38,9 @@ namespace Ashfall.Systems
         public static bool HeavyStrikePressed => touchHeavyQueued || KeyboardHeavy();
         public static bool InteractPressed => touchInteractQueued || KeyboardInteract();
         public static bool UsePotionPressed => touchPotionQueued || KeyboardPotion();
+
+        // 1-9 pick an inventory slot; 0 means "nothing pressed this frame".
+        public static int SlotPressed => touchSlotQueued != 0 ? touchSlotQueued : KeyboardSlot();
 
         static bool KeyboardJump()
         {
@@ -83,6 +87,21 @@ namespace Ashfall.Systems
 #endif
         }
 
+        static int KeyboardSlot()
+        {
+#if !UNITY_ANDROID && !UNITY_IOS || UNITY_EDITOR
+            for (int i = 1; i <= 9; i++)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha1 + (i - 1)) ||
+                    Input.GetKeyDown(KeyCode.Keypad1 + (i - 1)))
+                    return i;
+            }
+#endif
+            return 0;
+        }
+
+        public static void QueueSlot(int slot) => touchSlotQueued = slot;
+
         static bool KeyboardPotion()
         {
 #if !UNITY_ANDROID && !UNITY_IOS || UNITY_EDITOR
@@ -112,6 +131,7 @@ namespace Ashfall.Systems
             touchHeavyQueued = false;
             touchInteractQueued = false;
             touchPotionQueued = false;
+            touchSlotQueued = 0;
         }
 
         // Prevent input getting stuck during scene transitions.

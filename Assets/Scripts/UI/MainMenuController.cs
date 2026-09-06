@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using Ashfall.Systems;
 
@@ -12,9 +12,6 @@ namespace Ashfall.UI
         public GameObject levelSelectPanel;
         public GameObject confirmWipePanel;
 
-        [Header("Buttons that depend on save state")]
-        public GameObject continueButton;
-
         [Header("Player identity")]
         [Tooltip("Optional - if assigned, players are asked for a name before a run starts " +
                  "so leaderboard submissions aren't all attributed to the same default name.")]
@@ -23,28 +20,39 @@ namespace Ashfall.UI
         void Start()
         {
             ShowMainPanel();
-            continueButton.SetActive(SaveManager.Instance.HasSaveFile());
+        }
+
+        // Panels are wired in the inspector and destroyed with the scene, so every
+        // toggle goes through here rather than calling SetActive on a field directly.
+        static void Show(GameObject panel, bool visible)
+        {
+            if (panel == null)
+            {
+                return;
+            }
+
+            panel.SetActive(visible);
         }
 
         // -- panel switching --
         public void ShowMainPanel()
         {
-            mainPanel.SetActive(true);
-            settingsPanel.SetActive(false);
-            levelSelectPanel.SetActive(false);
-            confirmWipePanel.SetActive(false);
+            Show(mainPanel, true);
+            Show(settingsPanel, false);
+            Show(levelSelectPanel, false);
+            Show(confirmWipePanel, false);
         }
 
         public void ShowSettingsPanel()
         {
-            mainPanel.SetActive(false);
-            settingsPanel.SetActive(true);
+            Show(mainPanel, false);
+            Show(settingsPanel, true);
         }
 
         public void ShowLevelSelectPanel()
         {
-            mainPanel.SetActive(false);
-            levelSelectPanel.SetActive(true);
+            Show(mainPanel, false);
+            Show(levelSelectPanel, true);
         }
 
         // -- button actions --
@@ -53,8 +61,8 @@ namespace Ashfall.UI
             if (SaveManager.Instance.HasSaveFile())
             {
                 // has existing progress, confirm before wiping it
-                mainPanel.SetActive(false);
-                confirmWipePanel.SetActive(true);
+                Show(mainPanel, false);
+                Show(confirmWipePanel, true);
             }
             else
             {
@@ -69,8 +77,8 @@ namespace Ashfall.UI
 
         public void OnConfirmWipeNo()
         {
-            confirmWipePanel.SetActive(false);
-            mainPanel.SetActive(true);
+            Show(confirmWipePanel, false);
+            Show(mainPanel, true);
         }
 
         void BeginNewGame()
@@ -79,20 +87,13 @@ namespace Ashfall.UI
             RequestNameThenLoad("Level1");
         }
 
-        public void OnContinueClicked()
-        {
-            var save = SaveManager.Instance.CurrentSave;
-            string furthest = save.unlockedLevels[save.unlockedLevels.Count - 1];
-            RequestNameThenLoad(furthest);
-        }
-
         // Asks for a player name before the run actually starts, unless no name-entry
         // screen was wired up (in which case behaviour falls back to the old direct load).
         void RequestNameThenLoad(string sceneName)
         {
             if (nameEntry != null)
             {
-                mainPanel.SetActive(false);
+                Show(mainPanel, false);
                 nameEntry.Show(() => SceneManager.LoadScene(sceneName));
             }
             else
@@ -103,7 +104,13 @@ namespace Ashfall.UI
 
         public void OnExitClicked()
         {
+#if UNITY_EDITOR
+            // Application.Quit is a no-op in the editor, so stop play mode instead
+            // - otherwise the button looks broken every time you test it.
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
+#endif
         }
     }   
 }
