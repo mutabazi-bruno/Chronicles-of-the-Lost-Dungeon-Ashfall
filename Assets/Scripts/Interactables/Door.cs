@@ -34,23 +34,6 @@ namespace Ashfall.Interactables
             col = GetComponent<Collider2D>();
         }
 
-        void OnEnable()
-        {
-            Switch.OnSwitchActivated += HandleSwitchActivated;
-        }
-
-        void OnDisable()
-        {
-            Switch.OnSwitchActivated -= HandleSwitchActivated;
-        }
-
-        void HandleSwitchActivated(Switch triggeredSwitch)
-        {
-            // only care about the switch actually linked to this door
-            if (triggeredSwitch != linkedSwitch) return;
-
-        }
-
         // Tells the player why the door will not budge instead of leaving them pressing E
         // at a door that silently ignores them.
         public string InteractionPrompt
