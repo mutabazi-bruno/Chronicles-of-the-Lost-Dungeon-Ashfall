@@ -30,10 +30,58 @@ namespace Ashfall.UI
         RectTransform canvasRect;
         Camera worldCamera;
 
+        [Header("Fallback")]
+        [Tooltip("When nothing is wired above, build a plain label at runtime. This lets the " +
+                 "component be dropped onto the Systems prefab and work in every level without " +
+                 "editing five scenes. Turn it off once a designed panel is assigned.")]
+        public bool buildFallbackWhenUnassigned = true;
+
+        [Tooltip("Font size of the fallback label only. Ignored when you assign your own.")]
+        public float fallbackFontSize = 28f;
+
         void Awake()
         {
+            if (promptLabel == null && buildFallbackWhenUnassigned)
+                BuildFallbackUI();
+
             if (canvas != null)
                 canvasRect = canvas.transform as RectTransform;
+        }
+
+        // Deliberately plain. This exists so the feature works the moment the component is
+        // added, not to compete with a proper designed panel.
+        void BuildFallbackUI()
+        {
+            // Reuse the canvas we were pointed at. Only build our own when there isn't one,
+            // otherwise the label ends up on a second canvas that ignores the HUD's scaler.
+            if (canvas == null)
+            {
+                var canvasObject = new GameObject("InteractionPromptCanvas");
+                canvasObject.transform.SetParent(transform, false);
+
+                canvas = canvasObject.AddComponent<Canvas>();
+                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                canvas.sortingOrder = 100; // above the HUD, below anything modal
+
+                var scaler = canvasObject.AddComponent<UnityEngine.UI.CanvasScaler>();
+                scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                scaler.referenceResolution = new Vector2(1920f, 1080f);
+            }
+
+            var labelObject = new GameObject("PromptLabel");
+            labelObject.transform.SetParent(canvas.transform, false);
+
+            var label = labelObject.AddComponent<TextMeshProUGUI>();
+            label.alignment = TextAlignmentOptions.Center;
+            label.fontSize = fallbackFontSize;
+            label.raycastTarget = false;
+
+            promptLabel = label;
+            promptRoot = labelObject.GetComponent<RectTransform>();
+            promptRoot.sizeDelta = new Vector2(600f, 60f);
+            promptRoot.anchorMin = new Vector2(0.5f, 0.5f);
+            promptRoot.anchorMax = new Vector2(0.5f, 0.5f);
+            promptRoot.pivot = new Vector2(0.5f, 0.5f);
         }
 
         // LateUpdate so the camera has already moved for this frame, otherwise the label
