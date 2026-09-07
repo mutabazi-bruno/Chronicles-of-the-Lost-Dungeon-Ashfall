@@ -166,7 +166,7 @@ PlayerSettings:
   androidMinAspectRatio: 1
   applicationIdentifier:
     Android: com.bm.lostdungeon
-    Standalone: com.DefaultCompany.2D-URP
+    Standalone: com.ashfall.game
   buildNumber:
     Standalone: 0
     VisionOS: 0
